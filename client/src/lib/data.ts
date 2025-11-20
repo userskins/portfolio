@@ -13,6 +13,9 @@ export interface Project {
   size: 'small' | 'medium' | 'large';
 }
 
+// DATA SOURCE:
+// Since you are planning to move to WordPress, this array acts as your placeholder database.
+// You can simply add new objects to this array to populate the grid.
 export const projects: Project[] = [
   {
     id: '01',

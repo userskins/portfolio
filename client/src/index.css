@@ -39,8 +39,8 @@
   --popover: 0 0% 5%;
   --popover-foreground: 0 0% 95%;
 
-  --primary: 80 100% 50%; /* Acid Green #ccff00 */
-  --primary-foreground: 0 0% 5%;
+  --primary: 212 100% 50%; /* Electric Blue #0077FF */
+  --primary-foreground: 0 0% 100%;
 
   --secondary: 0 0% 15%;
   --secondary-foreground: 0 0% 95%;
@@ -48,15 +48,15 @@
   --muted: 0 0% 15%;
   --muted-foreground: 0 0% 60%;
 
-  --accent: 80 100% 50%;
-  --accent-foreground: 0 0% 5%;
+  --accent: 212 100% 50%;
+  --accent-foreground: 0 0% 100%;
 
   --destructive: 0 100% 50%;
   --destructive-foreground: 0 0% 100%;
 
   --border: 0 0% 20%;
   --input: 0 0% 20%;
-  --ring: 80 100% 50%;
+  --ring: 212 100% 50%;
 
   --radius: 0px; /* Brutalist = No rounding */
 }

@@ -1,42 +1,49 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { galleryImages } from '@/lib/data';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 
 export function Gallery() {
   const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [shuffledImages, setShuffledImages] = useState(galleryImages);
   
-  const selectedImage = galleryImages.find(img => img.id === selectedId);
-  const selectedIndex = selectedId ? galleryImages.findIndex(img => img.id === selectedId) : -1;
+  // Shuffle images on mount
+  useEffect(() => {
+    const shuffled = [...galleryImages].sort(() => Math.random() - 0.5);
+    setShuffledImages(shuffled);
+  }, []);
+  
+  const selectedImage = shuffledImages.find(img => img.id === selectedId);
+  const selectedIndex = selectedId ? shuffledImages.findIndex(img => img.id === selectedId) : -1;
 
   const goToPrevious = () => {
     if (selectedIndex > 0) {
-      setSelectedId(galleryImages[selectedIndex - 1].id);
+      setSelectedId(shuffledImages[selectedIndex - 1].id);
     }
   };
 
   const goToNext = () => {
-    if (selectedIndex < galleryImages.length - 1) {
-      setSelectedId(galleryImages[selectedIndex + 1].id);
+    if (selectedIndex < shuffledImages.length - 1) {
+      setSelectedId(shuffledImages[selectedIndex + 1].id);
     }
   };
 
   return (
     <>
-      {/* Gallery Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3">
-        {galleryImages.map((image) => (
+      {/* Gallery Masonry - Pinterest Style */}
+      <div className="columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-3 space-y-3">
+        {shuffledImages.map((image) => (
           <button
             key={image.id}
             onClick={() => setSelectedId(image.id)}
             data-testid={`gallery-image-${image.id}`}
-            className="relative overflow-hidden aspect-square group cursor-pointer bg-black/60 flex items-center justify-center"
+            className="relative overflow-hidden group cursor-pointer bg-black/60 flex items-center justify-center break-inside-avoid-column rounded-sm"
           >
             <img
               src={image.src}
               alt={`Gallery ${image.id}`}
-              className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
+              className="w-full h-auto object-contain transition-transform duration-300 group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300" />
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300 rounded-sm" />
           </button>
         ))}
       </div>
@@ -92,7 +99,7 @@ export function Gallery() {
             </button>
           )}
 
-          {selectedIndex < galleryImages.length - 1 && (
+          {selectedIndex < shuffledImages.length - 1 && (
             <button
               onClick={(e) => {
                 e.stopPropagation();
@@ -108,7 +115,7 @@ export function Gallery() {
 
           {/* Counter */}
           <div className="absolute bottom-6 left-6 text-white/60 text-sm font-mono">
-            {selectedIndex + 1} / {galleryImages.length}
+            {selectedIndex + 1} / {shuffledImages.length}
           </div>
         </div>
       )}

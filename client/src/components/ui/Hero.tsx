@@ -47,7 +47,7 @@ export function Hero() {
           className="flex justify-center gap-8 font-mono text-xs md:text-sm text-white"
         >
           <span className="border-b-2 border-primary pb-1">// GRAPHIC_DESIGN</span>
-          <span className="border-b-2 border-primary pb-1">// NEWSLETTERS</span>
+          <span className="border-b-2 border-primary pb-1">// EMAIL_DESIGN</span>
           <span className="border-b-2 border-primary pb-1">// CREATIVE_DEV</span>
         </motion.div>
       </div>

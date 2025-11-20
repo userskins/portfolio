@@ -12,7 +12,7 @@ export function Navbar() {
       </Link>
 
       <div className="hidden md:flex gap-12 font-mono text-sm tracking-widest text-white">
-        {['WORK', 'ABOUT', 'CONTACT'].map((item) => (
+        {['CV', 'WORK', 'ABOUT', 'CONTACT'].map((item) => (
           <a 
             key={item} 
             href={`#${item.toLowerCase()}`}
@@ -26,7 +26,7 @@ export function Navbar() {
       </div>
 
       <div className="font-mono text-xs text-primary">
-        [EST. 2025]
+        [EST. 2020]
       </div>
     </nav>
   );

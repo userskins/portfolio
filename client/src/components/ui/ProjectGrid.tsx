@@ -8,7 +8,7 @@ export function ProjectGrid() {
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-end mb-16 border-b border-white/10 pb-6">
           <h2 className="font-display text-4xl md:text-6xl font-bold text-white">
-            SELECTED_WORKS
+            Portfolio
           </h2>
           <span className="font-mono text-primary hidden md:block">
             [INDEX: {projects.length}]

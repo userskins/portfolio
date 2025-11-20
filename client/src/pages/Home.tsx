@@ -1,7 +1,6 @@
 
 import { Navbar } from "@/components/layout/Navbar";
 import { Hero } from "@/components/ui/Hero";
-import { ProjectGrid } from "@/components/ui/ProjectGrid";
 import { CV } from "@/components/ui/CV";
 import { Gallery } from "@/components/ui/Gallery";
 import { aboutText } from "@/lib/data";
@@ -50,7 +49,6 @@ export default function Home() {
       <main>
         <Hero />
         <CV />
-        <ProjectGrid />
 
         {/* Gallery Section */}
         <section id="gallery" className="py-24 px-6 md:px-12 border-t border-white/10 bg-card relative overflow-hidden">

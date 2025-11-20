@@ -57,6 +57,25 @@ import gallery70 from '@assets/gallery/70.webp';
 import gallery71 from '@assets/gallery/71.webp';
 import gallery72 from '@assets/gallery/72.webp';
 import gallery73 from '@assets/gallery/73.webp';
+import gallery74 from '@assets/gallery/74.webp';
+import gallery75 from '@assets/gallery/75.webp';
+import gallery76 from '@assets/gallery/76.webp';
+import gallery77 from '@assets/gallery/77.webp';
+import gallery78 from '@assets/gallery/78.webp';
+import gallery79 from '@assets/gallery/79.webp';
+import gallery80 from '@assets/gallery/80.webp';
+import gallery81 from '@assets/gallery/81.webp';
+import gallery82 from '@assets/gallery/82.webp';
+import gallery83 from '@assets/gallery/83.webp';
+import gallery84 from '@assets/gallery/84.webp';
+import gallery85 from '@assets/gallery/85.webp';
+import gallery86 from '@assets/gallery/86.webp';
+import gallery87 from '@assets/gallery/87.webp';
+import gallery88 from '@assets/gallery/88.webp';
+import gallery89 from '@assets/gallery/89.webp';
+import gallery90 from '@assets/gallery/90.webp';
+import gallery91 from '@assets/gallery/91.webp';
+import gallery92 from '@assets/gallery/92.webp';
 
 export interface Project {
   id: string;
@@ -161,6 +180,25 @@ export const galleryImages: GalleryImage[] = [
   { id: 71, src: gallery71 },
   { id: 72, src: gallery72 },
   { id: 73, src: gallery73 },
+  { id: 74, src: gallery74 },
+  { id: 75, src: gallery75 },
+  { id: 76, src: gallery76 },
+  { id: 77, src: gallery77 },
+  { id: 78, src: gallery78 },
+  { id: 79, src: gallery79 },
+  { id: 80, src: gallery80 },
+  { id: 81, src: gallery81 },
+  { id: 82, src: gallery82 },
+  { id: 83, src: gallery83 },
+  { id: 84, src: gallery84 },
+  { id: 85, src: gallery85 },
+  { id: 86, src: gallery86 },
+  { id: 87, src: gallery87 },
+  { id: 88, src: gallery88 },
+  { id: 89, src: gallery89 },
+  { id: 90, src: gallery90 },
+  { id: 91, src: gallery91 },
+  { id: 92, src: gallery92 },
 ];
 
 export interface Experience {

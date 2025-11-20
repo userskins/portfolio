@@ -4,6 +4,27 @@ import poster2 from '@assets/generated_images/acid_graphics_poster_2.png';
 import poster3 from '@assets/generated_images/acid_graphics_poster_3.png';
 import userRef from '@assets/image_1763675755958.png';
 
+import gallery1 from '@assets/gallery/1.webp';
+import gallery2 from '@assets/gallery/2.webp';
+import gallery3 from '@assets/gallery/3.webp';
+import gallery4 from '@assets/gallery/4.webp';
+import gallery5 from '@assets/gallery/5.webp';
+import gallery6 from '@assets/gallery/6.webp';
+import gallery7 from '@assets/gallery/7.webp';
+import gallery8 from '@assets/gallery/8.webp';
+import gallery9 from '@assets/gallery/9.webp';
+import gallery10 from '@assets/gallery/10.webp';
+import gallery11 from '@assets/gallery/11.webp';
+import gallery12 from '@assets/gallery/12.webp';
+import gallery13 from '@assets/gallery/13.webp';
+import gallery14 from '@assets/gallery/14.webp';
+import gallery15 from '@assets/gallery/15.webp';
+import gallery16 from '@assets/gallery/16.webp';
+import gallery17 from '@assets/gallery/17.webp';
+import gallery18 from '@assets/gallery/18.webp';
+import gallery19 from '@assets/gallery/19.webp';
+import gallery20 from '@assets/gallery/20.webp';
+
 export interface Project {
   id: string;
   title: string;
@@ -46,6 +67,34 @@ export const projects: Project[] = [
     year: '2022',
     size: 'large',
   },
+];
+
+export interface GalleryImage {
+  id: number;
+  src: string;
+}
+
+export const galleryImages: GalleryImage[] = [
+  { id: 1, src: gallery1 },
+  { id: 2, src: gallery2 },
+  { id: 3, src: gallery3 },
+  { id: 4, src: gallery4 },
+  { id: 5, src: gallery5 },
+  { id: 6, src: gallery6 },
+  { id: 7, src: gallery7 },
+  { id: 8, src: gallery8 },
+  { id: 9, src: gallery9 },
+  { id: 10, src: gallery10 },
+  { id: 11, src: gallery11 },
+  { id: 12, src: gallery12 },
+  { id: 13, src: gallery13 },
+  { id: 14, src: gallery14 },
+  { id: 15, src: gallery15 },
+  { id: 16, src: gallery16 },
+  { id: 17, src: gallery17 },
+  { id: 18, src: gallery18 },
+  { id: 19, src: gallery19 },
+  { id: 20, src: gallery20 },
 ];
 
 export interface Experience {
@@ -128,4 +177,4 @@ export const education = [
   }
 ];
 
-export const aboutText = "Творческий человек, для которого дизайн — не просто работа, а способ самовыражения. Постоянно развиваю вкус и визуальное мышление, люблю экспериментировать с\u00A0цветом, формой и\u00A0движением. Вдохновляюсь искусством, музыкой и\u00A0технологиями. В\u00A0свободное время создаю авторские визуалы и\u00A0анимации — просто потому, что\u00A0не\u00A0могу не\u00A0творить.";
+export const aboutText = "Творческий человек, для которого дизайн — не просто работа, а способ самовыражения. Постоянно развиваю вкус и визуальное мышление, люблю экспериментировать с цветом, формой и движением. Вдохновляюсь искусством, музыкой и технологиями. В свободное время создаю авторские визуалы и анимации — просто потому, что не могу не творить.";

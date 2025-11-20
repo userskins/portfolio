@@ -3,6 +3,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Hero } from "@/components/ui/Hero";
 import { ProjectGrid } from "@/components/ui/ProjectGrid";
 import { CV } from "@/components/ui/CV";
+import { Gallery } from "@/components/ui/Gallery";
 import { aboutText } from "@/lib/data";
 import { motion, useScroll, useSpring, AnimatePresence } from "framer-motion";
 import logo from '@assets/тэг_1763676137900.png';
@@ -50,6 +51,17 @@ export default function Home() {
         <Hero />
         <CV />
         <ProjectGrid />
+
+        {/* Gallery Section */}
+        <section id="gallery" className="py-24 px-6 md:px-12 border-t border-white/10 bg-card relative overflow-hidden">
+          <div className="max-w-7xl mx-auto relative z-10">
+            <div className="mb-16">
+              <span className="font-mono text-primary text-sm mb-8 block bg-white/10 inline-block px-2 py-1">// WORKS</span>
+              <h3 className="font-display text-4xl md:text-5xl text-white uppercase tracking-tighter">Selected Works</h3>
+            </div>
+            <Gallery />
+          </div>
+        </section>
         
         {/* About / Contact Section */}
         <section id="about" className="py-24 px-6 md:px-12 border-t border-white/10 bg-card relative overflow-hidden scroll-mt-20">

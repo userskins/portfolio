@@ -33,10 +33,10 @@ export function Hero() {
         <h1 
           className="font-display text-6xl md:text-9xl font-bold text-foreground tracking-widest leading-[0.9] mb-8 transform -rotate-2"
         >
-          VISUAL
+          DMITRIY
           <br />
-          <span className="text-primary stroke-text" style={{ WebkitTextStroke: '2px var(--primary)', color: 'transparent' }}>
-            ENGINEER
+          <span className="text-primary">
+            GUSEV
           </span>
         </h1>
 

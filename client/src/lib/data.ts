@@ -24,6 +24,26 @@ import gallery17 from '@assets/gallery/17.webp';
 import gallery18 from '@assets/gallery/18.webp';
 import gallery19 from '@assets/gallery/19.webp';
 import gallery20 from '@assets/gallery/20.webp';
+import gallery21 from '@assets/gallery/21.webp';
+import gallery22 from '@assets/gallery/22.webp';
+import gallery23 from '@assets/gallery/23.webp';
+import gallery24 from '@assets/gallery/24.webp';
+import gallery25 from '@assets/gallery/25.webp';
+import gallery26 from '@assets/gallery/26.webp';
+import gallery27 from '@assets/gallery/27.webp';
+import gallery28 from '@assets/gallery/28.webp';
+import gallery29 from '@assets/gallery/29.webp';
+import gallery30 from '@assets/gallery/30.webp';
+import gallery31 from '@assets/gallery/31.webp';
+import gallery32 from '@assets/gallery/32.webp';
+import gallery33 from '@assets/gallery/33.webp';
+import gallery34 from '@assets/gallery/34.webp';
+import gallery35 from '@assets/gallery/35.webp';
+import gallery36 from '@assets/gallery/36.webp';
+import gallery37 from '@assets/gallery/37.webp';
+import gallery38 from '@assets/gallery/38.webp';
+import gallery39 from '@assets/gallery/39.webp';
+import gallery40 from '@assets/gallery/40.webp';
 
 export interface Project {
   id: string;
@@ -95,6 +115,26 @@ export const galleryImages: GalleryImage[] = [
   { id: 18, src: gallery18 },
   { id: 19, src: gallery19 },
   { id: 20, src: gallery20 },
+  { id: 21, src: gallery21 },
+  { id: 22, src: gallery22 },
+  { id: 23, src: gallery23 },
+  { id: 24, src: gallery24 },
+  { id: 25, src: gallery25 },
+  { id: 26, src: gallery26 },
+  { id: 27, src: gallery27 },
+  { id: 28, src: gallery28 },
+  { id: 29, src: gallery29 },
+  { id: 30, src: gallery30 },
+  { id: 31, src: gallery31 },
+  { id: 32, src: gallery32 },
+  { id: 33, src: gallery33 },
+  { id: 34, src: gallery34 },
+  { id: 35, src: gallery35 },
+  { id: 36, src: gallery36 },
+  { id: 37, src: gallery37 },
+  { id: 38, src: gallery38 },
+  { id: 39, src: gallery39 },
+  { id: 40, src: gallery40 },
 ];
 
 export interface Experience {

@@ -1,10 +1,14 @@
 import { useState, useEffect } from 'react';
 import { galleryImages } from '@/lib/data';
-import { ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, X, ChevronDown, ChevronUp } from 'lucide-react';
 
 export function Gallery() {
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [shuffledImages, setShuffledImages] = useState(galleryImages);
+  const [isExpanded, setIsExpanded] = useState(false);
+  
+  const INITIAL_COUNT = 25; // ~3-4 rows worth of images
+  const displayedImages = isExpanded ? shuffledImages : shuffledImages.slice(0, INITIAL_COUNT);
   
   // Shuffle images on mount
   useEffect(() => {
@@ -31,7 +35,7 @@ export function Gallery() {
     <>
       {/* Gallery Masonry - Pinterest Style */}
       <div className="columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-3 space-y-3">
-        {shuffledImages.map((image) => (
+        {displayedImages.map((image) => (
           <button
             key={image.id}
             onClick={() => setSelectedId(image.id)}
@@ -47,6 +51,27 @@ export function Gallery() {
           </button>
         ))}
       </div>
+
+      {/* Expand/Collapse Button */}
+      {shuffledImages.length > INITIAL_COUNT && (
+        <button
+          onClick={() => setIsExpanded(!isExpanded)}
+          className="w-full mt-8 py-4 px-6 border border-white/20 hover:border-primary hover:bg-primary/10 transition-all flex items-center justify-center gap-2 font-mono text-sm tracking-widest text-white/80 hover:text-primary"
+          data-testid="button-expand-gallery"
+        >
+          {isExpanded ? (
+            <>
+              <ChevronUp size={18} />
+              СВЕРНУТЬ
+            </>
+          ) : (
+            <>
+              <ChevronDown size={18} />
+              ПОКАЗАТЬ ВСЕ ({shuffledImages.length})
+            </>
+          )}
+        </button>
+      )}
 
       {/* Modal */}
       {selectedId && selectedImage && (

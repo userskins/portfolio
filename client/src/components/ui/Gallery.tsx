@@ -76,7 +76,7 @@ export function Gallery() {
       {/* Modal */}
       {selectedId && selectedImage && (
         <div
-          className="fixed inset-0 bg-black/95 backdrop-blur-sm z-[9999] flex items-center justify-center p-4"
+          className="fixed inset-0 bg-black/95 backdrop-blur-sm z-[999999] flex items-center justify-center p-4"
           onClick={() => setSelectedId(null)}
           onKeyDown={(e) => {
             if (e.key === 'ArrowLeft') goToPrevious();

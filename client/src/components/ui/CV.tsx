@@ -31,7 +31,7 @@ export function CV() {
                 >
                   <div className="absolute -left-[11px] top-0 w-5 h-5 bg-primary rounded-full border-4 border-white" />
                   
-                  <h3 className="font-display text-3xl font-bold leading-none mb-2">{exp.role}</h3>
+                  <h3 className="font-display text-3xl font-bold leading-none mb-2 whitespace-pre-line">{exp.role}</h3>
                   <div className="font-mono text-sm mb-4 bg-black/5 inline-block px-2 py-1 font-bold">
                     {exp.company} <span className="mx-2">|</span> {exp.period}
                   </div>

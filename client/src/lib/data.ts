@@ -82,7 +82,7 @@ export const experiences: Experience[] = [
   },
   {
     company: 'Школа дизайна НИУ ВШЭ',
-    role: 'Ассистент менеджера по CRM-маркетингу',
+    role: 'Ассистент менеджера\nпо CRM-маркетингу',
     period: 'Март 2025 — Сейчас',
     description: [
       'Разработка дизайна и верстка email-рассылок',

@@ -63,7 +63,7 @@ export default function Home() {
             </div>
 
             {/* Contact Block moved here */}
-            <div id="contact" className="flex flex-col md:flex-row items-center justify-between gap-12 border-t border-white/10 pt-12">
+            <div id="contact" className="flex flex-col md:flex-row items-center justify-between gap-12 border-t border-white/10 pt-12 scroll-mt-96">
               <div className="w-full md:w-1/2">
                  <h4 className="font-display text-5xl text-white mb-8 uppercase tracking-tighter">
                   Let's Connect

@@ -44,6 +44,19 @@ import gallery37 from '@assets/gallery/37.webp';
 import gallery38 from '@assets/gallery/38.webp';
 import gallery39 from '@assets/gallery/39.webp';
 import gallery40 from '@assets/gallery/40.webp';
+import gallery61 from '@assets/gallery/61.webp';
+import gallery62 from '@assets/gallery/62.webp';
+import gallery63 from '@assets/gallery/63.webp';
+import gallery64 from '@assets/gallery/64.webp';
+import gallery65 from '@assets/gallery/65.webp';
+import gallery66 from '@assets/gallery/66.webp';
+import gallery67 from '@assets/gallery/67.webp';
+import gallery68 from '@assets/gallery/68.webp';
+import gallery69 from '@assets/gallery/69.webp';
+import gallery70 from '@assets/gallery/70.webp';
+import gallery71 from '@assets/gallery/71.webp';
+import gallery72 from '@assets/gallery/72.webp';
+import gallery73 from '@assets/gallery/73.webp';
 
 export interface Project {
   id: string;
@@ -135,6 +148,19 @@ export const galleryImages: GalleryImage[] = [
   { id: 38, src: gallery38 },
   { id: 39, src: gallery39 },
   { id: 40, src: gallery40 },
+  { id: 61, src: gallery61 },
+  { id: 62, src: gallery62 },
+  { id: 63, src: gallery63 },
+  { id: 64, src: gallery64 },
+  { id: 65, src: gallery65 },
+  { id: 66, src: gallery66 },
+  { id: 67, src: gallery67 },
+  { id: 68, src: gallery68 },
+  { id: 69, src: gallery69 },
+  { id: 70, src: gallery70 },
+  { id: 71, src: gallery71 },
+  { id: 72, src: gallery72 },
+  { id: 73, src: gallery73 },
 ];
 
 export interface Experience {

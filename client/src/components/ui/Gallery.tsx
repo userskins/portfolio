@@ -7,7 +7,7 @@ export function Gallery() {
   const [shuffledImages, setShuffledImages] = useState(galleryImages);
   const [isExpanded, setIsExpanded] = useState(false);
   
-  const INITIAL_COUNT = 25; // ~3-4 rows worth of images
+  const INITIAL_COUNT = 18; // ~2-3 rows worth of images
   const displayedImages = isExpanded ? shuffledImages : shuffledImages.slice(0, INITIAL_COUNT);
   
   // Shuffle images on mount

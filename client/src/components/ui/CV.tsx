@@ -54,10 +54,14 @@ export function CV() {
               <h2 className="font-display text-4xl mb-8 uppercase tracking-tighter transform rotate-1 inline-block bg-primary text-white px-4 py-1">
                 Education
               </h2>
-              <div className="border-4 border-black p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] bg-white">
-                <h3 className="font-display text-xl font-bold mb-2 leading-tight">{education.university}</h3>
-                <p className="font-mono text-sm text-black/70 mb-2">{education.degree}</p>
-                <span className="font-mono text-xs bg-black text-white px-2 py-1">{education.year}</span>
+              <div className="space-y-6">
+                {education.map((edu, index) => (
+                  <div key={index} className="border-4 border-black p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] bg-white">
+                    <h3 className="font-display text-xl font-bold mb-2 leading-tight">{edu.university}</h3>
+                    <p className="font-mono text-sm text-black/70 mb-2">{edu.degree}</p>
+                    <span className="font-mono text-xs bg-black text-white px-2 py-1">{edu.year}</span>
+                  </div>
+                ))}
               </div>
             </div>
 

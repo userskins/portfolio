@@ -42,17 +42,29 @@ export default function Home() {
               <div>
                 <h4 className="text-white mb-4 border-b border-primary inline-block">CONTACT</h4>
                 <ul className="space-y-2">
-                  <li className="hover:text-primary cursor-pointer transition-colors">EMAIL</li>
-                  <li className="hover:text-primary cursor-pointer transition-colors">TELEGRAM</li>
-                  <li className="hover:text-primary cursor-pointer transition-colors">VK</li>
+                  <li>
+                    <a href="mailto:userskins@gmail.com" className="hover:text-primary cursor-pointer transition-colors">
+                      EMAIL
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://t.me/userskins" target="_blank" rel="noreferrer" className="hover:text-primary cursor-pointer transition-colors">
+                      TELEGRAM
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://vk.com/userskins" target="_blank" rel="noreferrer" className="hover:text-primary cursor-pointer transition-colors">
+                      VK
+                    </a>
+                  </li>
                 </ul>
               </div>
               <div>
                 <h4 className="text-white mb-4 border-b border-primary inline-block">SERVICES</h4>
                 <ul className="space-y-2">
-                  <li>ART DIRECTION</li>
-                  <li>UI/UX DESIGN</li>
-                  <li>FRONTEND DEV</li>
+                  <li>GRAPHIC DESIGN</li>
+                  <li>EMAIL NEWSLETTERS</li>
+                  <li>CREATIVE DEV</li>
                 </ul>
               </div>
             </div>

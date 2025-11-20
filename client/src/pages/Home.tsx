@@ -57,7 +57,7 @@ export default function Home() {
             <div className="mb-24">
               <span className="font-mono text-primary text-sm mb-8 block bg-white/10 inline-block px-2 py-1">// ABOUT_ME</span>
               
-              <p className="font-display text-xl md:text-4xl leading-relaxed text-white/90 whitespace-pre-line max-w-4xl">
+              <p className="font-display text-xl md:text-4xl leading-relaxed text-white/90 max-w-4xl">
                 {aboutText}
               </p>
             </div>

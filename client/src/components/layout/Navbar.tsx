@@ -12,7 +12,7 @@ export function Navbar() {
       </Link>
 
       <div className="hidden md:flex gap-12 font-mono text-sm tracking-widest text-white">
-        {['CV', 'WORK', 'ABOUT', 'CONTACT'].map((item) => (
+        {['CV', 'GALLERY', 'ABOUT', 'CONTACT'].map((item) => (
           <a 
             key={item} 
             href={`#${item.toLowerCase()}`}

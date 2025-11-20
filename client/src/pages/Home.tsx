@@ -55,7 +55,7 @@ export default function Home() {
           <div className="max-w-7xl mx-auto relative z-10">
             <div className="mb-16">
               <span className="font-mono text-primary text-sm mb-8 block bg-white/10 inline-block px-2 py-1">// WORKS</span>
-              <h3 className="font-display text-4xl md:text-5xl text-white uppercase tracking-tighter">Selected Works</h3>
+              <h3 className="font-display text-4xl md:text-5xl text-white uppercase tracking-tighter">Gallery</h3>
             </div>
             <Gallery />
           </div>

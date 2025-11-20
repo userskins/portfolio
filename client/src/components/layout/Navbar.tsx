@@ -1,35 +1,32 @@
 
 import { Link } from "wouter";
-import { motion } from "framer-motion";
+import logo from '@assets/тэг_1763676137900.png';
 
 export function Navbar() {
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 px-6 py-4 flex justify-between items-center mix-blend-difference text-white">
+    <nav className="fixed top-0 left-0 w-full z-50 px-6 py-4 flex justify-between items-center bg-background/80 backdrop-blur-sm border-b border-white/10">
       <Link href="/">
-        <a className="font-display font-bold text-2xl tracking-tighter hover:text-primary transition-colors">
-          NOISE_LAB
+        <a className="block hover:scale-105 transition-transform">
+          <img src={logo} alt="Logo" className="h-12 w-auto object-contain" />
         </a>
       </Link>
 
-      <div className="hidden md:flex gap-12 font-mono text-sm tracking-widest">
+      <div className="hidden md:flex gap-12 font-mono text-sm tracking-widest text-white">
         {['WORK', 'ABOUT', 'CONTACT'].map((item) => (
           <a 
             key={item} 
             href={`#${item.toLowerCase()}`}
-            className="relative group overflow-hidden"
+            className="relative group overflow-hidden hover:text-primary transition-colors"
           >
-            <span className="inline-block transition-transform duration-300 group-hover:-translate-y-full">
-              {item}
-            </span>
-            <span className="absolute top-0 left-0 translate-y-full transition-transform duration-300 group-hover:translate-y-0 text-primary">
+            <span className="inline-block">
               {item}
             </span>
           </a>
         ))}
       </div>
 
-      <div className="font-mono text-xs opacity-50">
-        [SYS.READY]
+      <div className="font-mono text-xs text-primary">
+        [EST. 2025]
       </div>
     </nav>
   );

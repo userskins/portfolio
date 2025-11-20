@@ -25,18 +25,17 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <span className="font-mono text-primary text-sm tracking-[0.5em] mb-4 block">
-            PORTFOLIO_2025
+          <span className="font-mono text-white text-sm tracking-[0.5em] mb-4 block bg-primary px-2 py-1 inline-block">
+            HELLO MY NAME IS
           </span>
         </motion.div>
 
         <h1 
-          className="font-display text-6xl md:text-9xl font-bold text-foreground tracking-tighter leading-[0.9] glitch-text mb-8"
-          data-text="VISUAL_ENGINEER"
+          className="font-display text-6xl md:text-9xl font-bold text-foreground tracking-widest leading-[0.9] mb-8 transform -rotate-2"
         >
           VISUAL
           <br />
-          <span className="text-transparent stroke-text" style={{ WebkitTextStroke: '2px var(--foreground)' }}>
+          <span className="text-primary stroke-text" style={{ WebkitTextStroke: '2px var(--primary)', color: 'transparent' }}>
             ENGINEER
           </span>
         </h1>
@@ -45,11 +44,11 @@ export function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5, duration: 0.8 }}
-          className="flex justify-center gap-8 font-mono text-xs md:text-sm text-muted-foreground"
+          className="flex justify-center gap-8 font-mono text-xs md:text-sm text-white"
         >
-          <span>// UI_DESIGN</span>
-          <span>// ART_DIRECTION</span>
-          <span>// CREATIVE_DEV</span>
+          <span className="border-b-2 border-primary pb-1">// UI_DESIGN</span>
+          <span className="border-b-2 border-primary pb-1">// ART_DIRECTION</span>
+          <span className="border-b-2 border-primary pb-1">// CREATIVE_DEV</span>
         </motion.div>
       </div>
 

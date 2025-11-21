@@ -15,6 +15,18 @@ export function Gallery() {
     const shuffled = [...galleryImages].sort(() => Math.random() - 0.5);
     setShuffledImages(shuffled);
   }, []);
+
+  // Block scroll when modal is open
+  useEffect(() => {
+    if (selectedId) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [selectedId]);
   
   const selectedImage = shuffledImages.find(img => img.id === selectedId);
   const selectedIndex = selectedId ? shuffledImages.findIndex(img => img.id === selectedId) : -1;

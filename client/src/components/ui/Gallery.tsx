@@ -16,15 +16,19 @@ export function Gallery() {
     setShuffledImages(shuffled);
   }, []);
 
-  // Block scroll when modal is open
+  // Block scroll and hide navbar when modal is open
   useEffect(() => {
+    const navbar = document.querySelector('nav');
     if (selectedId) {
       document.body.style.overflow = 'hidden';
+      if (navbar) navbar.style.display = 'none';
     } else {
       document.body.style.overflow = '';
+      if (navbar) navbar.style.display = '';
     }
     return () => {
       document.body.style.overflow = '';
+      if (navbar) navbar.style.display = '';
     };
   }, [selectedId]);
   

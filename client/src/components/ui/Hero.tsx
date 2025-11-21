@@ -4,7 +4,7 @@ import noiseTexture from '@assets/generated_images/dark_digital_noise_texture.pn
 
 export function Hero() {
   return (
-    <section className="relative h-screen w-full flex flex-col justify-center items-center overflow-hidden bg-background">
+    <section className="relative h-screen w-full flex flex-col justify-center items-center overflow-hidden bg-background z-0">
       {/* Background Noise */}
       <div 
         className="absolute inset-0 opacity-20 pointer-events-none mix-blend-overlay"

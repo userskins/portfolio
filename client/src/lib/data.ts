@@ -1,4 +1,4 @@
-import userRef from '@assets/image_1763675755958.png';
+import userRef from '@assets/тэг_1763676137900.png';
 
 import gallery1 from '@assets/gallery/1.webp';
 import gallery2 from '@assets/gallery/2.webp';
@@ -83,30 +83,6 @@ export interface Project {
 }
 
 export const projects: Project[] = [
-  {
-    id: '01',
-    title: 'NEON GENESIS',
-    category: 'Art Direction',
-    image: poster1,
-    year: '2024',
-    size: 'large',
-  },
-  {
-    id: '02',
-    title: 'RED SHIFT',
-    category: 'Typography',
-    image: poster2,
-    year: '2023',
-    size: 'medium',
-  },
-  {
-    id: '03',
-    title: 'CHROME LIQUID',
-    category: '3D Motion',
-    image: poster3,
-    year: '2024',
-    size: 'medium',
-  },
   {
     id: '04',
     title: 'ARCHIVE V1',

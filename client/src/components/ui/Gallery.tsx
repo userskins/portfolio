@@ -90,7 +90,7 @@ export function Gallery() {
         >
           <button
             onClick={() => setSelectedId(null)}
-            className="absolute top-6 right-6 text-white/80 hover:text-white transition-colors z-50"
+            className="absolute top-6 right-6 text-white/80 hover:text-white transition-colors"
             data-testid="button-close-modal"
             aria-label="Close"
           >

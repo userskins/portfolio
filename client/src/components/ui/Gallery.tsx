@@ -16,15 +16,19 @@ export function Gallery() {
     setShuffledImages(shuffled);
   }, []);
 
-  // Block scroll when modal is open
+  // Block scroll and hide navbar when modal is open
   useEffect(() => {
+    const navbar = document.querySelector('nav');
     if (selectedId) {
       document.body.style.overflow = 'hidden';
+      if (navbar) navbar.style.visibility = 'hidden';
     } else {
       document.body.style.overflow = '';
+      if (navbar) navbar.style.visibility = 'visible';
     }
     return () => {
       document.body.style.overflow = '';
+      if (navbar) navbar.style.visibility = 'visible';
     };
   }, [selectedId]);
   
@@ -88,7 +92,7 @@ export function Gallery() {
       {/* Modal */}
       {selectedId && selectedImage && (
         <div
-          className="fixed top-16 left-0 right-0 bottom-0 bg-black/95 backdrop-blur-sm z-[999999] flex items-center justify-center p-4"
+          className="fixed inset-0 bg-black/95 backdrop-blur-sm z-[999999] flex items-center justify-center p-4"
           onClick={() => setSelectedId(null)}
           onKeyDown={(e) => {
             if (e.key === 'ArrowLeft') goToPrevious();

@@ -16,19 +16,23 @@ export function Gallery() {
     setShuffledImages(shuffled);
   }, []);
 
-  // Block scroll and hide navbar when modal is open
+  // Block scroll and hide navbar/hero when modal is open
   useEffect(() => {
     const navbar = document.querySelector('nav');
+    const main = document.querySelector('main');
     if (selectedId) {
       document.body.style.overflow = 'hidden';
       if (navbar) navbar.style.display = 'none';
+      if (main) main.style.display = 'none';
     } else {
       document.body.style.overflow = '';
       if (navbar) navbar.style.display = '';
+      if (main) main.style.display = '';
     }
     return () => {
       document.body.style.overflow = '';
       if (navbar) navbar.style.display = '';
+      if (main) main.style.display = '';
     };
   }, [selectedId]);
   

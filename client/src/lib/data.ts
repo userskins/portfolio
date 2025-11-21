@@ -1,7 +1,3 @@
-
-import poster1 from '@assets/generated_images/acid_graphics_poster_1.png';
-import poster2 from '@assets/generated_images/acid_graphics_poster_2.png';
-import poster3 from '@assets/generated_images/acid_graphics_poster_3.png';
 import userRef from '@assets/image_1763675755958.png';
 
 import gallery1 from '@assets/gallery/1.webp';

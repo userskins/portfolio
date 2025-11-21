@@ -40,7 +40,7 @@ export default function Home() {
     <div className="min-h-screen bg-background text-foreground selection:bg-primary selection:text-white relative">
       {/* Progress Bar */}
       <motion.div
-        className="fixed top-0 left-0 right-0 h-1 bg-primary origin-left z-[100]"
+        className="fixed top-0 left-0 right-0 h-1 bg-primary origin-left z-0"
         style={{ scaleX }}
       />
       
@@ -52,7 +52,7 @@ export default function Home() {
 
         {/* Gallery Section */}
         <section id="gallery" className="py-24 px-6 md:px-12 border-t border-white/10 bg-card relative overflow-hidden">
-          <div className="max-w-7xl mx-auto relative z-10">
+          <div className="max-w-7xl mx-auto relative z-0">
             <div className="mb-16">
               <span className="font-mono text-primary text-sm mb-8 block bg-white/10 inline-block px-2 py-1">// WORKS</span>
               <h3 className="font-display text-4xl md:text-5xl text-white uppercase tracking-tighter">Gallery</h3>
@@ -64,7 +64,7 @@ export default function Home() {
         {/* About / Contact Section */}
         <section id="about" className="py-24 px-6 md:px-12 border-t border-white/10 bg-card relative overflow-hidden scroll-mt-20">
           <div id="contact" className="absolute top-0 left-0" />
-          <div className="max-w-6xl mx-auto relative z-10">
+          <div className="max-w-6xl mx-auto relative z-0">
             <div className="mb-24">
               <span className="font-mono text-primary text-sm mb-8 block bg-white/10 inline-block px-2 py-1">// ABOUT_ME</span>
               

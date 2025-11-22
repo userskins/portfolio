@@ -5,12 +5,7 @@ import { experiences, skills, education } from "@/lib/data";
 export function CV() {
   return (
     <section id="cv" className="py-24 px-6 md:px-12 bg-white text-black relative overflow-hidden">
-      {/* Torn Paper Effect Top */}
-      <div className="absolute top-0 left-0 w-full h-12 bg-background" 
-           style={{ clipPath: 'polygon(0 0, 100% 0, 100% 100%, 95% 20%, 90% 100%, 85% 10%, 80% 90%, 75% 15%, 70% 85%, 65% 20%, 60% 90%, 55% 10%, 50% 100%, 45% 15%, 40% 95%, 35% 20%, 30% 85%, 25% 10%, 20% 90%, 15% 15%, 10% 100%, 5% 10%, 0 100%)' }}>
-      </div>
-
-      <div className="max-w-6xl mx-auto mt-12">
+      <div className="max-w-6xl mx-auto">
         <div className="flex flex-col md:flex-row gap-16">
           
           {/* Left Column: Experience */}
@@ -31,7 +26,7 @@ export function CV() {
                 >
                   <div className="absolute -left-[11px] top-0 w-5 h-5 bg-primary rounded-full border-4 border-white" />
                   
-                  <h3 className="font-display text-3xl font-bold leading-none mb-2 whitespace-pre-line">{exp.role}</h3>
+                  <h3 style={{ fontFamily: 'Comic Relief, cursive' }} className="text-3xl font-bold leading-none mb-2 whitespace-pre-line">{exp.role}</h3>
                   <div className="font-mono text-sm mb-4 bg-black/5 inline-block px-2 py-1 font-bold">
                     {exp.company} <span className="mx-2">|</span> {exp.period}
                   </div>
@@ -57,7 +52,7 @@ export function CV() {
               <div className="space-y-6">
                 {education.map((edu, index) => (
                   <div key={index} className="border-4 border-black p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] bg-white">
-                    <h3 className="font-display text-xl font-bold mb-2 leading-tight">{edu.university}</h3>
+                    <h3 style={{ fontFamily: 'Comic Relief, cursive' }} className="text-xl font-bold mb-2 leading-tight">{edu.university}</h3>
                     <p className="font-mono text-sm text-black/70 mb-2">{edu.degree}</p>
                     <span className="font-mono text-xs bg-black text-white px-2 py-1">{edu.year}</span>
                   </div>

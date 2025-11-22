@@ -1,9 +1,6 @@
 import userRef from '@assets/тэг_1763676137900.png';
 
 import gallery1 from '@assets/gallery/1.webp';
-import gallery2 from '@assets/gallery/2.webp';
-import gallery3 from '@assets/gallery/3.webp';
-import gallery4 from '@assets/gallery/4.webp';
 import gallery5 from '@assets/gallery/5.webp';
 import gallery6 from '@assets/gallery/6.webp';
 import gallery7 from '@assets/gallery/7.webp';
@@ -13,9 +10,7 @@ import gallery10 from '@assets/gallery/10.webp';
 import gallery11 from '@assets/gallery/11.webp';
 import gallery12 from '@assets/gallery/12.webp';
 import gallery13 from '@assets/gallery/13.webp';
-import gallery14 from '@assets/gallery/14.webp';
 import gallery15 from '@assets/gallery/15.webp';
-import gallery16 from '@assets/gallery/16.webp';
 import gallery17 from '@assets/gallery/17.webp';
 import gallery18 from '@assets/gallery/18.webp';
 import gallery19 from '@assets/gallery/19.webp';
@@ -84,11 +79,43 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    id: '04',
-    title: 'ARCHIVE V1',
-    category: 'Curation',
+    id: '01',
+    title: 'twenty øne piløts artbook',
+    category: 'Создание иллюстраций',
     image: userRef,
-    year: '2022',
+    year: '2021',
+    size: 'large',
+  },
+  {
+    id: '02',
+    title: 'С закрытыми глазами',
+    category: 'Дизайнер',
+    image: userRef,
+    year: '2023',
+    size: 'large',
+  },
+  {
+    id: '03',
+    title: 'Где себя играем не мы',
+    category: 'Дизайн-лид',
+    image: userRef,
+    year: '2024',
+    size: 'large',
+  },
+  {
+    id: '04',
+    title: '9 лет ИИТММ',
+    category: 'Дизайнер',
+    image: userRef,
+    year: '2024',
+    size: 'large',
+  },
+  {
+    id: '05',
+    title: '10 лет ИИТММ',
+    category: 'Дизайн-лид',
+    image: userRef,
+    year: '2025',
     size: 'large',
   },
 ];
@@ -100,9 +127,6 @@ export interface GalleryImage {
 
 export const galleryImages: GalleryImage[] = [
   { id: 1, src: gallery1 },
-  { id: 2, src: gallery2 },
-  { id: 3, src: gallery3 },
-  { id: 4, src: gallery4 },
   { id: 5, src: gallery5 },
   { id: 6, src: gallery6 },
   { id: 7, src: gallery7 },
@@ -112,9 +136,7 @@ export const galleryImages: GalleryImage[] = [
   { id: 11, src: gallery11 },
   { id: 12, src: gallery12 },
   { id: 13, src: gallery13 },
-  { id: 14, src: gallery14 },
   { id: 15, src: gallery15 },
-  { id: 16, src: gallery16 },
   { id: 17, src: gallery17 },
   { id: 18, src: gallery18 },
   { id: 19, src: gallery19 },
@@ -231,7 +253,7 @@ export const experiences: Experience[] = [
 export const skills = {
   advanced: [
     'Adobe Photoshop', 'Figma', 'Tilda', 'Graphic Design', 
-    'Email Design', 'Machine Learning', 'ChatGPT', 'Presentations'
+    'Email Design', 'Machine Learning', 'ChatGPT', 'Presentations', 'Nano Banana', 'Midjourney'
   ],
   intermediate: [
     'Adobe Illustrator', 'After Effects', 'WordPress', 

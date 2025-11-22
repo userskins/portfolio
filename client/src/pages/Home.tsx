@@ -2,6 +2,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Hero } from "@/components/ui/Hero";
 import { CV } from "@/components/ui/CV";
 import { Gallery } from "@/components/ui/Gallery";
+import { Projects } from "@/components/ui/Projects";
 import { aboutText } from "@/lib/data";
 import { motion, useScroll, useSpring, AnimatePresence } from "framer-motion";
 import logo from "@assets/тэг_1763676137900.png";
@@ -52,13 +53,10 @@ export default function Home() {
         {/* Gallery Section */}
         <section
           id="gallery"
-          className="py-24 px-6 md:px-12 border-t border-white/10 bg-card relative overflow-hidden"
+          className="py-24 px-6 md:px-12 bg-card relative overflow-hidden border-t border-white/10"
         >
           <div className="max-w-7xl mx-auto relative z-0">
             <div className="mb-16">
-              <span className="font-mono text-primary text-sm mb-8 block bg-white/10 inline-block px-2 py-1">
-                // WORKS
-              </span>
               <h3 className="font-display text-4xl md:text-5xl text-white uppercase tracking-tighter">
                 Gallery
               </h3>
@@ -67,37 +65,45 @@ export default function Home() {
           </div>
         </section>
 
+        <Projects />
+
         {/* About / Contact Section */}
         <section
           id="about"
-          className="py-24 px-6 md:px-12 border-t border-white/10 bg-card relative overflow-hidden scroll-mt-20"
+          className="py-24 px-6 md:px-12 bg-card relative overflow-hidden scroll-mt-20 z-0 border-t border-white/10"
         >
           <div id="contact" className="absolute top-0 left-0" />
-          <div className="max-w-6xl mx-auto relative z-0">
+          <div className="max-w-7xl mx-auto relative z-0">
             <div className="mb-24">
-              <span className="font-mono text-primary text-sm mb-8 block bg-white/10 inline-block px-2 py-1">
-                // ABOUT_ME
-              </span>
+              <h2 className="font-display text-5xl text-white mb-8 uppercase tracking-tighter">
+                About Me
+              </h2>
 
-              <p className="font-display text-xl md:text-4xl leading-relaxed text-white/90 max-w-5xl lg:max-w-6xl">
+              <p className="font-mono text-xl md:text-2xl leading-relaxed text-white/90 max-w-5xl lg:max-w-6xl">
                 {aboutText}
               </p>
             </div>
+          </div>
 
-            {/* Contact Block moved here */}
-            <div className="flex flex-col md:flex-row items-center justify-between gap-12 border-t border-white/10 pt-12">
+          {/* Divider */}
+          <div className="border-t border-white/10" />
+
+          {/* Contact Block */}
+          <div className="max-w-7xl mx-auto relative z-0">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-12 pt-12">
               <div className="w-full md:w-1/2">
                 <h4 className="font-display text-5xl text-white mb-8 uppercase tracking-tighter">
                   Let's Connect
                 </h4>
-                <ul className="space-y-4 font-display text-2xl md:text-3xl">
+                <ul className="space-y-4 text-2xl md:text-3xl">
                   <li>
                     <a
                       href="mailto:userskins@gmail.com"
-                      className="hover:text-primary hover:pl-4 transition-all cursor-pointer flex items-center gap-4 group"
+                      style={{ fontFamily: 'Comic Relief, cursive' }}
+                      className="hover:text-primary hover:pl-4 transition-all cursor-pointer flex items-center gap-4 group font-bold"
                     >
                       <span className="w-2 h-2 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
-                      EMAIL
+                      Email
                     </a>
                   </li>
                   <li>
@@ -105,10 +111,11 @@ export default function Home() {
                       href="https://t.me/userskins"
                       target="_blank"
                       rel="noreferrer"
-                      className="hover:text-primary hover:pl-4 transition-all cursor-pointer flex items-center gap-4 group"
+                      style={{ fontFamily: 'Comic Relief, cursive' }}
+                      className="hover:text-primary hover:pl-4 transition-all cursor-pointer flex items-center gap-4 group font-bold"
                     >
                       <span className="w-2 h-2 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
-                      TELEGRAM
+                      Telegram
                     </a>
                   </li>
                   <li>
@@ -116,7 +123,8 @@ export default function Home() {
                       href="https://vk.com/userskins"
                       target="_blank"
                       rel="noreferrer"
-                      className="hover:text-primary hover:pl-4 transition-all cursor-pointer flex items-center gap-4 group"
+                      style={{ fontFamily: 'Comic Relief, cursive' }}
+                      className="hover:text-primary hover:pl-4 transition-all cursor-pointer flex items-center gap-4 group font-bold"
                     >
                       <span className="w-2 h-2 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
                       VK

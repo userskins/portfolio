@@ -4,7 +4,7 @@ import { experiences, skills, education } from "@/lib/data";
 
 export function CV() {
   return (
-    <section id="cv" className="py-24 px-6 md:px-12 bg-white text-black relative overflow-hidden">
+    <section id="cv" className="py-24 px-6 md:px-12 bg-white text-black relative" style={{ clipPath: 'polygon(0 0, 3% 16px, 6% 0, 9% 16px, 12% 0, 15% 16px, 18% 0, 21% 16px, 24% 0, 27% 16px, 30% 0, 33% 16px, 36% 0, 39% 16px, 42% 0, 45% 16px, 48% 0, 51% 16px, 54% 0, 57% 16px, 60% 0, 63% 16px, 66% 0, 69% 16px, 72% 0, 75% 16px, 78% 0, 81% 16px, 84% 0, 87% 16px, 90% 0, 93% 16px, 96% 0, 100% 16px, 100% 100%, 0 100%)' }}>
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col md:flex-row gap-16">
           

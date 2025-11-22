@@ -88,6 +88,30 @@ export const projects: Project[] = [
   },
   {
     id: '02',
+    title: 'Denis Juneau exhibition',
+    category: 'Анимация приглашения на выставку',
+    image: userRef,
+    year: '2021',
+    size: 'large',
+  },
+  {
+    id: '03',
+    title: 'Adrian Ghenie E-book',
+    category: 'Создание анимации электронной книги',
+    image: userRef,
+    year: '2022',
+    size: 'large',
+  },
+  {
+    id: '04',
+    title: 'Josef Muller-Brockmann animation',
+    category: 'Анимация постеров',
+    image: userRef,
+    year: '2023',
+    size: 'large',
+  },
+  {
+    id: '05',
     title: 'С закрытыми глазами',
     category: 'Дизайнер',
     image: userRef,
@@ -95,7 +119,7 @@ export const projects: Project[] = [
     size: 'large',
   },
   {
-    id: '03',
+    id: '06',
     title: 'Где себя играем не мы',
     category: 'Дизайн-лид',
     image: userRef,
@@ -103,7 +127,7 @@ export const projects: Project[] = [
     size: 'large',
   },
   {
-    id: '04',
+    id: '07',
     title: '9 лет ИИТММ',
     category: 'Дизайнер',
     image: userRef,
@@ -111,7 +135,7 @@ export const projects: Project[] = [
     size: 'large',
   },
   {
-    id: '05',
+    id: '08',
     title: '10 лет ИИТММ',
     category: 'Дизайн-лид',
     image: userRef,
@@ -257,7 +281,7 @@ export const skills = {
   ],
   intermediate: [
     'Adobe Illustrator', 'After Effects', 'WordPress', 
-    'Branding', 'Management', 'English'
+    'Branding', 'Management', 'English', 'Motion design', 'Animation'
   ],
   basic: ['Adobe InDesign']
 };

@@ -1,14 +1,24 @@
 import { projects } from '@/lib/data';
 import { motion } from 'framer-motion';
 import { ExternalLink, ChevronLeft, ChevronRight } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export function Projects() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const projectsPerView = 4;
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 0);
+  
+  // Use 2 on mobile, 4 on desktop
+  const projectsPerView = windowWidth < 768 ? 2 : 4;
   const visibleProjects = projects.slice(currentIndex, currentIndex + projectsPerView);
   const hasNextProjects = currentIndex + projectsPerView < projects.length;
   const hasPrevProjects = currentIndex > 0;
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleNext = () => {
     if (hasNextProjects) {
@@ -35,7 +45,7 @@ export function Projects() {
         </div>
 
         <div className="relative">
-          <div className="space-y-8 w-full mb-12">
+          <div className="space-y-8 w-full mb-12 min-h-[320px] md:min-h-[280px]">
             {visibleProjects.map((project, index) => (
               <motion.div
                 key={project.id}

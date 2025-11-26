@@ -79,51 +79,11 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    id: '01',
-    title: 'twenty øne piløts artbook',
-    category: 'Создание иллюстраций',
-    image: userRef,
-    year: '2021',
-    size: 'large',
-  },
-  {
-    id: '02',
-    title: 'Denis Juneau exhibition',
-    category: 'Анимация приглашения на выставку',
-    image: userRef,
-    year: '2021',
-    size: 'large',
-  },
-  {
-    id: '03',
-    title: 'Adrian Ghenie E-book',
-    category: 'Создание анимации электронной книги',
-    image: userRef,
-    year: '2022',
-    size: 'large',
-  },
-  {
-    id: '04',
-    title: 'Josef Muller-Brockmann animation',
-    category: 'Анимация постеров',
-    image: userRef,
-    year: '2023',
-    size: 'large',
-  },
-  {
-    id: '05',
-    title: 'С закрытыми глазами',
-    category: 'Дизайнер',
-    image: userRef,
-    year: '2023',
-    size: 'large',
-  },
-  {
-    id: '06',
-    title: 'Где себя играем не мы',
+    id: '08',
+    title: '10 лет ИИТММ',
     category: 'Дизайн-лид',
     image: userRef,
-    year: '2024',
+    year: '2025',
     size: 'large',
   },
   {
@@ -135,11 +95,51 @@ export const projects: Project[] = [
     size: 'large',
   },
   {
-    id: '08',
-    title: '10 лет ИИТММ',
+    id: '06',
+    title: 'Где себя играем не мы',
     category: 'Дизайн-лид',
     image: userRef,
-    year: '2025',
+    year: '2024',
+    size: 'large',
+  },
+  {
+    id: '05',
+    title: 'С закрытыми глазами',
+    category: 'Дизайнер',
+    image: userRef,
+    year: '2023',
+    size: 'large',
+  },
+  {
+    id: '04',
+    title: 'Josef Muller-Brockmann animation',
+    category: 'Анимация постеров',
+    image: userRef,
+    year: '2023',
+    size: 'large',
+  },
+  {
+    id: '03',
+    title: 'Adrian Ghenie E-book',
+    category: 'Создание анимации электронной книги',
+    image: userRef,
+    year: '2022',
+    size: 'large',
+  },
+  {
+    id: '02',
+    title: 'Denis Juneau exhibition',
+    category: 'Анимация приглашения на выставку',
+    image: userRef,
+    year: '2021',
+    size: 'large',
+  },
+  {
+    id: '01',
+    title: 'twenty øne piløts artbook',
+    category: 'Создание иллюстраций',
+    image: userRef,
+    year: '2021',
     size: 'large',
   },
 ];
@@ -218,6 +218,15 @@ export const galleryImages: GalleryImage[] = [
   { id: 91, src: gallery91 },
   { id: 92, src: gallery92 },
 ];
+
+// Shuffle gallery images on initialization
+let shuffledImages = [...galleryImages];
+for (let i = shuffledImages.length - 1; i > 0; i--) {
+  const j = Math.floor(Math.random() * (i + 1));
+  [shuffledImages[i], shuffledImages[j]] = [shuffledImages[j], shuffledImages[i]];
+}
+
+export const shuffledGalleryImages = shuffledImages;
 
 export interface Experience {
   company: string;

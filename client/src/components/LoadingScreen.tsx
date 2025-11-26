@@ -89,7 +89,7 @@ export function LoadingScreen() {
 
           {/* Logo Container */}
           <div className="absolute inset-0 flex items-center justify-center">
-            <img src={logo} alt="Logo" className="w-32 h-auto object-contain" />
+            <img src={logo} alt="Logo" className="w-20 h-auto object-contain" />
           </div>
         </div>
 

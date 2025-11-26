@@ -4,12 +4,12 @@ export function Footer() {
   return (
     <footer className="bg-card relative overflow-hidden border-t border-white/10">
       <div className="max-w-7xl mx-auto px-6 md:px-12 py-24 relative z-0">
+        <h4 className="font-display text-5xl text-white mb-8 uppercase tracking-tighter">
+          Let's Connect
+        </h4>
         <div className="flex flex-col md:flex-row items-start justify-between gap-12">
           <div>
-            <h4 className="font-display text-5xl text-white mb-8 uppercase tracking-tighter">
-              Let's Connect
-            </h4>
-            <ul className="space-y-4 text-2xl md:text-3xl">
+            <ul className="space-y-4 text-2xl md:text-3xl w-max">
               <li>
                 <a
                   href="mailto:userskins@gmail.com"

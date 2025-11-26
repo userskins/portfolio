@@ -197,7 +197,7 @@ export function Pinboard() {
       </section>
 
       {/* Projects Section */}
-      <section className="py-32 px-6 md:px-12 border-t border-white/10 bg-black">
+      <section className="py-32 px-6 md:px-12 border-t border-black/10 bg-white">
         <div className="max-w-6xl mx-auto">
           <motion.div
             variants={containerVariants}
@@ -208,13 +208,13 @@ export function Pinboard() {
           >
             <motion.h2
               variants={itemVariants}
-              className="font-display text-5xl md:text-6xl font-bold text-white mb-4"
+              className="font-display text-5xl md:text-6xl font-bold text-black mb-4"
             >
               My Latest Work
             </motion.h2>
             <motion.p
               variants={itemVariants}
-              className="font-mono text-white/50 text-lg"
+              className="font-mono text-black/50 text-lg"
             >
               From 2020 'til today
             </motion.p>
@@ -235,7 +235,7 @@ export function Pinboard() {
                 onMouseEnter={() => setHoveredId(project.id)}
                 onMouseLeave={() => setHoveredId(null)}
               >
-                <div className="relative overflow-hidden rounded-lg mb-6 bg-black/40 border border-white/10 hover:border-primary/50 transition-all duration-300">
+                <div className="relative overflow-hidden rounded-lg mb-6 bg-gray-100 border border-black/10 hover:border-primary/50 transition-all duration-300">
                   <motion.img
                     src={project.image}
                     alt={project.title}
@@ -245,21 +245,21 @@ export function Pinboard() {
                     }}
                     transition={{ duration: 0.5 }}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-8">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-8">
                     <span className="text-primary font-mono text-sm">View Case Study ⟢</span>
                   </div>
                 </div>
 
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                   <div>
-                    <h3 className="font-display text-2xl md:text-3xl font-bold text-white group-hover:text-primary transition-colors duration-300 mb-2">
+                    <h3 className="font-display text-2xl md:text-3xl font-bold text-black group-hover:text-primary transition-colors duration-300 mb-2">
                       {project.title}
                     </h3>
-                    <p className="font-mono text-white/60 text-sm uppercase tracking-wide">
+                    <p className="font-mono text-black/60 text-sm uppercase tracking-wide">
                       {project.category}
                     </p>
                   </div>
-                  <span className="font-mono text-white/40 text-sm md:text-base whitespace-nowrap">
+                  <span className="font-mono text-black/40 text-sm md:text-base whitespace-nowrap">
                     {project.year}
                   </span>
                 </div>
@@ -270,7 +270,7 @@ export function Pinboard() {
       </section>
 
       {/* Story Section */}
-      <section className="py-32 px-6 md:px-12 border-t border-white/10 bg-black">
+      <section className="py-32 px-6 md:px-12 border-t border-black/10 bg-white">
         <div className="max-w-6xl mx-auto">
           <motion.div
             variants={containerVariants}
@@ -281,12 +281,12 @@ export function Pinboard() {
           >
             <motion.h2
               variants={itemVariants}
-              className="font-display text-5xl md:text-6xl font-bold text-white mb-12"
+              className="font-display text-5xl md:text-6xl font-bold text-black mb-12"
             >
               My Story
             </motion.h2>
 
-            <motion.div variants={itemVariants} className="space-y-6 font-mono text-white/70 leading-relaxed">
+            <motion.div variants={itemVariants} className="space-y-6 font-mono text-black/70 leading-relaxed">
               <p>
                 Every experience in my life is important and has taught me a lot. Crafting beautiful digital experiences
                 through graphic design, email design, and creative development.
@@ -301,7 +301,7 @@ export function Pinboard() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-32 px-6 md:px-12 border-t border-white/10 bg-black">
+      <section className="py-32 px-6 md:px-12 border-t border-black/10 bg-white">
         <div className="max-w-6xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -310,14 +310,14 @@ export function Pinboard() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="mb-12"
           >
-            <h2 className="font-display text-5xl md:text-6xl font-bold text-white mb-6">
+            <h2 className="font-display text-5xl md:text-6xl font-bold text-black mb-6">
               Let's create something
               <br />
-              <span className="bg-gradient-to-r from-primary via-purple-400 to-blue-400 bg-clip-text text-transparent">
+              <span className="text-primary">
                 amazing together
               </span>
             </h2>
-            <p className="font-mono text-white/60 text-lg max-w-2xl mx-auto mb-8">
+            <p className="font-mono text-black/60 text-lg max-w-2xl mx-auto mb-8">
               Have a project in mind? Let's discuss how I can help bring your vision to life.
             </p>
           </motion.div>
@@ -328,7 +328,7 @@ export function Pinboard() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
             href="mailto:userskins@gmail.com"
-            className="inline-flex items-center gap-3 px-10 py-5 bg-gradient-to-r from-primary to-purple-500 text-black font-display font-bold text-xl rounded-lg hover:shadow-2xl hover:shadow-primary/50 transition-all duration-300 hover:scale-105"
+            className="inline-flex items-center gap-3 px-10 py-5 bg-primary text-black font-display font-bold text-xl rounded-lg hover:shadow-2xl hover:shadow-primary/50 transition-all duration-300 hover:scale-105"
           >
             Start a Project
             <span>⟢</span>

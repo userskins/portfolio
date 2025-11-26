@@ -74,7 +74,7 @@ export default function Home() {
         >
           <div id="contact" className="absolute top-0 left-0" />
           <div className="max-w-7xl mx-auto relative z-0">
-            <div className="mb-24">
+            <div className="mb-8">
               <h2 className="font-display text-5xl text-white mb-8 uppercase tracking-tighter">
                 About Me
               </h2>

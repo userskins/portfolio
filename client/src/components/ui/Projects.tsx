@@ -47,9 +47,20 @@ export function Projects() {
     >
       <div className="max-w-7xl mx-auto relative z-0 w-full">
         <div className="mb-24">
-          <h3 className="font-display text-5xl text-white uppercase tracking-tighter">
+          <h3 className="font-display text-5xl text-white uppercase tracking-tighter mb-6">
             Projects
           </h3>
+          <div className="flex gap-3 flex-wrap">
+            <span className="px-4 py-2 border border-white/20 text-white/70 text-sm font-mono rounded-full hover:border-primary/50 hover:text-primary transition-all cursor-default">
+              Дизайн
+            </span>
+            <span className="px-4 py-2 border border-white/20 text-white/70 text-sm font-mono rounded-full hover:border-primary/50 hover:text-primary transition-all cursor-default">
+              Анимация
+            </span>
+            <span className="px-4 py-2 border border-white/20 text-white/70 text-sm font-mono rounded-full hover:border-primary/50 hover:text-primary transition-all cursor-default">
+              Email-рассылки
+            </span>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

@@ -81,8 +81,8 @@ export function LoadingScreen() {
             />
             <defs>
               <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="rgb(239, 68, 68)" />
-                <stop offset="100%" stopColor="rgb(239, 68, 68)" />
+                <stop offset="0%" stopColor="#FF0000" />
+                <stop offset="100%" stopColor="#FF0000" />
               </linearGradient>
             </defs>
           </svg>

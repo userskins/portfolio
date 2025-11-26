@@ -44,34 +44,29 @@ export function Navbar() {
       </div>
 
       <div className="hidden md:flex gap-4 items-center">
-        <div className="font-mono text-xs text-primary">
-          {t('nav.established', language)}
-        </div>
-        <div className="border-l border-white/20 pl-4">
-          <div className="flex gap-2">
-            <button
-              onClick={() => setLanguage('en')}
-              className={`font-mono text-xs px-2 py-1 rounded transition-colors ${
-                language === 'en' 
-                  ? 'bg-primary text-white' 
-                  : 'text-white/60 hover:text-white'
-              }`}
-              data-testid="button-lang-en"
-            >
-              EN
-            </button>
-            <button
-              onClick={() => setLanguage('ru')}
-              className={`font-mono text-xs px-2 py-1 rounded transition-colors ${
-                language === 'ru' 
-                  ? 'bg-primary text-white' 
-                  : 'text-white/60 hover:text-white'
-              }`}
-              data-testid="button-lang-ru"
-            >
-              РУ
-            </button>
-          </div>
+        <div className="flex gap-2">
+          <button
+            onClick={() => setLanguage('en')}
+            className={`font-mono text-xs px-2 py-1 rounded transition-colors ${
+              language === 'en' 
+                ? 'bg-primary text-white' 
+                : 'text-white/60 hover:text-white'
+            }`}
+            data-testid="button-lang-en"
+          >
+            EN
+          </button>
+          <button
+            onClick={() => setLanguage('ru')}
+            className={`font-mono text-xs px-2 py-1 rounded transition-colors ${
+              language === 'ru' 
+                ? 'bg-primary text-white' 
+                : 'text-white/60 hover:text-white'
+            }`}
+            data-testid="button-lang-ru"
+          >
+            РУ
+          </button>
         </div>
       </div>
 

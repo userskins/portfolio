@@ -6,7 +6,6 @@ export const translations = {
       projects: 'PROJECTS',
       about: 'ABOUT',
       contact: 'CONTACT',
-      established: '[EST. 2020]',
     },
     hero: {
       title: 'Creative Developer',
@@ -33,7 +32,6 @@ export const translations = {
       projects: 'ПРОЕКТЫ',
       about: 'ОБО МНЕ',
       contact: 'КОНТАКТ',
-      established: '[ОСНОВАНА 2020]',
     },
     hero: {
       title: 'Креативный разработчик',

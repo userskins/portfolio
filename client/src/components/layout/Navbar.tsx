@@ -2,7 +2,7 @@
 import { Link } from "wouter";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
-import logo from '@assets/тэг_1763676137900.png';
+import logo from '@assets/logo.webp';
 
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);

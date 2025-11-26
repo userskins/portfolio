@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import logo from '@assets/тэг_1763676137900.png';
+import logo from '@assets/logo.webp';
 
 export function LoadingScreen() {
   const [progress, setProgress] = useState(0);

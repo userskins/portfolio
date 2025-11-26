@@ -5,7 +5,7 @@ import { Gallery } from "@/components/ui/Gallery";
 import { Projects } from "@/components/ui/Projects";
 import { aboutText } from "@/lib/data";
 import { motion, useScroll, useSpring, AnimatePresence } from "framer-motion";
-import logo from "@assets/тэг_1763676137900.png";
+import logo from "@assets/logo.webp";
 import { ArrowUp } from "lucide-react";
 import { useEffect, useState } from "react";
 

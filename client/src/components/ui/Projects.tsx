@@ -1,10 +1,20 @@
 import { projects } from '@/lib/data';
 import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
+import { useState } from 'react';
 
 export function Projects() {
+  const [selectedTag, setSelectedTag] = useState('all');
+  
   const firstHalf = projects.slice(0, 4);
   const secondHalf = projects.slice(4, 8);
+  
+  const tags = [
+    { id: 'all', label: 'Все проекты' },
+    { id: 'design', label: 'Дизайн' },
+    { id: 'animation', label: 'Анимация' },
+    { id: 'email', label: 'Email-рассылки' },
+  ];
 
   const ProjectCard = ({ project, index, displayNumber }: { project: typeof projects[0]; index: number; displayNumber: number }) => (
     <motion.a
@@ -50,16 +60,20 @@ export function Projects() {
           <h3 className="font-display text-5xl text-white uppercase tracking-tighter mb-6">
             Projects
           </h3>
-          <div className="flex gap-3 flex-wrap">
-            <span className="px-4 py-2 border border-white/20 text-white/70 text-sm font-mono rounded-full hover:border-primary/50 hover:text-primary transition-all cursor-default">
-              Дизайн
-            </span>
-            <span className="px-4 py-2 border border-white/20 text-white/70 text-sm font-mono rounded-full hover:border-primary/50 hover:text-primary transition-all cursor-default">
-              Анимация
-            </span>
-            <span className="px-4 py-2 border border-white/20 text-white/70 text-sm font-mono rounded-full hover:border-primary/50 hover:text-primary transition-all cursor-default">
-              Email-рассылки
-            </span>
+          <div className="flex gap-2 flex-wrap">
+            {tags.map((tag) => (
+              <button
+                key={tag.id}
+                onClick={() => setSelectedTag(tag.id)}
+                className={`px-4 py-2 border rounded-full text-sm font-mono transition-all ${
+                  selectedTag === tag.id
+                    ? 'border-primary bg-primary/10 text-primary'
+                    : 'border-white/20 text-white/70 hover:border-primary/50 hover:text-primary'
+                }`}
+              >
+                {tag.label}
+              </button>
+            ))}
           </div>
         </div>
 

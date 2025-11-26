@@ -1,23 +1,56 @@
 import { motion } from "framer-motion";
 import { useState, useRef } from "react";
 import boardImage from '@assets/доска_1764193532299.webp';
+import sticker1 from '@assets/Group 2131328479_1764193971375.png';
+import sticker2 from '@assets/собака-Photoroom_1764193971375.png';
+import sticker3 from '@assets/Слой 19_1764193971375.png';
+import sticker4 from '@assets/Слой 15_1764193971375.png';
+import sticker5 from '@assets/11 копия_1764193971375.png';
+import sticker6 from '@assets/Слой 21_1764193971376.png';
+import sticker7 from '@assets/Слой 14_1764193971376.png';
+import sticker8 from '@assets/Слой 16_1764193971376.png';
+import sticker9 from '@assets/2_1764193971376.png';
+import sticker10 from '@assets/Слой 18_1764193971376.png';
+import sticker11 from '@assets/Слой 13_1764193971377.png';
+import sticker12 from '@assets/Слой 17_1764193971377.png';
+import sticker13 from '@assets/10_1764193971377.png';
+import sticker14 from '@assets/Слой 5_1764193971377.png';
+import sticker15 from '@assets/тэг_1764193971377.png';
+import sticker16 from '@assets/Слой 20_1764193971378.png';
 import { galleryImages, projects } from "@/lib/data";
 import { useLanguage } from "@/hooks/useLanguage";
-import { t } from "@/lib/translations";
 
 interface DraggableItem {
   id: string;
   x: number;
   y: number;
   rotation: number;
-  src?: string;
-  type: 'photo' | 'text';
-  content?: string;
+  src: string;
+  type: 'sticker';
+  width: number;
+  height: number;
 }
 
 export function Pinboard() {
   const { language } = useLanguage();
-  const [draggableItems, setDraggableItems] = useState<DraggableItem[]>([]);
+  const [draggableItems, setDraggableItems] = useState<DraggableItem[]>([
+    { id: 'sticker-1', x: 100, y: 80, rotation: -15, src: sticker1, type: 'sticker', width: 140, height: 140 },
+    { id: 'sticker-2', x: 520, y: 120, rotation: 12, src: sticker2, type: 'sticker', width: 120, height: 140 },
+    { id: 'sticker-3', x: 320, y: 60, rotation: -8, src: sticker3, type: 'sticker', width: 130, height: 160 },
+    { id: 'sticker-4', x: 480, y: 280, rotation: 18, src: sticker4, type: 'sticker', width: 110, height: 100 },
+    { id: 'sticker-5', x: 80, y: 320, rotation: -12, src: sticker5, type: 'sticker', width: 120, height: 180 },
+    { id: 'sticker-6', x: 420, y: 340, rotation: 15, src: sticker6, type: 'sticker', width: 140, height: 150 },
+    { id: 'sticker-7', x: 280, y: 320, rotation: -20, src: sticker7, type: 'sticker', width: 130, height: 130 },
+    { id: 'sticker-8', x: 560, y: 380, rotation: 8, src: sticker8, type: 'sticker', width: 140, height: 100 },
+    { id: 'sticker-9', x: 620, y: 140, rotation: 22, src: sticker9, type: 'sticker', width: 100, height: 150 },
+    { id: 'sticker-10', x: 380, y: 220, rotation: -10, src: sticker10, type: 'sticker', width: 130, height: 140 },
+    { id: 'sticker-11', x: 280, y: 160, rotation: 5, src: sticker11, type: 'sticker', width: 150, height: 100 },
+    { id: 'sticker-12', x: 540, y: 240, rotation: -18, src: sticker12, type: 'sticker', width: 130, height: 100 },
+    { id: 'sticker-13', x: 680, y: 280, rotation: 12, src: sticker13, type: 'sticker', width: 110, height: 170 },
+    { id: 'sticker-14', x: 60, y: 140, rotation: -25, src: sticker14, type: 'sticker', width: 110, height: 220 },
+    { id: 'sticker-15', x: 200, y: 280, rotation: 10, src: sticker15, type: 'sticker', width: 130, height: 90 },
+    { id: 'sticker-16', x: 620, y: 440, rotation: -8, src: sticker16, type: 'sticker', width: 120, height: 110 },
+  ]);
   const [draggedId, setDraggedId] = useState<string | null>(null);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
@@ -52,8 +85,8 @@ export function Pinboard() {
         item.id === draggedId
           ? {
               ...item,
-              x: Math.max(0, Math.min(mouseX - dragOffset.x, rect.width - 150)),
-              y: Math.max(0, Math.min(mouseY - dragOffset.y, rect.height - 150)),
+              x: Math.max(0, Math.min(mouseX - dragOffset.x, rect.width - 80)),
+              y: Math.max(0, Math.min(mouseY - dragOffset.y, rect.height - 80)),
             }
           : item
       )
@@ -111,7 +144,7 @@ export function Pinboard() {
           backgroundSize: '200px 200px'
         }} />
 
-        {/* Draggable Items Container */}
+        {/* Draggable Stickers Container */}
         <div className="absolute inset-0 z-10 cursor-grab active:cursor-grabbing">
           {draggableItems.map((item) => (
             <motion.div
@@ -120,8 +153,8 @@ export function Pinboard() {
               style={{
                 left: `${item.x}px`,
                 top: `${item.y}px`,
-                width: item.type === 'photo' ? '180px' : '160px',
-                height: item.type === 'photo' ? '220px' : '80px',
+                width: `${item.width}px`,
+                height: `${item.height}px`,
               }}
               animate={{
                 rotateZ: item.rotation,
@@ -140,43 +173,22 @@ export function Pinboard() {
                 transition={{ type: "spring", stiffness: 400, damping: 15 }}
               />
 
-              {item.type === 'photo' && item.src ? (
-                // Photo Card
-                <motion.div
-                  className="w-full h-full rounded-sm overflow-hidden shadow-2xl border-4 border-white bg-white cursor-grab active:cursor-grabbing"
-                  animate={{
-                    boxShadow: hoveredId === item.id
-                      ? '0 20px 40px rgba(0,0,0,0.3)'
-                      : '0 10px 25px rgba(0,0,0,0.2)',
-                    y: hoveredId === item.id ? -4 : 0,
-                  }}
-                >
-                  <img
-                    src={item.src}
-                    alt="Sticker"
-                    className="w-full h-full object-cover pointer-events-none"
-                  />
-                </motion.div>
-              ) : (
-                // Text Sticker
-                <motion.div
-                  className="w-full h-full flex items-center justify-center rounded-lg font-display font-bold text-center px-2 py-4 shadow-xl border-2 text-black cursor-grab active:cursor-grabbing"
-                  style={{
-                    backgroundColor: '#FFE5B4',
-                    borderColor: '#DC7633',
-                  }}
-                  animate={{
-                    boxShadow: hoveredId === item.id
-                      ? '0 15px 35px rgba(0,0,0,0.25)'
-                      : '0 8px 20px rgba(0,0,0,0.15)',
-                    y: hoveredId === item.id ? -4 : 0,
-                  }}
-                >
-                  <span className="text-xs md:text-sm leading-tight pointer-events-none">
-                    {item.content}
-                  </span>
-                </motion.div>
-              )}
+              {/* Sticker Image */}
+              <motion.div
+                className="w-full h-full rounded-sm overflow-hidden shadow-2xl cursor-grab active:cursor-grabbing bg-white"
+                animate={{
+                  boxShadow: hoveredId === item.id
+                    ? '0 20px 40px rgba(0,0,0,0.3)'
+                    : '0 10px 25px rgba(0,0,0,0.2)',
+                  y: hoveredId === item.id ? -4 : 0,
+                }}
+              >
+                <img
+                  src={item.src}
+                  alt="Sticker"
+                  className="w-full h-full object-cover pointer-events-none"
+                />
+              </motion.div>
             </motion.div>
           ))}
         </div>

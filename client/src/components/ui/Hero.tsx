@@ -24,8 +24,8 @@ export function Hero() {
     const offsetY = mouseY - centerY;
     
     setLogoOffset({
-      x: offsetX * 0.15,
-      y: offsetY * 0.15
+      x: offsetX * 0.08,
+      y: offsetY * 0.08
     });
   };
 
@@ -71,8 +71,8 @@ export function Hero() {
           transition={{ 
             duration: 0.3,
             type: "spring",
-            stiffness: 200,
-            damping: 20
+            stiffness: 150,
+            damping: 35
           }}
           whileHover={{ 
             rotate: 3,

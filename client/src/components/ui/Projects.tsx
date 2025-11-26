@@ -3,6 +3,43 @@ import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 
 export function Projects() {
+  const firstHalf = projects.slice(0, 4);
+  const secondHalf = projects.slice(4, 8);
+
+  const ProjectCard = ({ project, index }: { project: typeof projects[0]; index: number }) => (
+    <motion.a
+      href="#"
+      onClick={(e) => e.preventDefault()}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.05, duration: 0.4 }}
+      className="group block p-6 border border-white/10 hover:border-primary/50 transition-all hover:bg-white/5"
+      data-testid={`link-project-${project.id}`}
+    >
+      <div className="flex items-start justify-between gap-4 mb-3">
+        <span className="font-mono text-white/60 text-sm font-medium tracking-wider">
+          {project.id.padStart(2, '0')}
+        </span>
+        <ArrowUpRight 
+          size={16} 
+          className="text-white/40 group-hover:text-primary transition-colors flex-shrink-0"
+          strokeWidth={1.5}
+        />
+      </div>
+      <h4 className="text-white group-hover:text-primary transition-colors mb-3 uppercase font-bold text-sm">
+        {project.title}
+      </h4>
+      <div className="space-y-2">
+        <p className="text-white/70 font-mono text-xs">
+          {project.category}
+        </p>
+        <p className="text-white/60 font-mono text-xs">
+          {project.year}
+        </p>
+      </div>
+    </motion.a>
+  );
+
   return (
     <section 
       id="projects"
@@ -15,33 +52,17 @@ export function Projects() {
           </h3>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-6 gap-x-12">
-          {projects.map((project, index) => (
-            <motion.a
-              key={project.id}
-              href="#"
-              onClick={(e) => e.preventDefault()}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.05, duration: 0.4 }}
-              className="group flex items-center justify-between gap-4 py-4 border-b border-white/10 hover:border-primary/50 transition-colors"
-              data-testid={`link-project-${project.id}`}
-            >
-              <div className="flex items-center gap-6 flex-1 min-w-0">
-                <span className="font-mono text-white/60 text-sm font-medium tracking-wider whitespace-nowrap">
-                  {String(projects.length - index).padStart(2, '0')}
-                </span>
-                <h4 className="text-white group-hover:text-primary transition-colors truncate">
-                  {project.title}
-                </h4>
-              </div>
-              <ArrowUpRight 
-                size={18} 
-                className="text-white/40 group-hover:text-primary transition-colors flex-shrink-0"
-                strokeWidth={1.5}
-              />
-            </motion.a>
-          ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="space-y-6">
+            {firstHalf.map((project, index) => (
+              <ProjectCard key={project.id} project={project} index={index} />
+            ))}
+          </div>
+          <div className="space-y-6">
+            {secondHalf.map((project, index) => (
+              <ProjectCard key={project.id} project={project} index={index + 4} />
+            ))}
+          </div>
         </div>
       </div>
     </section>

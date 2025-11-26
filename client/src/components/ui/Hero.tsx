@@ -1,6 +1,7 @@
 
 import { motion } from "framer-motion";
 import noiseTexture from '@assets/generated_images/dark_digital_noise_texture.png';
+import heroLogo from '@assets/hero-logo.webp';
 
 export function Hero() {
   return (
@@ -19,37 +20,15 @@ export function Hero() {
         <div className="absolute right-1/4 top-0 h-full w-[1px] bg-white/5" />
       </div>
 
-      <div className="relative z-10 text-center px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+      <div className="relative z-10 text-center px-4 flex items-center justify-center">
+        <motion.img
+          src={heroLogo}
+          alt="Dmitriy Gusev"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-        >
-          <span className="font-mono text-white text-sm tracking-[0.5em] mb-4 block bg-primary px-2 py-1 inline-block">
-            HELLO MY NAME IS
-          </span>
-        </motion.div>
-
-        <h1 
-          className="font-display text-6xl md:text-9xl font-bold text-foreground tracking-widest leading-[0.9] mb-8 transform -rotate-2"
-        >
-          DMITRIY
-          <br />
-          <span className="text-primary">
-            GUSEV
-          </span>
-        </h1>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5, duration: 0.8 }}
-          className="flex justify-center gap-8 font-mono text-xs md:text-sm text-white"
-        >
-          <span className="border-b-2 border-primary pb-1">// GRAPHIC_DESIGN</span>
-          <span className="border-b-2 border-primary pb-1">// EMAIL_DESIGN</span>
-          <span className="border-b-2 border-primary pb-1">// CREATIVE_DEV</span>
-        </motion.div>
+          className="w-full max-w-2xl md:max-w-4xl h-auto object-contain"
+        />
       </div>
 
       {/* Scroll Indicator */}

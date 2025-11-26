@@ -113,7 +113,7 @@ export const projects: Project[] = [
     image: userRef,
     year: '2023',
     size: 'large',
-    tag: 'animation',
+    tag: 'design',
   },
   {
     id: '04',
@@ -122,7 +122,7 @@ export const projects: Project[] = [
     image: userRef,
     year: '2023',
     size: 'large',
-    tag: 'design',
+    tag: 'animation',
   },
   {
     id: '03',
@@ -140,7 +140,7 @@ export const projects: Project[] = [
     image: userRef,
     year: '2021',
     size: 'large',
-    tag: 'design',
+    tag: 'animation',
   },
   {
     id: '01',

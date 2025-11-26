@@ -1,11 +1,12 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-display: 'Permanent Marker', cursive;
-  --font-mono: 'JetBrains Mono', monospace;
+  --font-display: 'Playfair Display', serif;
+  --font-mono: 'Inter', sans-serif;
 
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
@@ -30,16 +31,16 @@
 
 /* LIGHT MODE */
 :root {
-  --background: 0 0% 5%; /* Black #0d0d0d */
+  --background: 0 0% 3%; /* Darker black */
   --foreground: 0 0% 100%; /* White */
 
-  --card: 0 0% 8%;
+  --card: 0 0% 6%;
   --card-foreground: 0 0% 100%;
 
-  --popover: 0 0% 5%;
+  --popover: 0 0% 3%;
   --popover-foreground: 0 0% 100%;
 
-  --primary: 0 100% 50%; /* Red #FF0000 */
+  --primary: 45 100% 56%; /* Golden Yellow */
   --primary-foreground: 0 0% 100%;
 
   --secondary: 0 0% 100%; /* White Secondary */
@@ -48,17 +49,17 @@
   --muted: 0 0% 20%;
   --muted-foreground: 0 0% 60%;
 
-  --accent: 0 100% 50%;
-  --accent-foreground: 0 0% 100%;
+  --accent: 45 100% 56%;
+  --accent-foreground: 0 0% 0%;
 
   --destructive: 0 100% 50%;
   --destructive-foreground: 0 0% 100%;
 
-  --border: 0 0% 20%;
-  --input: 0 0% 20%;
-  --ring: 0 100% 50%;
+  --border: 0 0% 15%;
+  --input: 0 0% 15%;
+  --ring: 45 100% 56%;
 
-  --radius: 0px; 
+  --radius: 8px; 
 }
 
 @layer base {

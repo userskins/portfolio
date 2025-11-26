@@ -19,37 +19,36 @@ export function Navbar() {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 px-6 py-4 flex justify-between items-center bg-background/80 backdrop-blur-sm border-b border-white/10">
+    <nav className="fixed top-0 left-0 w-full z-50 px-6 py-5 flex justify-between items-center bg-background/70 backdrop-blur-xl border-b border-white/5 shadow-lg shadow-black/20">
       <a 
         href="https://userskins.art"
         target="_blank"
         rel="noreferrer"
-        className="block hover:scale-105 transition-transform"
+        className="block hover:scale-110 transition-transform duration-300"
       >
-        <img src={logo} alt="Logo" className="h-10 w-auto object-contain" />
+        <img src={logo} alt="Logo" className="h-10 w-auto object-contain filter brightness-110" />
       </a>
 
-      <div className="hidden md:flex gap-12 font-mono text-sm tracking-widest text-white">
+      <div className="hidden md:flex gap-16 font-mono text-xs tracking-widest text-white/70">
         {navItems.map((item) => (
           <a 
             key={item.key} 
             href={`#${item.key.toLowerCase()}`}
-            className="relative group overflow-hidden hover:text-primary transition-colors"
+            className="relative group overflow-hidden transition-colors duration-300 hover:text-primary"
           >
-            <span className="inline-block">
-              {item.label}
-            </span>
+            <span className="inline-block">{item.label}</span>
+            <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-gradient-to-r from-primary to-transparent group-hover:w-full transition-all duration-500" />
           </a>
         ))}
       </div>
 
       <div className="hidden md:flex gap-4 items-center">
-        <div className="flex gap-2">
+        <div className="flex gap-2 bg-white/5 backdrop-blur-sm rounded-lg p-1 border border-white/10">
           <button
             onClick={() => setLanguage('en')}
-            className={`font-mono text-xs px-2 py-1 rounded transition-colors ${
+            className={`font-mono text-xs px-3 py-1.5 rounded transition-all duration-300 ${
               language === 'en' 
-                ? 'bg-primary text-white' 
+                ? 'bg-primary text-black font-semibold shadow-lg shadow-primary/50' 
                 : 'text-white/60 hover:text-white'
             }`}
             data-testid="button-lang-en"
@@ -58,9 +57,9 @@ export function Navbar() {
           </button>
           <button
             onClick={() => setLanguage('ru')}
-            className={`font-mono text-xs px-2 py-1 rounded transition-colors ${
+            className={`font-mono text-xs px-3 py-1.5 rounded transition-all duration-300 ${
               language === 'ru' 
-                ? 'bg-primary text-white' 
+                ? 'bg-primary text-black font-semibold shadow-lg shadow-primary/50' 
                 : 'text-white/60 hover:text-white'
             }`}
             data-testid="button-lang-ru"

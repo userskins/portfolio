@@ -1,8 +1,11 @@
 
 import { motion } from "framer-motion";
 import noiseTexture from '@assets/generated_images/dark_digital_noise_texture.png';
+import { useLanguage } from "@/hooks/useLanguage";
+import { t } from "@/lib/translations";
 
 export function Hero() {
+  const { language } = useLanguage();
   return (
     <section className="relative h-screen w-full flex flex-col justify-center items-center overflow-hidden bg-background z-0">
       {/* Background Noise */}
@@ -26,17 +29,17 @@ export function Hero() {
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
           <span className="font-mono text-white text-sm tracking-[0.5em] mb-4 block bg-primary px-2 py-1 inline-block">
-            HELLO MY NAME IS
+            {t('hero.greeting', language)}
           </span>
         </motion.div>
 
         <h1 
           className="font-display text-6xl md:text-9xl font-bold text-foreground tracking-widest leading-[0.9] mb-8 transform -rotate-2"
         >
-          DMITRIY
+          {t('hero.firstName', language)}
           <br />
           <span className="text-primary">
-            GUSEV
+            {t('hero.lastName', language)}
           </span>
         </h1>
 

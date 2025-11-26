@@ -8,8 +8,9 @@ export const translations = {
       contact: 'CONTACT',
     },
     hero: {
-      title: 'Creative Developer',
-      subtitle: 'I craft beautiful digital experiences',
+      greeting: 'HELLO MY NAME IS',
+      firstName: 'DMITRIY',
+      lastName: 'GUSEV',
     },
     gallery: {
       title: 'Gallery',
@@ -34,8 +35,9 @@ export const translations = {
       contact: 'КОНТАКТ',
     },
     hero: {
-      title: 'Креативный разработчик',
-      subtitle: 'Я создаю красивые цифровые опыты',
+      greeting: 'ПРИВЕТ, МЕНЯ ЗОВУТ',
+      firstName: 'ДМИТРИЙ',
+      lastName: 'ГУСЕВ',
     },
     gallery: {
       title: 'Галерея',

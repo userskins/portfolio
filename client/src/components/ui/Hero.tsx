@@ -64,21 +64,17 @@ export function Hero() {
           src={heroLogo}
           alt="Dmitriy Gusev"
           initial={{ 
-            opacity: 0, 
-            scale: 0.5,
-            rotate: -15,
-            x: -100,
-            y: -100
+            opacity: 1, 
+            x: logoOffset.x,
+            y: logoOffset.y
           }}
           animate={{ 
             opacity: 1, 
-            scale: 1,
-            rotate: 0,
             x: logoOffset.x,
             y: logoOffset.y
           }}
           transition={{ 
-            duration: logoOffset.x === 0 && logoOffset.y === 0 ? 0.6 : 0.3,
+            duration: 0.3,
             type: "spring",
             stiffness: 200,
             damping: 20
@@ -87,7 +83,7 @@ export function Hero() {
             rotate: 3,
             scale: 1.02
           }}
-          className="w-full max-w-2xl md:max-w-4xl h-auto object-contain cursor-pointer drop-shadow-[0_8px_16px_rgba(239,68,68,0.3)]"
+          className="w-full max-w-xl md:max-w-3xl h-auto object-contain cursor-pointer drop-shadow-[0_8px_16px_rgba(239,68,68,0.3)]"
         />
       </div>
 

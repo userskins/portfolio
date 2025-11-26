@@ -24,10 +24,32 @@ export function Hero() {
         <motion.img
           src={heroLogo}
           alt="Dmitriy Gusev"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="w-full max-w-2xl md:max-w-4xl h-auto object-contain"
+          initial={{ 
+            opacity: 0, 
+            scale: 0.5,
+            rotate: -15,
+            x: -100,
+            y: -100
+          }}
+          animate={{ 
+            opacity: 1, 
+            scale: 1,
+            rotate: 0,
+            x: 0,
+            y: 0
+          }}
+          transition={{ 
+            duration: 0.8,
+            delay: 0.2,
+            type: "spring",
+            stiffness: 100,
+            damping: 15
+          }}
+          whileHover={{ 
+            rotate: 3,
+            scale: 1.02
+          }}
+          className="w-full max-w-2xl md:max-w-4xl h-auto object-contain cursor-pointer drop-shadow-[0_8px_16px_rgba(239,68,68,0.3)]"
         />
       </div>
 

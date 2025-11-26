@@ -1,11 +1,50 @@
 
 import { motion } from "framer-motion";
+import { useState, useRef } from "react";
 import noiseTexture from '@assets/generated_images/dark_digital_noise_texture.png';
 import heroLogo from '@assets/hero-logo.webp';
 
 export function Hero() {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [logoOffset, setLogoOffset] = useState({ x: 0, y: 0 });
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!sectionRef.current) return;
+    
+    const rect = sectionRef.current.getBoundingClientRect();
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    
+    // Calculate distance from center
+    const deltaX = mouseX - centerX;
+    const deltaY = mouseY - centerY;
+    
+    // Calculate angle and apply magnet effect (pulls towards cursor from max 100px away)
+    const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+    const maxDistance = 150;
+    const strength = Math.max(0, 1 - distance / maxDistance);
+    
+    setLogoOffset({
+      x: deltaX * strength * 0.3,
+      y: deltaY * strength * 0.3
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setLogoOffset({ x: 0, y: 0 });
+  };
+
   return (
-    <section className="relative h-screen w-full flex flex-col justify-center items-center overflow-hidden bg-background z-0">
+    <section 
+      ref={sectionRef}
+      className="relative h-screen w-full flex flex-col justify-center items-center overflow-hidden bg-background z-0"
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+    >
       {/* Background Noise */}
       <div 
         className="absolute inset-0 opacity-20 pointer-events-none mix-blend-overlay"
@@ -35,15 +74,14 @@ export function Hero() {
             opacity: 1, 
             scale: 1,
             rotate: 0,
-            x: 0,
-            y: 0
+            x: logoOffset.x,
+            y: logoOffset.y
           }}
           transition={{ 
-            duration: 0.8,
-            delay: 0.2,
+            duration: logoOffset.x === 0 && logoOffset.y === 0 ? 0.6 : 0.3,
             type: "spring",
-            stiffness: 100,
-            damping: 15
+            stiffness: 200,
+            damping: 20
           }}
           whileHover={{ 
             rotate: 3,

@@ -1,4 +1,4 @@
-import userRef from '@assets/тэг_1763676137900.png';
+import userRef from '@assets/logo.webp';
 
 import gallery1 from '@assets/gallery/1.webp';
 import gallery5 from '@assets/gallery/5.webp';

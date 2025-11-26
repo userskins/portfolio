@@ -27,7 +27,7 @@ export function Pinboard() {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.8, ease: "easeOut" },
+      transition: { duration: 0.8, type: "spring", stiffness: 100, damping: 15 },
     },
   };
 

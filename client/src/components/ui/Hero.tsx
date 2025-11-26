@@ -1,9 +1,40 @@
 
 import { motion } from "framer-motion";
+import { useState, useRef, useEffect } from "react";
 import noiseTexture from '@assets/generated_images/dark_digital_noise_texture.png';
 import heroLogo from '@assets/hero-logo.webp';
 
 export function Hero() {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [logoPosition, setLogoPosition] = useState({ x: 0, y: 0 });
+  const animationFrameRef = useRef<number>(0);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
+
+  useEffect(() => {
+    const updateLogoPosition = () => {
+      setLogoPosition((prev) => ({
+        x: prev.x + (mousePosition.x - prev.x) * 0.15,
+        y: prev.y + (mousePosition.y - prev.y) * 0.15,
+      }));
+      animationFrameRef.current = requestAnimationFrame(updateLogoPosition);
+    };
+
+    animationFrameRef.current = requestAnimationFrame(updateLogoPosition);
+    return () => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
+  }, [mousePosition]);
+
   return (
     <section className="relative h-screen w-full flex flex-col justify-center items-center overflow-hidden bg-background z-0">
       {/* Background Noise */}
@@ -20,13 +51,21 @@ export function Hero() {
         <div className="absolute right-1/4 top-0 h-full w-[1px] bg-white/5" />
       </div>
 
-      <div className="relative z-10 text-center px-4 flex items-center justify-center">
+      <div className="relative z-10 text-center px-4 flex items-center justify-center pointer-events-none">
         <motion.img
           src={heroLogo}
           alt="Dmitriy Gusev"
           initial={{ opacity: 1 }}
           animate={{ opacity: 1 }}
-          className="w-full max-w-sm md:max-w-2xl h-auto object-contain drop-shadow-[0_8px_16px_rgba(239,68,68,0.3)]"
+          style={{
+            position: "fixed",
+            left: logoPosition.x,
+            top: logoPosition.y,
+            transform: "translate(-50%, -50%)",
+            pointerEvents: "none",
+            zIndex: 9999,
+          }}
+          className="w-32 md:w-48 h-auto object-contain drop-shadow-[0_8px_16px_rgba(239,68,68,0.3)]"
         />
       </div>
 

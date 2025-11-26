@@ -29,6 +29,9 @@ export function LoadingScreen() {
     return () => clearTimeout(timer);
   }, []);
 
+  const circumference = 2 * Math.PI * 60;
+  const strokeDashoffset = circumference - (progress / 100) * circumference;
+
   return (
     <motion.div
       initial={{ opacity: 1 }}
@@ -41,51 +44,63 @@ export function LoadingScreen() {
       }}
       className="fixed inset-0 bg-background z-[9999] flex items-center justify-center pointer-events-none"
     >
-      <div className="w-64">
-        {/* Logo */}
-        <div className="text-center mb-8">
-          <img src={logo} alt="Logo" className="h-12 w-auto object-contain mx-auto mb-6" />
-          <h1 className="font-display text-3xl text-white uppercase tracking-tighter">
+      <div className="flex flex-col items-center justify-center gap-8">
+        {/* Circular Progress with Logo */}
+        <div className="relative w-48 h-48">
+          {/* Background Circle */}
+          <svg
+            className="absolute inset-0 w-full h-full"
+            viewBox="0 0 150 150"
+          >
+            <circle
+              cx="75"
+              cy="75"
+              r="60"
+              fill="none"
+              stroke="white"
+              strokeWidth="0.5"
+              opacity="0.1"
+            />
+            {/* Progress Ring */}
+            <motion.circle
+              cx="75"
+              cy="75"
+              r="60"
+              fill="none"
+              stroke="url(#gradient)"
+              strokeWidth="2"
+              strokeDasharray={circumference}
+              strokeDashoffset={strokeDashoffset}
+              strokeLinecap="round"
+              style={{
+                transform: 'rotate(-90deg)',
+                transformOrigin: '75px 75px',
+              }}
+              animate={{ strokeDashoffset }}
+              transition={{ duration: 0.3 }}
+            />
+            <defs>
+              <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="rgb(239, 68, 68)" />
+                <stop offset="100%" stopColor="rgb(239, 68, 68)" />
+              </linearGradient>
+            </defs>
+          </svg>
+
+          {/* Logo Container */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <img src={logo} alt="Logo" className="w-32 h-auto object-contain" />
+          </div>
+        </div>
+
+        {/* Progress Percentage */}
+        <div className="text-center">
+          <span className="font-mono text-sm text-white/60">
+            {Math.round(progress)}%
+          </span>
+          <h1 className="font-display text-2xl text-white uppercase tracking-tighter mt-2">
             Загрузка...
           </h1>
-        </div>
-
-        {/* Progress Bar */}
-        <div className="relative">
-          <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden border border-white/20">
-            <motion.div
-              initial={{ width: 0 }}
-              animate={{ width: `${progress}%` }}
-              transition={{ duration: 0.3 }}
-              className="h-full bg-primary rounded-full"
-            />
-          </div>
-          
-          {/* Progress Text */}
-          <div className="text-center mt-6">
-            <span className="font-mono text-sm text-white/60">
-              {Math.round(progress)}%
-            </span>
-          </div>
-        </div>
-
-        {/* Dots Animation */}
-        <div className="flex justify-center gap-2 mt-8">
-          {[0, 1, 2].map((i) => (
-            <motion.div
-              key={i}
-              animate={{
-                scale: [1, 1.2, 1],
-                opacity: [0.5, 1, 0.5],
-              }}
-              transition={{
-                duration: 1.5,
-                delay: i * 0.2,
-                repeat: Infinity,
-              }}
-              className="w-2 h-2 bg-primary rounded-full"
-            />
-          ))}
         </div>
       </div>
     </motion.div>

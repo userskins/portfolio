@@ -7,7 +7,7 @@ import logo from '@assets/logo.webp';
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const navItems = ['CV', 'GALLERY', 'PROJECTS', 'ABOUT', 'CONTACT'];
+  const navItems = ['CV', 'ГАЛЕРЕЯ', 'ПРОЕКТЫ', 'ОБО МНЕЕ', 'КОНТАКТЫ'];
 
   return (
     <nav className="fixed top-0 left-0 w-full z-50 px-6 py-4 flex justify-between items-center bg-background/80 backdrop-blur-sm border-b border-white/10">
@@ -35,7 +35,7 @@ export function Navbar() {
       </div>
 
       <div className="hidden md:block font-mono text-xs text-primary">
-        [EST. 2020]
+        [С 2020]
       </div>
 
       {/* Mobile Menu Button */}

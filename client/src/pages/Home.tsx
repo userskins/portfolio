@@ -8,11 +8,8 @@ import { motion, useScroll, useSpring, AnimatePresence } from "framer-motion";
 import logo from "@assets/тэг_1763676137900.png";
 import { ArrowUp } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useLanguage } from "@/hooks/useLanguage";
-import { t } from "@/lib/translations";
 
 export default function Home() {
-  const { language } = useLanguage();
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
@@ -43,7 +40,7 @@ export default function Home() {
     <div className="min-h-screen bg-background text-foreground selection:bg-primary selection:text-white relative">
       {/* Progress Bar */}
       <motion.div
-        className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-primary/50 to-transparent origin-left z-0 shadow-lg shadow-primary/50"
+        className="fixed top-0 left-0 right-0 h-1 bg-primary origin-left z-0"
         style={{ scaleX }}
       />
 
@@ -56,13 +53,12 @@ export default function Home() {
         {/* Gallery Section */}
         <section
           id="gallery"
-          className="py-24 px-6 md:px-12 bg-gradient-to-b from-card to-background relative overflow-hidden border-t border-white/5"
+          className="py-24 px-6 md:px-12 bg-card relative overflow-hidden border-t border-white/10"
         >
-          <div className="absolute -top-40 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
-          <div className="max-w-7xl mx-auto relative z-10">
+          <div className="max-w-7xl mx-auto relative z-0">
             <div className="mb-16">
-              <h3 className="font-display text-5xl md:text-6xl text-white uppercase tracking-tighter bg-gradient-to-r from-white via-white to-white/60 bg-clip-text text-transparent">
-                {t('gallery.title', language)}
+              <h3 className="font-display text-4xl md:text-5xl text-white uppercase tracking-tighter">
+                Gallery
               </h3>
             </div>
             <Gallery />
@@ -74,14 +70,13 @@ export default function Home() {
         {/* About / Contact Section */}
         <section
           id="about"
-          className="py-24 px-6 md:px-12 bg-gradient-to-b from-background via-card to-background relative overflow-hidden scroll-mt-20 z-0 border-t border-white/5"
+          className="py-24 px-6 md:px-12 bg-card relative overflow-hidden scroll-mt-20 z-0 border-t border-white/10"
         >
-          <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
           <div id="contact" className="absolute top-0 left-0" />
           <div className="max-w-7xl mx-auto relative z-0">
             <div className="mb-24">
               <h2 className="font-display text-5xl text-white mb-8 uppercase tracking-tighter">
-                {t('aboutSection.title', language)}
+                About Me
               </h2>
 
               <p className="font-mono text-xl md:text-2xl leading-relaxed text-white/90 max-w-5xl lg:max-w-6xl">
@@ -98,7 +93,7 @@ export default function Home() {
             <div className="flex flex-col md:flex-row items-center justify-between gap-12 pt-12">
               <div className="w-full md:w-1/2">
                 <h4 className="font-display text-5xl text-white mb-8 uppercase tracking-tighter">
-                  {t('aboutSection.connectTitle', language)}
+                  Let's Connect
                 </h4>
                 <ul className="space-y-4 text-2xl md:text-3xl">
                   <li>
@@ -106,10 +101,9 @@ export default function Home() {
                       href="mailto:userskins@gmail.com"
                       style={{ fontFamily: 'Comic Relief, cursive' }}
                       className="hover:text-primary hover:pl-4 transition-all cursor-pointer flex items-center gap-4 group font-bold"
-                      data-testid="link-email"
                     >
                       <span className="w-2 h-2 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
-                      {t('aboutSection.email', language)}
+                      Email
                     </a>
                   </li>
                   <li>
@@ -119,10 +113,9 @@ export default function Home() {
                       rel="noreferrer"
                       style={{ fontFamily: 'Comic Relief, cursive' }}
                       className="hover:text-primary hover:pl-4 transition-all cursor-pointer flex items-center gap-4 group font-bold"
-                      data-testid="link-telegram"
                     >
                       <span className="w-2 h-2 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
-                      {t('aboutSection.telegram', language)}
+                      Telegram
                     </a>
                   </li>
                   <li>

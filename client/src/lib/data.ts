@@ -95,7 +95,7 @@ export const projects: Project[] = [
     image: userRef,
     year: '2024',
     size: 'large',
-    tag: 'animation',
+    tag: 'design',
   },
   {
     id: '06',

@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { LoadingScreen } from "@/components/LoadingScreen";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
+import { LanguageProvider } from "@/hooks/useLanguage";
 import { useState, useEffect } from "react";
 
 function Router() {
@@ -30,13 +31,15 @@ function App() {
   }, []);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        {isLoading && <LoadingScreen />}
-        <Router />
-      </TooltipProvider>
-    </QueryClientProvider>
+    <LanguageProvider>
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <Toaster />
+          {isLoading && <LoadingScreen />}
+          <Router />
+        </TooltipProvider>
+      </QueryClientProvider>
+    </LanguageProvider>
   );
 }
 

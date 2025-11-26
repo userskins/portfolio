@@ -8,8 +8,11 @@ import { motion, useScroll, useSpring, AnimatePresence } from "framer-motion";
 import logo from "@assets/тэг_1763676137900.png";
 import { ArrowUp } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useLanguage } from "@/hooks/useLanguage";
+import { t } from "@/lib/translations";
 
 export default function Home() {
+  const { language } = useLanguage();
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
@@ -58,7 +61,7 @@ export default function Home() {
           <div className="max-w-7xl mx-auto relative z-0">
             <div className="mb-16">
               <h3 className="font-display text-4xl md:text-5xl text-white uppercase tracking-tighter">
-                Gallery
+                {t('gallery.title', language)}
               </h3>
             </div>
             <Gallery />
@@ -76,7 +79,7 @@ export default function Home() {
           <div className="max-w-7xl mx-auto relative z-0">
             <div className="mb-24">
               <h2 className="font-display text-5xl text-white mb-8 uppercase tracking-tighter">
-                About Me
+                {t('aboutSection.title', language)}
               </h2>
 
               <p className="font-mono text-xl md:text-2xl leading-relaxed text-white/90 max-w-5xl lg:max-w-6xl">
@@ -93,7 +96,7 @@ export default function Home() {
             <div className="flex flex-col md:flex-row items-center justify-between gap-12 pt-12">
               <div className="w-full md:w-1/2">
                 <h4 className="font-display text-5xl text-white mb-8 uppercase tracking-tighter">
-                  Let's Connect
+                  {t('aboutSection.connectTitle', language)}
                 </h4>
                 <ul className="space-y-4 text-2xl md:text-3xl">
                   <li>
@@ -101,9 +104,10 @@ export default function Home() {
                       href="mailto:userskins@gmail.com"
                       style={{ fontFamily: 'Comic Relief, cursive' }}
                       className="hover:text-primary hover:pl-4 transition-all cursor-pointer flex items-center gap-4 group font-bold"
+                      data-testid="link-email"
                     >
                       <span className="w-2 h-2 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
-                      Email
+                      {t('aboutSection.email', language)}
                     </a>
                   </li>
                   <li>
@@ -113,9 +117,10 @@ export default function Home() {
                       rel="noreferrer"
                       style={{ fontFamily: 'Comic Relief, cursive' }}
                       className="hover:text-primary hover:pl-4 transition-all cursor-pointer flex items-center gap-4 group font-bold"
+                      data-testid="link-telegram"
                     >
                       <span className="w-2 h-2 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
-                      Telegram
+                      {t('aboutSection.telegram', language)}
                     </a>
                   </li>
                   <li>

@@ -83,7 +83,7 @@ export function Hero() {
             rotate: 3,
             scale: 1.02
           }}
-          className="w-full max-w-xl md:max-w-3xl h-auto object-contain cursor-pointer drop-shadow-[0_8px_16px_rgba(239,68,68,0.3)]"
+          className="w-full max-w-sm md:max-w-2xl h-auto object-contain cursor-pointer drop-shadow-[0_8px_16px_rgba(239,68,68,0.3)]"
         />
       </div>
 

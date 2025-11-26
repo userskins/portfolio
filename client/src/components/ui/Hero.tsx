@@ -60,8 +60,8 @@ export function Hero() {
           alt="Dmitriy Gusev"
           initial={{ 
             opacity: 1, 
-            x: logoOffset.x,
-            y: logoOffset.y
+            x: 0,
+            y: 0
           }}
           animate={{ 
             opacity: 1, 

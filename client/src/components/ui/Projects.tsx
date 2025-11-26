@@ -1,13 +1,11 @@
 import { projects } from '@/lib/data';
 import { motion } from 'framer-motion';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, ChevronRight } from 'lucide-react';
 import { useState } from 'react';
 
 export function Projects() {
   const [selectedTag, setSelectedTag] = useState('all');
-  
-  const firstHalf = projects.slice(0, 4);
-  const secondHalf = projects.slice(4, 8);
+  const [currentPage, setCurrentPage] = useState(0);
   
   const tags = [
     { id: 'all', label: 'Все проекты' },
@@ -15,6 +13,11 @@ export function Projects() {
     { id: 'animation', label: 'Анимация' },
     { id: 'email', label: 'Email-рассылки' },
   ];
+
+  const displayedProjects = projects.slice(currentPage * 4, currentPage * 4 + 4);
+  const hasNextPage = currentPage * 4 + 4 < projects.length;
+  const firstHalf = displayedProjects.slice(0, 2);
+  const secondHalf = displayedProjects.slice(2, 4);
 
   const ProjectCard = ({ project, index, displayNumber }: { project: typeof projects[0]; index: number; displayNumber: number }) => (
     <motion.a
@@ -85,15 +88,27 @@ export function Projects() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-6">
             {firstHalf.map((project, index) => (
-              <ProjectCard key={project.id} project={project} index={index} displayNumber={index * 2 + 1} />
+              <ProjectCard key={project.id} project={project} index={index} displayNumber={currentPage * 4 + index * 2 + 1} />
             ))}
           </div>
           <div className="space-y-6">
             {secondHalf.map((project, index) => (
-              <ProjectCard key={project.id} project={project} index={index + 4} displayNumber={index * 2 + 2} />
+              <ProjectCard key={project.id} project={project} index={index + 2} displayNumber={currentPage * 4 + index * 2 + 2} />
             ))}
           </div>
         </div>
+
+        {hasNextPage && (
+          <div className="mt-12 flex justify-center">
+            <button
+              onClick={() => setCurrentPage(currentPage + 1)}
+              className="flex items-center gap-2 px-6 py-3 border border-white/20 text-white hover:border-primary hover:text-primary transition-all group"
+            >
+              <span className="font-mono text-sm">Ещё проекты</span>
+              <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );

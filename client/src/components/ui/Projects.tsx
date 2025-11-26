@@ -46,6 +46,11 @@ export function Projects() {
         <p className="text-white/60 font-mono text-xs">
           {project.year}
         </p>
+        <div className="pt-3 mt-3 border-t border-white/10">
+          <span className="inline-block px-2 py-1 bg-white/5 border border-white/20 text-white/70 text-xs font-mono rounded">
+            {project.tag === 'design' ? 'Дизайн' : 'Анимация'}
+          </span>
+        </div>
       </div>
     </motion.a>
   );

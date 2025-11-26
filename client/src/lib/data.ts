@@ -75,6 +75,7 @@ export interface Project {
   image: string;
   year: string;
   size: 'small' | 'medium' | 'large';
+  tag: 'design' | 'animation';
 }
 
 export const projects: Project[] = [
@@ -85,6 +86,7 @@ export const projects: Project[] = [
     image: userRef,
     year: '2025',
     size: 'large',
+    tag: 'design',
   },
   {
     id: '07',
@@ -93,6 +95,7 @@ export const projects: Project[] = [
     image: userRef,
     year: '2024',
     size: 'large',
+    tag: 'animation',
   },
   {
     id: '06',
@@ -101,6 +104,7 @@ export const projects: Project[] = [
     image: userRef,
     year: '2024',
     size: 'large',
+    tag: 'design',
   },
   {
     id: '05',
@@ -109,6 +113,7 @@ export const projects: Project[] = [
     image: userRef,
     year: '2023',
     size: 'large',
+    tag: 'animation',
   },
   {
     id: '04',
@@ -117,6 +122,7 @@ export const projects: Project[] = [
     image: userRef,
     year: '2023',
     size: 'large',
+    tag: 'design',
   },
   {
     id: '03',
@@ -125,6 +131,7 @@ export const projects: Project[] = [
     image: userRef,
     year: '2022',
     size: 'large',
+    tag: 'animation',
   },
   {
     id: '02',
@@ -133,6 +140,7 @@ export const projects: Project[] = [
     image: userRef,
     year: '2021',
     size: 'large',
+    tag: 'design',
   },
   {
     id: '01',
@@ -141,6 +149,7 @@ export const projects: Project[] = [
     image: userRef,
     year: '2021',
     size: 'large',
+    tag: 'design',
   },
 ];
 

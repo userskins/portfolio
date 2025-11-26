@@ -1,37 +1,8 @@
 import { projects } from '@/lib/data';
 import { motion } from 'framer-motion';
-import { ExternalLink, ChevronLeft, ChevronRight } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { ArrowUpRight } from 'lucide-react';
 
 export function Projects() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 0);
-  
-  // Use 2 on mobile, 4 on desktop
-  const projectsPerView = windowWidth < 768 ? 2 : 4;
-  const visibleProjects = projects.slice(currentIndex, currentIndex + projectsPerView);
-  const hasNextProjects = currentIndex + projectsPerView < projects.length;
-  const hasPrevProjects = currentIndex > 0;
-
-  useEffect(() => {
-    const handleResize = () => setWindowWidth(window.innerWidth);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  const handleNext = () => {
-    if (hasNextProjects) {
-      setCurrentIndex(currentIndex + projectsPerView);
-    }
-  };
-
-  const handlePrev = () => {
-    if (hasPrevProjects) {
-      setCurrentIndex(currentIndex - projectsPerView);
-    }
-  };
-
   return (
     <section 
       id="projects"
@@ -44,69 +15,33 @@ export function Projects() {
           </h3>
         </div>
 
-        <div className="relative">
-          <div className="space-y-8 w-full mb-12 min-h-[320px] md:min-h-[280px]">
-            {visibleProjects.map((project, index) => (
-              <motion.div
-                key={project.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1, duration: 0.6 }}
-                className="group border-b border-white/10 pb-8 last:border-b-0"
-              >
-                <div className="flex items-start justify-between gap-8">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-4 mb-2">
-                      <h4 style={{ fontFamily: 'Comic Relief, cursive' }} className="text-2xl md:text-3xl text-white group-hover:text-primary transition-colors font-bold">
-                        {project.title}
-                      </h4>
-                      <span className="text-sm font-mono text-white/60 uppercase tracking-wider">
-                        {project.year}
-                      </span>
-                    </div>
-                    <p className="text-white/70 font-mono text-sm mb-4">
-                      {project.category}
-                    </p>
-                  </div>
-                  <div className="flex-shrink-0">
-                    <a
-                      href="#"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        // TODO: Add project view functionality
-                      }}
-                      data-testid="link-project-view"
-                      className="w-12 h-12 border border-white/20 rounded-full flex items-center justify-center text-white/60 group-hover:text-primary group-hover:border-primary transition-all hover:translate-x-1 hover:translate-y-[-1px]"
-                    >
-                      <ExternalLink size={20} strokeWidth={1.5} />
-                    </a>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Navigation Arrows */}
-          {projects.length > projectsPerView && (
-            <div className="flex gap-4 mt-12 justify-end">
-              <button
-                onClick={handlePrev}
-                disabled={!hasPrevProjects}
-                data-testid="button-projects-prev"
-                className="w-12 h-12 border border-white/20 rounded-full flex items-center justify-center text-white/60 hover:text-white hover:border-white/40 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
-              >
-                <ChevronLeft size={20} strokeWidth={1.5} />
-              </button>
-              <button
-                onClick={handleNext}
-                disabled={!hasNextProjects}
-                data-testid="button-projects-next"
-                className="w-12 h-12 border border-white/20 rounded-full flex items-center justify-center text-white/60 hover:text-white hover:border-white/40 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
-              >
-                <ChevronRight size={20} strokeWidth={1.5} />
-              </button>
-            </div>
-          )}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-6 gap-x-12">
+          {projects.map((project, index) => (
+            <motion.a
+              key={project.id}
+              href="#"
+              onClick={(e) => e.preventDefault()}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.05, duration: 0.4 }}
+              className="group flex items-center justify-between gap-4 py-4 border-b border-white/10 hover:border-primary/50 transition-colors"
+              data-testid={`link-project-${project.id}`}
+            >
+              <div className="flex items-center gap-6 flex-1 min-w-0">
+                <span className="font-mono text-white/60 text-sm font-medium tracking-wider whitespace-nowrap">
+                  {String(projects.length - index).padStart(2, '0')}
+                </span>
+                <h4 className="text-white group-hover:text-primary transition-colors truncate">
+                  {project.title}
+                </h4>
+              </div>
+              <ArrowUpRight 
+                size={18} 
+                className="text-white/40 group-hover:text-primary transition-colors flex-shrink-0"
+                strokeWidth={1.5}
+              />
+            </motion.a>
+          ))}
         </div>
       </div>
     </section>

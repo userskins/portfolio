@@ -4,8 +4,8 @@ export function Footer() {
   return (
     <footer className="bg-card relative overflow-hidden border-t border-white/10">
       <div className="max-w-7xl mx-auto px-6 md:px-12 py-24 relative z-0">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-12">
-          <div className="w-full md:w-1/2">
+        <div className="flex flex-col md:flex-row items-start justify-between gap-12">
+          <div className="w-full md:w-auto">
             <h4 className="font-display text-5xl text-white mb-8 uppercase tracking-tighter">
               Let's Connect
             </h4>
@@ -50,7 +50,7 @@ export function Footer() {
             </ul>
           </div>
 
-          <div className="w-full md:w-1/2 flex justify-center md:justify-end">
+          <div className="flex-1 flex justify-center md:justify-end">
             <img
               src={logo}
               alt="Logo"

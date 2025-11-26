@@ -1,6 +1,6 @@
 import { projects } from '@/lib/data';
 import { motion } from 'framer-motion';
-import { ArrowUpRight, ChevronRight } from 'lucide-react';
+import { ArrowUpRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useState } from 'react';
 
 export function Projects() {
@@ -15,7 +15,9 @@ export function Projects() {
   ];
 
   const displayedProjects = projects.slice(currentPage * 4, currentPage * 4 + 4);
+  const hasPrevPage = currentPage > 0;
   const hasNextPage = currentPage * 4 + 4 < projects.length;
+  const totalPages = Math.ceil(projects.length / 4);
   const firstHalf = displayedProjects.slice(0, 2);
   const secondHalf = displayedProjects.slice(2, 4);
 
@@ -98,17 +100,35 @@ export function Projects() {
           </div>
         </div>
 
-        {hasNextPage && (
-          <div className="mt-12 flex justify-center">
-            <button
-              onClick={() => setCurrentPage(currentPage + 1)}
-              className="flex items-center gap-2 px-6 py-3 border border-white/20 text-white hover:border-primary hover:text-primary transition-all group"
-            >
-              <span className="font-mono text-sm">Ещё проекты</span>
-              <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
-            </button>
-          </div>
-        )}
+        <div className="mt-12 flex justify-center items-center gap-4">
+          <button
+            onClick={() => setCurrentPage(currentPage - 1)}
+            disabled={!hasPrevPage}
+            className={`p-2 border rounded-full transition-all ${
+              hasPrevPage
+                ? 'border-white/20 text-white hover:border-primary hover:text-primary cursor-pointer'
+                : 'border-white/10 text-white/30 cursor-not-allowed'
+            }`}
+          >
+            <ChevronLeft size={20} />
+          </button>
+          
+          <span className="font-mono text-white/60 text-sm">
+            {currentPage + 1} / {totalPages}
+          </span>
+          
+          <button
+            onClick={() => setCurrentPage(currentPage + 1)}
+            disabled={!hasNextPage}
+            className={`p-2 border rounded-full transition-all ${
+              hasNextPage
+                ? 'border-white/20 text-white hover:border-primary hover:text-primary cursor-pointer'
+                : 'border-white/10 text-white/30 cursor-not-allowed'
+            }`}
+          >
+            <ChevronRight size={20} />
+          </button>
+        </div>
       </div>
     </section>
   );

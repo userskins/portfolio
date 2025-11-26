@@ -40,7 +40,7 @@ export function Projects() {
       <div className="max-w-7xl mx-auto relative z-0 w-full">
         <div className="mb-24">
           <h3 className="font-display text-5xl text-white uppercase tracking-tighter">
-            Проекты
+            Projects
           </h3>
         </div>
 

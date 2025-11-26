@@ -11,7 +11,7 @@ export function CV() {
           {/* Left Column: Experience */}
           <div className="md:w-2/3">
             <h2 className="font-display text-5xl mb-12 uppercase tracking-tighter transform -rotate-1 inline-block bg-black text-white px-4 py-2">
-              Опыт работы
+              Experience
             </h2>
 
             <div className="space-y-16">
@@ -47,7 +47,7 @@ export function CV() {
             {/* Education */}
             <div>
               <h2 className="font-display text-4xl mb-8 uppercase tracking-tighter transform rotate-1 inline-block bg-primary text-white px-4 py-1">
-                Образование
+                Education
               </h2>
               <div className="space-y-6">
                 {education.map((edu, index) => (
@@ -63,12 +63,12 @@ export function CV() {
             {/* Skills */}
             <div>
               <h2 className="font-display text-4xl mb-8 uppercase tracking-tighter inline-block border-b-4 border-primary">
-                Навыки
+                Skills
               </h2>
               
               <div className="space-y-6">
                 <div>
-                  <h4 className="font-mono text-xs font-bold mb-3 uppercase text-primary">Продвинутый</h4>
+                  <h4 className="font-mono text-xs font-bold mb-3 uppercase text-primary">Advanced</h4>
                   <div className="flex flex-wrap gap-2">
                     {skills.advanced.map(skill => (
                       <span key={skill} className="font-mono text-xs border border-black px-2 py-1 hover:bg-black hover:text-white transition-colors cursor-default">
@@ -79,7 +79,7 @@ export function CV() {
                 </div>
                 
                 <div>
-                  <h4 className="font-mono text-xs font-bold mb-3 uppercase text-primary">Средний</h4>
+                  <h4 className="font-mono text-xs font-bold mb-3 uppercase text-primary">Intermediate</h4>
                   <div className="flex flex-wrap gap-2">
                     {skills.intermediate.map(skill => (
                       <span key={skill} className="font-mono text-xs border border-black px-2 py-1 hover:bg-black hover:text-white transition-colors cursor-default">

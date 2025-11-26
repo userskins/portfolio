@@ -58,7 +58,7 @@ export default function Home() {
           <div className="max-w-7xl mx-auto relative z-0">
             <div className="mb-16">
               <h3 className="font-display text-4xl md:text-5xl text-white uppercase tracking-tighter">
-                Галерея
+                Gallery
               </h3>
             </div>
             <Gallery />
@@ -76,7 +76,7 @@ export default function Home() {
           <div className="max-w-7xl mx-auto relative z-0">
             <div className="mb-24">
               <h2 className="font-display text-5xl text-white mb-8 uppercase tracking-tighter">
-                Обо Мне
+                About Me
               </h2>
 
               <p className="font-mono text-xl md:text-2xl leading-relaxed text-white/90 max-w-5xl lg:max-w-6xl">

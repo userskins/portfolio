@@ -7,7 +7,7 @@ export function Footer() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-12">
           <div className="w-full md:w-1/2">
             <h4 className="font-display text-5xl text-white mb-8 uppercase tracking-tighter">
-              Свяжитесь Со Мной
+              Let's Connect
             </h4>
             <ul className="space-y-4 text-2xl md:text-3xl">
               <li>
@@ -18,7 +18,7 @@ export function Footer() {
                   data-testid="link-email"
                 >
                   <span className="w-2 h-2 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
-                  Почта
+                  Email
                 </a>
               </li>
               <li>
@@ -63,7 +63,7 @@ export function Footer() {
       {/* Large Background Text */}
       <div className="absolute -bottom-20 -right-20 pointer-events-none opacity-5 select-none">
         <span className="font-display text-[20rem] font-bold leading-none text-white">
-          Я
+          ME
         </span>
       </div>
     </footer>

@@ -89,7 +89,7 @@ export function Hero() {
         transition={{ duration: 2, repeat: Infinity }}
       >
         <div className="w-[1px] h-12 bg-primary" />
-        <span className="font-mono text-[10px] tracking-widest text-primary">ПРОКРУТКА</span>
+        <span className="font-mono text-[10px] tracking-widest text-primary">SCROLL</span>
       </motion.div>
     </section>
   );

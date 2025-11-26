@@ -75,7 +75,7 @@ export function Projects() {
       className="py-24 px-6 md:px-12 bg-card relative overflow-hidden border-t border-white/10"
     >
       <div className="max-w-7xl mx-auto relative z-0 w-full">
-        <div className="mb-24">
+        <div className="mb-12">
           <h3 className="font-display text-5xl text-white uppercase tracking-tighter mb-6">
             Projects
           </h3>

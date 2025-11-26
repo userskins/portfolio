@@ -6,7 +6,7 @@ export function Projects() {
   const firstHalf = projects.slice(0, 4);
   const secondHalf = projects.slice(4, 8);
 
-  const ProjectCard = ({ project, index }: { project: typeof projects[0]; index: number }) => (
+  const ProjectCard = ({ project, index, displayNumber }: { project: typeof projects[0]; index: number; displayNumber: number }) => (
     <motion.a
       href="#"
       onClick={(e) => e.preventDefault()}
@@ -18,7 +18,7 @@ export function Projects() {
     >
       <div className="flex items-start justify-between gap-4 mb-3">
         <span className="font-mono text-white/60 text-sm font-medium tracking-wider">
-          {project.id.padStart(2, '0')}
+          {String(displayNumber).padStart(2, '0')}
         </span>
         <ArrowUpRight 
           size={16} 
@@ -55,12 +55,12 @@ export function Projects() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-6">
             {firstHalf.map((project, index) => (
-              <ProjectCard key={project.id} project={project} index={index} />
+              <ProjectCard key={project.id} project={project} index={index} displayNumber={index * 2 + 1} />
             ))}
           </div>
           <div className="space-y-6">
             {secondHalf.map((project, index) => (
-              <ProjectCard key={project.id} project={project} index={index + 4} />
+              <ProjectCard key={project.id} project={project} index={index + 4} displayNumber={index * 2 + 2} />
             ))}
           </div>
         </div>

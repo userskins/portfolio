@@ -19,18 +19,13 @@ export function Hero() {
     const mouseX = e.clientX - rect.left;
     const mouseY = e.clientY - rect.top;
     
-    // Calculate distance from center
-    const deltaX = mouseX - centerX;
-    const deltaY = mouseY - centerY;
-    
-    // Calculate angle and apply magnet effect (pulls towards cursor from max 100px away)
-    const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-    const maxDistance = 150;
-    const strength = Math.max(0, 1 - distance / maxDistance);
+    // Calculate offset from center - logo follows cursor
+    const offsetX = mouseX - centerX;
+    const offsetY = mouseY - centerY;
     
     setLogoOffset({
-      x: deltaX * strength * 0.3,
-      y: deltaY * strength * 0.3
+      x: offsetX * 0.15,
+      y: offsetY * 0.15
     });
   };
 

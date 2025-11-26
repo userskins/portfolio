@@ -14,12 +14,21 @@ export function Projects() {
     { id: 'email', label: 'Email-рассылки' },
   ];
 
-  const displayedProjects = projects.slice(currentPage * 4, currentPage * 4 + 4);
+  const filteredProjects = selectedTag === 'all' 
+    ? projects 
+    : projects.filter(p => p.tag === selectedTag);
+  
+  const displayedProjects = filteredProjects.slice(currentPage * 4, currentPage * 4 + 4);
   const hasPrevPage = currentPage > 0;
-  const hasNextPage = currentPage * 4 + 4 < projects.length;
-  const totalPages = Math.ceil(projects.length / 4);
+  const hasNextPage = currentPage * 4 + 4 < filteredProjects.length;
+  const totalPages = Math.ceil(filteredProjects.length / 4);
   const firstHalf = displayedProjects.slice(0, 2);
   const secondHalf = displayedProjects.slice(2, 4);
+
+  const handleTagChange = (tagId: string) => {
+    setSelectedTag(tagId);
+    setCurrentPage(0);
+  };
 
   const ProjectCard = ({ project, index, displayNumber }: { project: typeof projects[0]; index: number; displayNumber: number }) => (
     <motion.a
@@ -74,7 +83,7 @@ export function Projects() {
             {tags.map((tag) => (
               <button
                 key={tag.id}
-                onClick={() => setSelectedTag(tag.id)}
+                onClick={() => handleTagChange(tag.id)}
                 className={`px-4 py-2 border rounded-full text-sm font-mono transition-all ${
                   selectedTag === tag.id
                     ? 'border-primary bg-primary/10 text-primary'

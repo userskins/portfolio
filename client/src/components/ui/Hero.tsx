@@ -71,8 +71,8 @@ export function Hero() {
           transition={{ 
             duration: 0.6,
             type: "spring",
-            stiffness: 80,
-            damping: 25
+            stiffness: 30,
+            damping: 15
           }}
           whileHover={{ 
             rotate: 3,

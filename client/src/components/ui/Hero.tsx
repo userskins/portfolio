@@ -69,10 +69,10 @@ export function Hero() {
             y: logoOffset.y
           }}
           transition={{ 
-            duration: 0.3,
+            duration: 0.6,
             type: "spring",
-            stiffness: 150,
-            damping: 35
+            stiffness: 80,
+            damping: 25
           }}
           whileHover={{ 
             rotate: 3,

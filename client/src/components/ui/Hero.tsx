@@ -63,11 +63,6 @@ export function Hero() {
             x: 0,
             y: 0
           }}
-          animate={{ 
-            opacity: 0.2, 
-            x: logoOffset.x,
-            y: logoOffset.y
-          }}
           transition={{ 
             duration: 0.3,
             type: "spring",

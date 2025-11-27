@@ -12,6 +12,7 @@ export function Projects() {
     { id: 'design', label: 'Дизайн' },
     { id: 'animation', label: 'Анимация' },
     { id: 'email', label: 'Email-рассылки' },
+    { id: 'websites', label: 'Сайты' },
   ];
 
   const filteredProjects = selectedTag === 'all' 
@@ -62,7 +63,7 @@ export function Projects() {
         </p>
         <div className="pt-3 mt-3 border-t border-white/10">
           <span className="inline-block px-2 py-1 bg-white/5 border border-white/20 text-white/70 text-xs font-mono rounded">
-            {project.tag === 'design' ? 'Дизайн' : 'Анимация'}
+            {project.tag === 'design' ? 'Дизайн' : project.tag === 'animation' ? 'Анимация' : project.tag === 'email' ? 'Email-рассылки' : 'Сайты'}
           </span>
         </div>
       </div>
@@ -89,6 +90,7 @@ export function Projects() {
                     ? 'border-primary bg-primary/10 text-primary'
                     : 'border-white/20 text-white/70 hover:border-primary/50 hover:text-primary'
                 }`}
+                data-testid={`button-filter-${tag.id}`}
               >
                 {tag.label}
               </button>

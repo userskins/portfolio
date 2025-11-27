@@ -75,7 +75,7 @@ export interface Project {
   image: string;
   year: string;
   size: 'small' | 'medium' | 'large';
-  tag: 'design' | 'animation';
+  tag: 'design' | 'animation' | 'email' | 'websites';
 }
 
 export const projects: Project[] = [

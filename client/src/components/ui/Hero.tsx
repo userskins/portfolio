@@ -63,11 +63,6 @@ export function Hero() {
             x: 0,
             y: 0
           }}
-          animate={{ 
-            opacity: 1, 
-            x: logoOffset.x,
-            y: logoOffset.y
-          }}
           whileHover={{ 
             rotate: 3,
             scale: 1.02

@@ -192,7 +192,7 @@ export const projects: Project[] = [
   {
     id: '11',
     title: 'Опен-коллы от Студии Простора',
-    category: 'Дизайн и вёрстка',
+    category: 'Дизайн и вёрстка email-рассылки',
     image: userRef,
     year: '2025',
     size: 'small',
@@ -201,7 +201,7 @@ export const projects: Project[] = [
   {
     id: '12',
     title: 'Полезный кейс от Ingate',
-    category: 'Дизайн и вёрстка',
+    category: 'Дизайн и вёрстка email-рассылки',
     image: userRef,
     year: '2024',
     size: 'small',
@@ -210,7 +210,7 @@ export const projects: Project[] = [
   {
     id: '13',
     title: 'Профессии от МЦ МФО',
-    category: 'Дизайн и вёрстка',
+    category: 'Дизайн и вёрстка email-рассылки',
     image: userRef,
     year: '2025',
     size: 'small',
@@ -219,9 +219,18 @@ export const projects: Project[] = [
   {
     id: '14',
     title: 'Дайджест новостей Школы дизайна НИУ ВШЭ',
-    category: 'Дизайн и вёрстка',
+    category: 'Дизайн и вёрстка email-рассылки',
     image: userRef,
     year: '2025',
+    size: 'small',
+    tag: 'email',
+  },
+  {
+    id: '16',
+    title: 'Астрологическое Бюро Пунита Нахаты',
+    category: 'Вёрстка email-рассылки',
+    image: userRef,
+    year: '2024',
     size: 'small',
     tag: 'email',
   },

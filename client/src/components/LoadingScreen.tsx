@@ -98,9 +98,6 @@ export function LoadingScreen() {
           <span className="font-mono text-sm text-white/60">
             {Math.round(progress)}%
           </span>
-          <h1 className="font-display text-2xl text-white uppercase tracking-tighter mt-2">
-            Загрузка...
-          </h1>
         </div>
       </div>
     </motion.div>

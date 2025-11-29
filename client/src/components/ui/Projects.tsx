@@ -19,12 +19,10 @@ export function Projects() {
     ? projects 
     : projects.filter(p => p.tag === selectedTag);
   
-  const displayedProjects = filteredProjects.slice(currentPage * 4, currentPage * 4 + 4);
+  const displayedProjects = filteredProjects.slice(currentPage * 3, currentPage * 3 + 3);
   const hasPrevPage = currentPage > 0;
-  const hasNextPage = currentPage * 4 + 4 < filteredProjects.length;
-  const totalPages = Math.ceil(filteredProjects.length / 4);
-  const firstHalf = displayedProjects.slice(0, 2);
-  const secondHalf = displayedProjects.slice(2, 4);
+  const hasNextPage = currentPage * 3 + 3 < filteredProjects.length;
+  const totalPages = Math.ceil(filteredProjects.length / 3);
 
   const handleTagChange = (tagId: string) => {
     setSelectedTag(tagId);
@@ -98,17 +96,10 @@ export function Projects() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="space-y-6">
-            {firstHalf.map((project, index) => (
-              <ProjectCard key={project.id} project={project} index={index} displayNumber={currentPage * 4 + index * 2 + 1} />
-            ))}
-          </div>
-          <div className="space-y-6">
-            {secondHalf.map((project, index) => (
-              <ProjectCard key={project.id} project={project} index={index + 2} displayNumber={currentPage * 4 + index * 2 + 2} />
-            ))}
-          </div>
+        <div className="grid grid-cols-3 gap-6">
+          {displayedProjects.map((project, index) => (
+            <ProjectCard key={project.id} project={project} index={index} displayNumber={currentPage * 3 + index + 1} />
+          ))}
         </div>
 
         <div className="mt-12 flex justify-center items-center gap-4">

@@ -76,6 +76,7 @@ export interface Project {
   year: string;
   size: 'small' | 'medium' | 'large';
   tag: 'design' | 'animation' | 'email' | 'websites';
+  url?: string;
 }
 
 export const projects: Project[] = [
@@ -87,6 +88,7 @@ export const projects: Project[] = [
     year: '2024-2025',
     size: 'large',
     tag: 'design',
+    url: 'https://figma.com/project-07',
   },
   {
     id: '06',
@@ -96,6 +98,7 @@ export const projects: Project[] = [
     year: '2024',
     size: 'large',
     tag: 'design',
+    url: 'https://figma.com/project-06',
   },
   {
     id: '05',
@@ -105,6 +108,7 @@ export const projects: Project[] = [
     year: '2023',
     size: 'large',
     tag: 'design',
+    url: 'https://figma.com/project-05',
   },
   {
     id: '04',
@@ -114,6 +118,7 @@ export const projects: Project[] = [
     year: '2023',
     size: 'large',
     tag: 'animation',
+    url: 'https://disk.yandex.ru/project-04',
   },
   {
     id: '03',
@@ -123,6 +128,7 @@ export const projects: Project[] = [
     year: '2022',
     size: 'large',
     tag: 'animation',
+    url: 'https://disk.yandex.ru/project-03',
   },
   {
     id: '02',
@@ -132,6 +138,7 @@ export const projects: Project[] = [
     year: '2021',
     size: 'large',
     tag: 'animation',
+    url: 'https://disk.yandex.ru/project-02',
   },
   {
     id: '01',
@@ -141,6 +148,7 @@ export const projects: Project[] = [
     year: '2021',
     size: 'large',
     tag: 'design',
+    url: 'https://figma.com/project-01',
   },
 ];
 

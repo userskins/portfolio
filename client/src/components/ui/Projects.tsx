@@ -12,12 +12,32 @@ export function Projects() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const isMobile = useIsMobile();
   
+  const baseTagsMap = {
+    'design': 'Дизайн',
+    'animation': 'Анимация',
+    'email': 'Email-рассылки',
+    'websites': 'Сайты',
+  };
+
+  const getTagCount = (tagId: string) => {
+    if (tagId === 'all') return projects.length;
+    return projects.filter(p => p.tag === tagId).length;
+  };
+
+  // Sort tags by count (descending), then alphabetically
+  const sortedTagIds = Object.keys(baseTagsMap)
+    .sort((a, b) => {
+      const countA = getTagCount(a);
+      const countB = getTagCount(b);
+      if (countA !== countB) {
+        return countB - countA; // Higher count first
+      }
+      return baseTagsMap[a as keyof typeof baseTagsMap].localeCompare(baseTagsMap[b as keyof typeof baseTagsMap]); // Alphabetical
+    });
+
   const tags = [
     { id: 'all', label: 'Все проекты' },
-    { id: 'design', label: 'Дизайн' },
-    { id: 'animation', label: 'Анимация' },
-    { id: 'email', label: 'Email-рассылки' },
-    { id: 'websites', label: 'Сайты' },
+    ...sortedTagIds.map(id => ({ id, label: baseTagsMap[id as keyof typeof baseTagsMap] })),
   ];
 
   const filteredProjects = selectedTag === 'all' 
@@ -31,11 +51,6 @@ export function Projects() {
   const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
   const firstHalf = displayedProjects.slice(0, Math.ceil(displayedProjects.length / 2));
   const secondHalf = displayedProjects.slice(Math.ceil(displayedProjects.length / 2));
-
-  const getTagCount = (tagId: string) => {
-    if (tagId === 'all') return projects.length;
-    return projects.filter(p => p.tag === tagId).length;
-  };
 
   const handleTagChange = (tagId: string) => {
     setSelectedTag(tagId);

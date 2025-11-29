@@ -11,14 +11,20 @@ export function Navbar() {
 
   return (
     <nav className="fixed top-0 left-0 w-full z-50 px-6 py-4 flex justify-between items-center bg-background/80 backdrop-blur-sm border-b border-white/10">
+      {/* Desktop Logo */}
       <a 
         href="https://userskins.art"
         target="_blank"
         rel="noreferrer"
-        className="block hover:scale-105 transition-transform"
+        className="hidden md:block hover:scale-105 transition-transform"
       >
         <img src={logo} alt="Logo" className="h-10 w-auto object-contain" />
       </a>
+
+      {/* Mobile Est. Text */}
+      <div className="md:hidden font-mono text-xs text-primary">
+        [EST. 2020]
+      </div>
 
       <div className="hidden md:flex gap-12 font-mono text-sm tracking-widest text-white">
         {navItems.map((item) => (
@@ -34,6 +40,7 @@ export function Navbar() {
         ))}
       </div>
 
+      {/* Desktop Est. Text */}
       <div className="hidden md:block font-mono text-xs text-primary">
         [EST. 2020]
       </div>

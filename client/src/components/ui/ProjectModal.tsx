@@ -25,6 +25,10 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
         return {
           message: 'Переходя по ссылке дальше, вы попадёте на проект, располагающийся на сервисе EmailMaker',
         };
+      case 'websites':
+        return {
+          message: 'Переходя по ссылке дальше, вы откроете сторонний сайт',
+        };
       default:
         return {
           message: 'Переходя по ссылке дальше, вы откроете проект',

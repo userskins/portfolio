@@ -200,7 +200,7 @@ export const projects: Project[] = [
   },
   {
     id: '13',
-    title: 'Профессиии от МЦ МФО',
+    title: 'Профессии от МЦ МФО',
     category: 'Дизайн и вёрстка',
     image: userRef,
     year: '2025',

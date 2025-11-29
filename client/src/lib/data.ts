@@ -80,20 +80,11 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    id: '08',
-    title: '10 лет ИИТММ',
-    category: 'Дизайн-лид',
-    image: userRef,
-    year: '2025',
-    size: 'large',
-    tag: 'design',
-  },
-  {
     id: '07',
-    title: '9 лет ИИТММ',
+    title: '9 и 10 лет ИИТММ',
     category: 'Дизайнер',
     image: userRef,
-    year: '2024',
+    year: '2024-2025',
     size: 'large',
     tag: 'design',
   },

@@ -29,6 +29,11 @@ export function Projects() {
   const firstHalf = displayedProjects.slice(0, Math.ceil(displayedProjects.length / 2));
   const secondHalf = displayedProjects.slice(Math.ceil(displayedProjects.length / 2));
 
+  const getTagCount = (tagId: string) => {
+    if (tagId === 'all') return projects.length;
+    return projects.filter(p => p.tag === tagId).length;
+  };
+
   const handleTagChange = (tagId: string) => {
     setSelectedTag(tagId);
     setCurrentPage(0);
@@ -84,20 +89,26 @@ export function Projects() {
             Projects
           </h3>
           <div className="flex gap-2 flex-wrap">
-            {tags.map((tag) => (
-              <button
-                key={tag.id}
-                onClick={() => handleTagChange(tag.id)}
-                className={`px-4 py-2 border rounded-full text-sm font-mono transition-all ${
-                  selectedTag === tag.id
-                    ? 'border-primary bg-primary/10 text-primary'
-                    : 'border-white/20 text-white/70 hover:border-primary/50 hover:text-primary'
-                }`}
-                data-testid={`button-filter-${tag.id}`}
-              >
-                {tag.label}
-              </button>
-            ))}
+            {tags.map((tag) => {
+              const hasProjects = getTagCount(tag.id) > 0;
+              return (
+                <button
+                  key={tag.id}
+                  onClick={() => handleTagChange(tag.id)}
+                  disabled={!hasProjects}
+                  className={`px-4 py-2 border rounded-full text-sm font-mono transition-all ${
+                    !hasProjects
+                      ? 'border-white/10 text-white/30 cursor-not-allowed opacity-40'
+                      : selectedTag === tag.id
+                        ? 'border-primary bg-primary/10 text-primary'
+                        : 'border-white/20 text-white/70 hover:border-primary/50 hover:text-primary'
+                  }`}
+                  data-testid={`button-filter-${tag.id}`}
+                >
+                  {tag.label}
+                </button>
+              );
+            })}
           </div>
         </div>
 

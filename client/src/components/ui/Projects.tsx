@@ -2,10 +2,12 @@ import { projects } from '@/lib/data';
 import { motion } from 'framer-motion';
 import { ArrowUpRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useState } from 'react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export function Projects() {
   const [selectedTag, setSelectedTag] = useState('all');
   const [currentPage, setCurrentPage] = useState(0);
+  const isMobile = useIsMobile();
   
   const tags = [
     { id: 'all', label: 'Все проекты' },
@@ -19,10 +21,13 @@ export function Projects() {
     ? projects 
     : projects.filter(p => p.tag === selectedTag);
   
-  const displayedProjects = filteredProjects.slice(currentPage * 3, currentPage * 3 + 3);
+  const itemsPerPage = isMobile ? 3 : 4;
+  const displayedProjects = filteredProjects.slice(currentPage * itemsPerPage, currentPage * itemsPerPage + itemsPerPage);
   const hasPrevPage = currentPage > 0;
-  const hasNextPage = currentPage * 3 + 3 < filteredProjects.length;
-  const totalPages = Math.ceil(filteredProjects.length / 3);
+  const hasNextPage = currentPage * itemsPerPage + itemsPerPage < filteredProjects.length;
+  const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
+  const firstHalf = displayedProjects.slice(0, Math.ceil(displayedProjects.length / 2));
+  const secondHalf = displayedProjects.slice(Math.ceil(displayedProjects.length / 2));
 
   const handleTagChange = (tagId: string) => {
     setSelectedTag(tagId);
@@ -96,11 +101,26 @@ export function Projects() {
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-6">
-          {displayedProjects.map((project, index) => (
-            <ProjectCard key={project.id} project={project} index={index} displayNumber={currentPage * 3 + index + 1} />
-          ))}
-        </div>
+        {isMobile ? (
+          <div className="grid grid-cols-1 gap-6">
+            {displayedProjects.map((project, index) => (
+              <ProjectCard key={project.id} project={project} index={index} displayNumber={currentPage * itemsPerPage + index + 1} />
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 gap-6">
+            <div className="space-y-6">
+              {firstHalf.map((project, index) => (
+                <ProjectCard key={project.id} project={project} index={index} displayNumber={currentPage * itemsPerPage + index * 2 + 1} />
+              ))}
+            </div>
+            <div className="space-y-6">
+              {secondHalf.map((project, index) => (
+                <ProjectCard key={project.id} project={project} index={index + Math.ceil(displayedProjects.length / 2)} displayNumber={currentPage * itemsPerPage + index * 2 + 2} />
+              ))}
+            </div>
+          </div>
+        )}
 
         <div className="mt-12 flex justify-center items-center gap-4">
           <button

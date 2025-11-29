@@ -54,7 +54,7 @@ export function Hero() {
         <div className="absolute right-1/4 top-0 h-full w-[1px] bg-white/5" />
       </div>
 
-      <div className="relative z-10 text-center px-4 flex items-center justify-center">
+      <div className="relative z-10 text-center px-4 flex flex-col items-center justify-center gap-8">
         <motion.img
           src={heroLogo}
           alt="Dmitriy Gusev"
@@ -75,6 +75,16 @@ export function Hero() {
           }}
           className="w-full max-w-sm md:max-w-2xl h-auto object-contain cursor-pointer drop-shadow-[0_8px_16px_rgba(239,68,68,0.3)]"
         />
+        
+        {/* Tagline */}
+        <motion.p 
+          className="font-mono text-sm md:text-base text-white/70 tracking-wider"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.6 }}
+        >
+          Дмитрий Гусев — дизайн, email-рассылки, сайты
+        </motion.p>
       </div>
 
       {/* Scroll Indicator */}

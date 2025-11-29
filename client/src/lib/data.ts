@@ -180,6 +180,42 @@ export const projects: Project[] = [
     tag: 'websites',
     url: 'https://bestofirelandawards.ie',
   },
+  {
+    id: '11',
+    title: 'Опен-коллы от Студии Простора',
+    category: 'Дизайн и вёрстка',
+    image: userRef,
+    year: '2025',
+    size: 'small',
+    tag: 'email',
+  },
+  {
+    id: '12',
+    title: 'Полезный кейс от Ingate',
+    category: 'Дизайн и вёрстка',
+    image: userRef,
+    year: '2024',
+    size: 'small',
+    tag: 'email',
+  },
+  {
+    id: '13',
+    title: 'Профессиии от МЦ МФО',
+    category: 'Дизайн и вёрстка',
+    image: userRef,
+    year: '2025',
+    size: 'small',
+    tag: 'email',
+  },
+  {
+    id: '14',
+    title: 'Дайджест новостей Школы дизайна НИУ ВШЭ',
+    category: 'Дизайн и вёрстка',
+    image: userRef,
+    year: '2025',
+    size: 'small',
+    tag: 'email',
+  },
 ];
 
 export interface GalleryImage {

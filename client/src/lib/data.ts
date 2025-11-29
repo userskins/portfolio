@@ -163,7 +163,7 @@ export const projects: Project[] = [
   {
     id: '09',
     title: 'Frankly, My Dear',
-    category: 'Создание и наполнение сайта',
+    category: 'Frankly, My Dear',
     image: userRef,
     year: '2023',
     size: 'large',
@@ -173,12 +173,21 @@ export const projects: Project[] = [
   {
     id: '10',
     title: 'Best of Ireland Awards',
-    category: 'Создание и наполнение сайта',
+    category: 'Frankly, My Dear',
     image: userRef,
     year: '2023',
     size: 'large',
     tag: 'websites',
     url: 'https://bestofirelandawards.ie',
+  },
+  {
+    id: '15',
+    title: 'Образовательный маркетплейс LearnIO',
+    category: 'Frankly, My Dear',
+    image: userRef,
+    year: '2024-2025',
+    size: 'large',
+    tag: 'websites',
   },
   {
     id: '11',

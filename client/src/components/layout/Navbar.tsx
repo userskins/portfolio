@@ -10,39 +10,47 @@ export function Navbar() {
   const navItems = ['CV', 'GALLERY', 'PROJECTS', 'ABOUT', 'CONTACT'];
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 px-6 py-4 flex justify-between items-center bg-background/80 backdrop-blur-sm border-b border-white/10">
-      {/* Desktop Logo */}
-      <a 
-        href="https://userskins.art"
-        target="_blank"
-        rel="noreferrer"
-        className="hidden md:block hover:scale-105 transition-transform"
-      >
-        <img src={logo} alt="Logo" className="h-10 w-auto object-contain" />
-      </a>
+    <nav className="fixed top-0 left-0 w-full z-50 px-6 py-4 bg-background/80 backdrop-blur-sm border-b border-white/10">
+      <div className="flex justify-between items-center h-full">
+        {/* Desktop Logo */}
+        <a 
+          href="https://userskins.art"
+          target="_blank"
+          rel="noreferrer"
+          className="hidden md:block hover:scale-105 transition-transform flex-shrink-0"
+        >
+          <img src={logo} alt="Logo" className="h-10 w-auto object-contain" />
+        </a>
 
-      {/* Mobile Est. Text */}
-      <div className="md:hidden font-mono text-xs text-primary">
-        [EST. 2020]
-      </div>
+        {/* Mobile Est. Text */}
+        <div className="md:hidden font-mono text-xs text-primary flex-1">
+          [EST. 2020]
+        </div>
 
-      <div className="hidden md:flex gap-12 font-mono text-sm tracking-widest text-white">
-        {navItems.map((item) => (
-          <a 
-            key={item} 
-            href={`#${item.toLowerCase()}`}
-            className="relative group overflow-hidden hover:text-primary transition-colors"
-          >
-            <span className="inline-block">
-              {item}
-            </span>
-          </a>
-        ))}
-      </div>
+        {/* Center Text - Desktop */}
+        <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 font-mono text-xs text-white/70 tracking-wider">
+          Дмитрий Гусев — дизайн, email-рассылки, сайты
+        </div>
 
-      {/* Desktop Est. Text */}
-      <div className="hidden md:block font-mono text-xs text-primary">
-        [EST. 2020]
+        {/* Center Nav - Desktop */}
+        <div className="hidden md:flex gap-12 font-mono text-sm tracking-widest text-white">
+          {navItems.map((item) => (
+            <a 
+              key={item} 
+              href={`#${item.toLowerCase()}`}
+              className="relative group overflow-hidden hover:text-primary transition-colors"
+            >
+              <span className="inline-block">
+                {item}
+              </span>
+            </a>
+          ))}
+        </div>
+
+        {/* Desktop Est. Text */}
+        <div className="hidden md:block font-mono text-xs text-primary flex-shrink-0">
+          [EST. 2020]
+        </div>
       </div>
 
       {/* Mobile Menu Button */}

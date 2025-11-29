@@ -3,10 +3,13 @@ import { motion } from 'framer-motion';
 import { ArrowUpRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useState } from 'react';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { ProjectModal } from './ProjectModal';
 
 export function Projects() {
   const [selectedTag, setSelectedTag] = useState('all');
   const [currentPage, setCurrentPage] = useState(0);
+  const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const isMobile = useIsMobile();
   
   const tags = [
@@ -39,14 +42,18 @@ export function Projects() {
     setCurrentPage(0);
   };
 
+  const handleProjectClick = (project: typeof projects[0]) => {
+    setSelectedProject(project);
+    setIsModalOpen(true);
+  };
+
   const ProjectCard = ({ project, index, displayNumber }: { project: typeof projects[0]; index: number; displayNumber: number }) => (
-    <motion.a
-      href="#"
-      onClick={(e) => e.preventDefault()}
+    <motion.button
+      onClick={() => handleProjectClick(project)}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.05, duration: 0.4 }}
-      className="group block p-6 border border-white/10 hover:border-primary/50 transition-all hover:bg-white/5"
+      className="group block w-full text-left p-6 border border-white/10 hover:border-primary/50 transition-all hover:bg-white/5 bg-transparent cursor-pointer"
       data-testid={`link-project-${project.id}`}
     >
       <div className="flex items-start justify-between gap-4 mb-3">
@@ -75,7 +82,7 @@ export function Projects() {
           </span>
         </div>
       </div>
-    </motion.a>
+    </motion.button>
   );
 
   return (
@@ -163,6 +170,8 @@ export function Projects() {
           </button>
         </div>
       </div>
+
+      <ProjectModal project={selectedProject} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </section>
   );
 }

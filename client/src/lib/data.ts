@@ -128,7 +128,7 @@ export const projects: Project[] = [
     year: '2023',
     size: 'large',
     tag: 'animation',
-    url: 'https://disk.yandex.ru/project-04',
+    url: 'https://disk.yandex.ru/i/ZpSR2Or-qZJI-w',
   },
   {
     id: '03',
@@ -138,7 +138,7 @@ export const projects: Project[] = [
     year: '2022',
     size: 'large',
     tag: 'animation',
-    url: 'https://disk.yandex.ru/project-03',
+    url: 'https://disk.yandex.ru/i/UraQKNqJCH7EjQ',
   },
   {
     id: '02',
@@ -148,7 +148,7 @@ export const projects: Project[] = [
     year: '2021',
     size: 'large',
     tag: 'animation',
-    url: 'https://disk.yandex.ru/project-02',
+    url: 'https://disk.yandex.ru/i/ZpSR2Or-qZJI-w',
   },
   {
     id: '01',

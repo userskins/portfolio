@@ -12,14 +12,13 @@ export function Navbar() {
   return (
     <nav className="fixed top-0 left-0 w-full z-50 px-6 py-4 flex justify-between items-center bg-background/80 backdrop-blur-sm border-b border-white/10">
       {/* Desktop Logo */}
-      <a 
-        href="https://userskins.art"
-        target="_blank"
-        rel="noreferrer"
-        className="hidden md:block hover:scale-105 transition-transform"
+      <button 
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        className="hidden md:block hover:scale-105 transition-transform cursor-pointer bg-none border-none p-0"
+        data-testid="button-logo-scroll-top"
       >
         <img src={logo} alt="Logo" className="h-10 w-auto object-contain" />
-      </a>
+      </button>
 
       {/* Mobile Est. Text */}
       <div className="md:hidden font-mono text-xs text-primary">

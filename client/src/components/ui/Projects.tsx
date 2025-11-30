@@ -67,7 +67,7 @@ export function Projects() {
       onClick={() => handleProjectClick(project)}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.05, duration: 0.4 }}
+      transition={{ delay: index * 0.02, duration: 0.2 }}
       className="group block w-full text-left p-6 border border-white/10 hover:border-primary/50 transition-all hover:bg-white/5 bg-transparent cursor-pointer"
       data-testid={`link-project-${project.id}`}
     >

@@ -141,17 +141,10 @@ export function Projects() {
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-2 gap-6">
-            <div className="space-y-6">
-              {firstHalf.map((project, index) => (
-                <ProjectCard key={project.id} project={project} index={index} displayNumber={currentPage * itemsPerPage + index * 2 + 1} />
-              ))}
-            </div>
-            <div className="space-y-6">
-              {secondHalf.map((project, index) => (
-                <ProjectCard key={project.id} project={project} index={index + Math.ceil(displayedProjects.length / 2)} displayNumber={currentPage * itemsPerPage + index * 2 + 2} />
-              ))}
-            </div>
+          <div className="grid grid-cols-2 gap-6 auto-rows-fr">
+            {displayedProjects.map((project, index) => (
+              <ProjectCard key={project.id} project={project} index={index} displayNumber={currentPage * itemsPerPage + index + 1} />
+            ))}
           </div>
         )}
 

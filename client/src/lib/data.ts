@@ -227,7 +227,7 @@ export const projects: Project[] = [
   {
     id: '09',
     title: 'Frankly, My Dear',
-    category: 'Frankly, My Dear',
+    category: 'Дизайн и вёрстка сайта',
     image: userRef,
     year: '2023',
     size: 'large',
@@ -237,7 +237,7 @@ export const projects: Project[] = [
   {
     id: '10',
     title: 'Best of Ireland Awards',
-    category: 'Frankly, My Dear',
+    category: 'Дизайн и вёрстка сайта',
     image: userRef,
     year: '2023',
     size: 'large',

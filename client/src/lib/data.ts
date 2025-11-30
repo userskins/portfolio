@@ -131,6 +131,16 @@ export const projects: Project[] = [
     url: 'https://app.emailmaker.ru/email/1602333/raw?key=8d847fcb21aff222a212c1c92a0c4823',
   },
   {
+    id: '21',
+    title: 'Знакомство с платформой mediiia',
+    category: 'Вёрстка рассылки',
+    image: userRef,
+    year: '2025',
+    size: 'small',
+    tag: 'email',
+    url: 'https://app.emailmaker.ru/email/1602329/raw?key=260f32eb62ae102b372f6eba5975dabc',
+  },
+  {
     id: '17',
     title: 'День победы в Сириусе',
     category: 'Дизайн и вёрстка сайта',
@@ -279,16 +289,6 @@ export const projects: Project[] = [
     size: 'large',
     tag: 'design',
     url: 'https://www.figma.com/design/VA2U2Y2Q14OndOwQEDxu8Z/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B-%D0%B4%D0%BB%D1%8F-%D0%BF%D0%BE%D1%80%D1%82%D1%84%D0%BE%D0%BB%D0%B8%D0%BE--%D0%9B%D0%B8%D1%87%D0%BD%D1%8B%D0%B5-?node-id=1-2&t=7sPoHRwivyPx69oK-1',
-  },
-  {
-    id: '21',
-    title: 'Знакомство с платформой mediiia',
-    category: 'Вёрстка рассылки',
-    image: userRef,
-    year: '2025',
-    size: 'small',
-    tag: 'email',
-    url: 'https://app.emailmaker.ru/email/1602329/raw?key=260f32eb62ae102b372f6eba5975dabc',
   },
 ];
 

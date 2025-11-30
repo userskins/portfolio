@@ -51,11 +51,18 @@ export function Footer() {
           </div>
 
           <div className="flex-shrink-0">
-            <img
-              src={logo}
-              alt="Logo"
-              className="w-64 md:w-96 h-auto object-contain opacity-80 hover:opacity-100 transition-opacity transform rotate-3"
-            />
+            <a
+              href="https://instagram.com/userskins"
+              target="_blank"
+              rel="noreferrer"
+              data-testid="link-instagram-logo"
+            >
+              <img
+                src={logo}
+                alt="Logo"
+                className="w-64 md:w-96 h-auto object-contain opacity-80 hover:opacity-100 transition-opacity transform rotate-3 cursor-pointer"
+              />
+            </a>
           </div>
         </div>
       </div>

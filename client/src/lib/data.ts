@@ -93,7 +93,7 @@ export const projects: Project[] = [
   {
     id: '15',
     title: 'Образовательный маркетплейс LearnIO',
-    category: 'Frankly, My Dear',
+    category: 'Дизайн и вёрстка сайта',
     image: userRef,
     year: '2024-2025',
     size: 'large',

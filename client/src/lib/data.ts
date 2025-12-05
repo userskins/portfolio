@@ -188,7 +188,7 @@ export const projects: Project[] = [
     year: '2024',
     size: 'large',
     tag: 'design',
-    url: 'https://www.figma.com/design/VA2U2Y2Q14OndOwQEDxu8Z/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B-%D0%B4%D0%BB%D1%8F-%D0%BF%D0%BE%D1%80%D1%82%D1%84%D0%BE%D0%BB%D0%B8%D0%BE--%D0%9B%D0%B8%D1%87%D0%BD%D1%8B%D0%B5-?node-id=0-1',
+    url: 'https://www.figma.com/proto/VA2U2Y2Q14OndOwQEDxu8Z/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B-%D0%B4%D0%BB%D1%8F-%D0%BF%D0%BE%D1%80%D1%82%D1%84%D0%BE%D0%BB%D0%B8%D0%BE--%D0%A7%D0%B0%D1%81%D1%82%D1%8C-2-?page-id=0%3A1&node-id=19-216&viewport=522%2C45%2C0.18&t=BXALDDBlHYvR0jmP-1&scaling=scale-down-width&content-scaling=fixed',
   },
   {
     id: '20',

@@ -46,7 +46,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
             </div>
 
             <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-              <h3 className="font-display text-2xl md:text-4xl font-bold text-white mb-2 group-hover:text-primary transition-colors">
+              <h3 
+                style={{ fontFamily: 'Comic Relief, cursive' }}
+                className="text-2xl md:text-4xl font-bold text-white mb-2 group-hover:text-primary transition-colors"
+              >
                 {project.title}
               </h3>
               <p className="font-mono text-xs text-white/60 uppercase tracking-wider">

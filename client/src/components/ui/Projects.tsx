@@ -81,7 +81,10 @@ export function Projects() {
           strokeWidth={1.5}
         />
       </div>
-      <h4 className="text-white group-hover:text-primary transition-colors mb-3 uppercase font-bold text-sm">
+      <h4 
+        style={{ fontFamily: 'Comic Relief, cursive' }}
+        className="text-white group-hover:text-primary transition-colors mb-3 uppercase font-bold text-sm"
+      >
         {project.title}
       </h4>
       <div className="space-y-2">

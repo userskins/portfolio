@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { galleryImages } from '@/lib/data';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
@@ -18,9 +18,69 @@ const smartShuffle = (images: typeof galleryImages) => {
   return shuffled;
 };
 
+// Lazy loading image component with skeleton
+function LazyImage({ 
+  src, 
+  alt, 
+  className, 
+  onClick 
+}: { 
+  src: string; 
+  alt: string; 
+  className?: string;
+  onClick?: () => void;
+}) {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [isInView, setIsInView] = useState(false);
+  const imgRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '200px' }
+    );
+
+    if (imgRef.current) {
+      observer.observe(imgRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <button
+      ref={imgRef}
+      onClick={onClick}
+      className="relative flex-shrink-0 h-80 md:h-96 overflow-hidden group cursor-pointer bg-black/60 flex items-center justify-center rounded-sm min-w-[200px]"
+    >
+      {!isLoaded && (
+        <div className="absolute inset-0 bg-white/5 animate-pulse rounded-sm" />
+      )}
+      {isInView && (
+        <img
+          src={src}
+          alt={alt}
+          loading="lazy"
+          onLoad={() => setIsLoaded(true)}
+          className={`h-full w-auto object-contain transition-all duration-500 group-hover:scale-105 ${
+            isLoaded ? 'opacity-100' : 'opacity-0'
+          }`}
+        />
+      )}
+      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300 rounded-sm" />
+    </button>
+  );
+}
+
 export function Gallery() {
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [shuffledImages] = useState(() => smartShuffle(galleryImages));
+  const [modalImageLoaded, setModalImageLoaded] = useState(false);
   
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
   const [canScrollPrev, setCanScrollPrev] = useState(false);
@@ -75,12 +135,14 @@ export function Gallery() {
   const selectedImage = shuffledImages.find(img => img.id === selectedId);
 
   const goToPrevious = () => {
+    setModalImageLoaded(false);
     const currentIndex = shuffledImages.findIndex(img => img.id === selectedId);
     const newIndex = currentIndex === 0 ? shuffledImages.length - 1 : currentIndex - 1;
     setSelectedId(shuffledImages[newIndex].id);
   };
 
   const goToNext = () => {
+    setModalImageLoaded(false);
     const currentIndex = shuffledImages.findIndex(img => img.id === selectedId);
     const newIndex = (currentIndex + 1) % shuffledImages.length;
     setSelectedId(shuffledImages[newIndex].id);
@@ -99,19 +161,15 @@ export function Gallery() {
         <div className="overflow-hidden" ref={emblaRef}>
           <div className="flex gap-3">
             {shuffledImages.map((image) => (
-              <button
+              <LazyImage
                 key={image.id}
-                onClick={() => setSelectedId(image.id)}
-                data-testid={`gallery-image-${image.id}`}
-                className="relative flex-shrink-0 h-80 md:h-96 overflow-hidden group cursor-pointer bg-black/60 flex items-center justify-center rounded-sm"
-              >
-                <img
-                  src={image.src}
-                  alt={`Gallery ${image.id}`}
-                  className="h-full w-auto object-contain transition-transform duration-300 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300 rounded-sm" />
-              </button>
+                src={image.src}
+                alt={`Gallery ${image.id}`}
+                onClick={() => {
+                  setModalImageLoaded(false);
+                  setSelectedId(image.id);
+                }}
+              />
             ))}
             <div className="flex-shrink-0 w-3" />
           </div>
@@ -164,13 +222,21 @@ export function Gallery() {
 
           {/* Image Container */}
           <div
-            className="w-full h-full flex items-center justify-center"
+            className="w-full h-full flex items-center justify-center relative"
             onClick={(e) => e.stopPropagation()}
           >
+            {!modalImageLoaded && (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-10 h-10 border-2 border-white/20 border-t-white/80 rounded-full animate-spin" />
+              </div>
+            )}
             <img
               src={selectedImage.src}
               alt={`Gallery ${selectedImage.id}`}
-              className="max-w-full max-h-full object-contain"
+              onLoad={() => setModalImageLoaded(true)}
+              className={`max-w-full max-h-full object-contain transition-opacity duration-300 ${
+                modalImageLoaded ? 'opacity-100' : 'opacity-0'
+              }`}
             />
           </div>
 

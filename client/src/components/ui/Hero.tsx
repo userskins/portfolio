@@ -63,11 +63,15 @@ export function Hero() {
             x: 0,
             y: 0
           }}
+          animate={{
+            y: [0, -8, 0]
+          }}
           transition={{ 
-            duration: 0.3,
-            type: "spring",
-            stiffness: 150,
-            damping: 35
+            y: {
+              duration: 4,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }
           }}
           whileHover={{ 
             rotate: 3,

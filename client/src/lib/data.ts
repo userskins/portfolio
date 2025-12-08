@@ -1,6 +1,9 @@
 import userRef from '@assets/logo.webp';
 
 import gallery1 from '@assets/gallery/1.webp';
+import gallery2 from '@assets/gallery/2.webp';
+import gallery3 from '@assets/gallery/3.webp';
+import gallery4 from '@assets/gallery/4.webp';
 import gallery5 from '@assets/gallery/5.webp';
 import gallery6 from '@assets/gallery/6.webp';
 import gallery7 from '@assets/gallery/7.webp';
@@ -10,7 +13,9 @@ import gallery10 from '@assets/gallery/10.webp';
 import gallery11 from '@assets/gallery/11.webp';
 import gallery12 from '@assets/gallery/12.webp';
 import gallery13 from '@assets/gallery/13.webp';
+import gallery14 from '@assets/gallery/14.webp';
 import gallery15 from '@assets/gallery/15.webp';
+import gallery16 from '@assets/gallery/16.webp';
 import gallery17 from '@assets/gallery/17.webp';
 import gallery18 from '@assets/gallery/18.webp';
 import gallery19 from '@assets/gallery/19.webp';
@@ -35,6 +40,26 @@ import gallery37 from '@assets/gallery/37.webp';
 import gallery38 from '@assets/gallery/38.webp';
 import gallery39 from '@assets/gallery/39.webp';
 import gallery40 from '@assets/gallery/40.webp';
+import gallery41 from '@assets/gallery/41.webp';
+import gallery42 from '@assets/gallery/42.webp';
+import gallery43 from '@assets/gallery/43.webp';
+import gallery44 from '@assets/gallery/44.webp';
+import gallery45 from '@assets/gallery/45.webp';
+import gallery46 from '@assets/gallery/46.webp';
+import gallery47 from '@assets/gallery/47.webp';
+import gallery48 from '@assets/gallery/48.webp';
+import gallery49 from '@assets/gallery/49.webp';
+import gallery50 from '@assets/gallery/50.webp';
+import gallery51 from '@assets/gallery/51.webp';
+import gallery52 from '@assets/gallery/52.webp';
+import gallery53 from '@assets/gallery/53.webp';
+import gallery54 from '@assets/gallery/54.webp';
+import gallery55 from '@assets/gallery/55.webp';
+import gallery56 from '@assets/gallery/56.webp';
+import gallery57 from '@assets/gallery/57.webp';
+import gallery58 from '@assets/gallery/58.webp';
+import gallery59 from '@assets/gallery/59.webp';
+import gallery60 from '@assets/gallery/60.webp';
 import gallery61 from '@assets/gallery/61.webp';
 import gallery62 from '@assets/gallery/62.webp';
 import gallery63 from '@assets/gallery/63.webp';
@@ -44,31 +69,6 @@ import gallery66 from '@assets/gallery/66.webp';
 import gallery67 from '@assets/gallery/67.webp';
 import gallery68 from '@assets/gallery/68.webp';
 import gallery69 from '@assets/gallery/69.webp';
-import gallery70 from '@assets/gallery/70.webp';
-import gallery71 from '@assets/gallery/71.webp';
-import gallery72 from '@assets/gallery/72.webp';
-import gallery73 from '@assets/gallery/73.webp';
-import gallery74 from '@assets/gallery/74.webp';
-import gallery75 from '@assets/gallery/75.webp';
-import gallery76 from '@assets/gallery/76.webp';
-import gallery77 from '@assets/gallery/77.webp';
-import gallery78 from '@assets/gallery/78.webp';
-import gallery79 from '@assets/gallery/79.webp';
-import gallery80 from '@assets/gallery/80.webp';
-import gallery81 from '@assets/gallery/81.webp';
-import gallery82 from '@assets/gallery/82.webp';
-import gallery83 from '@assets/gallery/83.webp';
-import gallery84 from '@assets/gallery/84.webp';
-import gallery85 from '@assets/gallery/85.webp';
-import gallery86 from '@assets/gallery/86.webp';
-import gallery87 from '@assets/gallery/87.webp';
-import gallery88 from '@assets/gallery/88.webp';
-import gallery89 from '@assets/gallery/89.webp';
-import gallery90 from '@assets/gallery/90.webp';
-import gallery91 from '@assets/gallery/91.webp';
-import gallery92 from '@assets/gallery/92.webp';
-import gallery93 from '@assets/gallery/93.webp';
-import gallery94 from '@assets/gallery/94.webp';
 
 export interface Project {
   id: string;
@@ -301,6 +301,9 @@ export interface GalleryImage {
 
 export const galleryImages: GalleryImage[] = [
   { id: 1, src: gallery1 },
+  { id: 2, src: gallery2 },
+  { id: 3, src: gallery3 },
+  { id: 4, src: gallery4 },
   { id: 5, src: gallery5 },
   { id: 6, src: gallery6 },
   { id: 7, src: gallery7 },
@@ -310,7 +313,9 @@ export const galleryImages: GalleryImage[] = [
   { id: 11, src: gallery11 },
   { id: 12, src: gallery12 },
   { id: 13, src: gallery13 },
+  { id: 14, src: gallery14 },
   { id: 15, src: gallery15 },
+  { id: 16, src: gallery16 },
   { id: 17, src: gallery17 },
   { id: 18, src: gallery18 },
   { id: 19, src: gallery19 },
@@ -335,6 +340,26 @@ export const galleryImages: GalleryImage[] = [
   { id: 38, src: gallery38 },
   { id: 39, src: gallery39 },
   { id: 40, src: gallery40 },
+  { id: 41, src: gallery41 },
+  { id: 42, src: gallery42 },
+  { id: 43, src: gallery43 },
+  { id: 44, src: gallery44 },
+  { id: 45, src: gallery45 },
+  { id: 46, src: gallery46 },
+  { id: 47, src: gallery47 },
+  { id: 48, src: gallery48 },
+  { id: 49, src: gallery49 },
+  { id: 50, src: gallery50 },
+  { id: 51, src: gallery51 },
+  { id: 52, src: gallery52 },
+  { id: 53, src: gallery53 },
+  { id: 54, src: gallery54 },
+  { id: 55, src: gallery55 },
+  { id: 56, src: gallery56 },
+  { id: 57, src: gallery57 },
+  { id: 58, src: gallery58 },
+  { id: 59, src: gallery59 },
+  { id: 60, src: gallery60 },
   { id: 61, src: gallery61 },
   { id: 62, src: gallery62 },
   { id: 63, src: gallery63 },
@@ -344,31 +369,6 @@ export const galleryImages: GalleryImage[] = [
   { id: 67, src: gallery67 },
   { id: 68, src: gallery68 },
   { id: 69, src: gallery69 },
-  { id: 70, src: gallery70 },
-  { id: 71, src: gallery71 },
-  { id: 72, src: gallery72 },
-  { id: 73, src: gallery73 },
-  { id: 74, src: gallery74 },
-  { id: 75, src: gallery75 },
-  { id: 76, src: gallery76 },
-  { id: 77, src: gallery77 },
-  { id: 78, src: gallery78 },
-  { id: 79, src: gallery79 },
-  { id: 80, src: gallery80 },
-  { id: 81, src: gallery81 },
-  { id: 82, src: gallery82 },
-  { id: 83, src: gallery83 },
-  { id: 84, src: gallery84 },
-  { id: 85, src: gallery85 },
-  { id: 86, src: gallery86 },
-  { id: 87, src: gallery87 },
-  { id: 88, src: gallery88 },
-  { id: 89, src: gallery89 },
-  { id: 90, src: gallery90 },
-  { id: 91, src: gallery91 },
-  { id: 92, src: gallery92 },
-  { id: 93, src: gallery93 },
-  { id: 94, src: gallery94 },
 ];
 
 // Shuffle gallery images on initialization

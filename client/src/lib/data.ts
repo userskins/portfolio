@@ -67,6 +67,8 @@ import gallery89 from '@assets/gallery/89.webp';
 import gallery90 from '@assets/gallery/90.webp';
 import gallery91 from '@assets/gallery/91.webp';
 import gallery92 from '@assets/gallery/92.webp';
+import gallery93 from '@assets/gallery/93.webp';
+import gallery94 from '@assets/gallery/94.webp';
 
 export interface Project {
   id: string;
@@ -365,6 +367,8 @@ export const galleryImages: GalleryImage[] = [
   { id: 90, src: gallery90 },
   { id: 91, src: gallery91 },
   { id: 92, src: gallery92 },
+  { id: 93, src: gallery93 },
+  { id: 94, src: gallery94 },
 ];
 
 // Shuffle gallery images on initialization

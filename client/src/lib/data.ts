@@ -40,7 +40,6 @@ import gallery37 from '@assets/gallery/37.webp';
 import gallery38 from '@assets/gallery/38.webp';
 import gallery39 from '@assets/gallery/39.webp';
 import gallery40 from '@assets/gallery/40.webp';
-import gallery41 from '@assets/gallery/41.webp';
 import gallery42 from '@assets/gallery/42.webp';
 import gallery43 from '@assets/gallery/43.webp';
 import gallery44 from '@assets/gallery/44.webp';
@@ -132,7 +131,7 @@ export const projects: Project[] = [
     tag: 'email',
     url: 'https://app.emailmaker.ru/email/1583930/raw?key=519cfb50b4e0b1028767a317a095a855',
   },
-  {
+  /*{
     id: '13',
     title: 'Профессии от МЦ МФО',
     category: 'Дизайн и вёрстка email-рассылки',
@@ -141,7 +140,7 @@ export const projects: Project[] = [
     size: 'small',
     tag: 'email',
     url: 'https://app.emailmaker.ru/email/1602326/raw?key=b9d977f6a3c4d971896b9ad88fc3b501',
-  },
+  },*/
   {
     id: '14',
     title: 'Дайджест новостей Школы дизайна НИУ ВШЭ',

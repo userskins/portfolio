@@ -1,6 +1,7 @@
 
 import { motion } from "framer-motion";
 import { useState, useRef } from "react";
+import noiseTexture from '@assets/generated_images/dark_digital_noise_texture.png';
 import heroLogo from '@assets/hero-logo.webp';
 
 export function Hero() {
@@ -41,8 +42,8 @@ export function Hero() {
     >
       {/* Background Noise */}
       <div 
-        /*className="absolute inset-0 opacity-20 pointer-events-none mix-blend-overlay"
-        style={{ backgroundImage: `url(${noiseTexture})` }}*/
+        className="absolute inset-0 opacity-20 pointer-events-none mix-blend-overlay"
+        style={{ backgroundImage: `url(${noiseTexture})` }}
       />
       
       {/* Floating Grid Lines */}

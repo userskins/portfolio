@@ -1,7 +1,6 @@
 
 import { motion } from "framer-motion";
 import { useState, useRef } from "react";
-import noiseTexture from '@assets/generated_images/dark_digital_noise_texture.webp';
 import heroLogo from '@assets/hero-logo.webp';
 
 export function Hero() {

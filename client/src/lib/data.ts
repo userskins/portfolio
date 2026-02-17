@@ -40,6 +40,7 @@ import gallery37 from '@assets/gallery/37.webp';
 import gallery38 from '@assets/gallery/38.webp';
 import gallery39 from '@assets/gallery/39.webp';
 import gallery40 from '@assets/gallery/40.webp';
+import gallery41 from '@assets/gallery/42.webp';
 import gallery42 from '@assets/gallery/42.webp';
 import gallery43 from '@assets/gallery/43.webp';
 import gallery44 from '@assets/gallery/44.webp';

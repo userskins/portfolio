@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: creative-chaos-studio-preview
+  group: creative-chaos-isolated-preview
   cancel-in-progress: true
 
 jobs:
@@ -34,9 +34,9 @@ jobs:
         run: npm run check
 
       - name: Build isolated preview for /studio/
-        run: npx vite build --base=/studio/
+        run: npx vite build --base=/creative-chaos/
 
-      - name: Deploy ONLY preview folder on SpaceWeb
+      - name: Deploy ONLY creative-chaos preview folder on SpaceWeb
         uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         env:
           NODE_OPTIONS: "--dns-result-order=ipv4first --no-network-family-autoselection"
@@ -48,5 +48,5 @@ jobs:
           port: 21
           security: strict
           local-dir: ./dist/public/
-          server-dir: ./public_html/studio/
+          server-dir: ./public_html/creative-chaos/
           dry-run: false

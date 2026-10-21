@@ -23,7 +23,7 @@ const box=await page.locator('[data-folder="design"]').boundingBox();
 await page.mouse.move(box.x+80,box.y+100);await page.mouse.down();
 await page.mouse.move(box.x+125,box.y+130,{steps:12});await page.mouse.up();await page.waitForTimeout(400);
 assert.equal(await page.locator('[role="dialog"]').count(),0);
-await page.locator('.desk-bottomline button').click();await page.waitForTimeout(1000);
+await page.getByRole('button',{name:'Собрать стол'}).click();await page.waitForTimeout(1000);
 await page.locator('[data-folder="email"]').focus();await page.keyboard.press('Enter');await page.waitForTimeout(600);
 assert.equal(await page.locator('[role="dialog"]').count(),1);
 await page.keyboard.press('Tab');

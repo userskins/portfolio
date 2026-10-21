@@ -3,7 +3,7 @@ import { AnimatePresence, motion, useDragControls, useReducedMotion } from "fram
 import { ArrowUpRight, ChevronLeft, ChevronRight, FolderOpen, Grip, MonitorPlay, X } from "lucide-react";
 import { projects, type Project } from "@/lib/data";
 import { useIsMobile } from "@/hooks/use-mobile";
-import noiseTexture from "@assets/generated_images/dark_digital_noise_texture.png";
+import "./ProjectsWorkspace.css";
 
 type FolderId = "websites" | "design" | "email" | "animation" | "all";
 
@@ -22,13 +22,15 @@ const extensions: Record<Project["tag"], string> = {
   animation: ".MOV",
 };
 
-function FolderIcon({ active, number }: { active: boolean; number: string }) {
+function FolderIcon({ number }: { number: string }) {
   return (
-    <div className="relative h-[53px] w-[72px] transition-transform duration-300 group-hover:-rotate-6 group-hover:-translate-y-1">
-      <div className={`absolute left-1 top-0 h-4 w-9 border-2 border-black ${active ? "bg-primary" : "bg-white"}`} />
-      <div className={`absolute inset-x-0 bottom-0 top-3 -skew-x-3 border-2 border-black shadow-[4px_4px_0px_#ff0000] ${active ? "bg-primary" : "bg-[#ededeb]"}`} />
-      <span className="absolute left-3 top-5 font-mono text-[12px] font-bold text-black">{number}</span>
-      <span className="absolute right-3 top-5 font-mono text-xl leading-none text-black">↗</span>
+    <div className="dg-folder-art" aria-hidden="true">
+      <div className="dg-folder-sheet">
+        <span className="font-mono text-[8px] font-bold tracking-widest text-black/55">ARCHIVE</span>
+        <span className="mt-1 h-[2px] w-8 bg-primary" />
+      </div>
+      <div className="dg-folder-pocket" />
+      <span className="dg-folder-number">{number}</span>
     </div>
   );
 }
@@ -174,21 +176,25 @@ export function Projects() {
 
         <div
           ref={desktopRef}
-          className="relative isolate overflow-hidden border-2 border-white/20 bg-[#0b0b0b] shadow-[0_30px_90px_rgba(0,0,0,.4)]"
+          className="dg-desk relative isolate overflow-hidden"
         >
-          <div className="pointer-events-none absolute inset-0 opacity-[.18]" style={{
-            backgroundImage: `linear-gradient(rgba(255,255,255,.09) 1px, transparent 1px), linear-gradient(90deg,rgba(255,255,255,.09) 1px,transparent 1px), url("${noiseTexture}")`,
-            backgroundSize: "72px 72px, 72px 72px, 440px 440px",
-          }} />
+          <div aria-hidden="true" className="dg-desk-folio">DG//26</div>
 
-          <div className="relative z-10 flex min-h-12 items-center justify-between gap-3 border-b border-white/20 bg-black/80 px-4 font-mono text-[10px] uppercase tracking-widest text-white/70 sm:px-6">
-            <span><span className="mr-2 inline-block h-2 w-2 bg-primary" /> USK / WORKSPACE</span>
-            <span className="hidden sm:inline">DRAG • CLICK • EXPLORE</span>
-            <span className="text-primary">DG_OS / 2026</span>
+          <div className="dg-desk-bar flex min-h-14 items-center justify-between gap-3 px-4 py-3 font-mono text-[10px] font-bold uppercase tracking-[.09em] sm:px-7 sm:text-xs">
+            <span className="flex items-center gap-2">
+              <span className="inline-block h-3 w-3 bg-primary" />
+              USER SKINS <span className="hidden sm:inline text-black/35">// INTERACTIVE ARCHIVE</span>
+            </span>
+            <span className="hidden md:inline text-black/40">MOVE / CLICK / OPEN</span>
+            <span className="border border-black px-2 py-1 text-[10px]">DESK / 26</span>
           </div>
 
-          <div className="relative z-10 grid gap-7 p-4 pb-10 pt-8 sm:p-7 lg:min-h-[710px] lg:grid-cols-[154px_minmax(0,1fr)] lg:gap-8">
-            <div aria-label="Папки проектов" className="grid grid-cols-3 gap-4 self-start sm:grid-cols-5 lg:grid-cols-1 lg:gap-5">
+          <div className="dg-desk-grid grid gap-8 p-4 pb-14 pt-7 sm:p-8 sm:pb-14 lg:min-h-[735px] lg:grid-cols-[244px_minmax(0,1fr)] lg:gap-10 lg:px-9">
+            <aside className="dg-desk-left relative min-w-0 self-start">
+              <div className="mb-5 flex flex-wrap items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-wider text-black/55">
+                <span className="dg-desk-small-rule" /> 01 / SELECT FOLDER
+              </div>
+              <div aria-label="Папки проектов" className="grid grid-cols-3 gap-x-2 gap-y-4 sm:grid-cols-5 lg:grid-cols-2 lg:gap-x-3 lg:gap-y-8">
               {folders.map((item, index) => {
                 const count = item.id === "all" ? projects.length : projects.filter((project) => project.tag === item.id).length;
                 const active = activeFolder === item.id;
@@ -199,19 +205,35 @@ export function Projects() {
                     onClick={() => selectFolder(item.id)}
                     aria-pressed={active}
                     data-testid={`folder-${item.id}`}
-                    className={`group flex flex-col items-center gap-2 p-1 text-center outline-offset-4 transition-opacity hover:opacity-100 lg:items-start lg:text-left ${active ? "opacity-100" : "opacity-80"}`}
+                    data-active={active}
+                    className="dg-desk-folder group"
                   >
-                    <FolderIcon active={active} number={String(index + 1).padStart(2, "0")} />
-                    <span className={`font-mono text-[10px] font-bold leading-tight sm:text-[11px] ${active ? "text-primary" : "text-white"}`}>
-                      {item.filename}<span className="text-white/50">{item.extension}</span>
+                    <FolderIcon number={String(index + 1).padStart(2, "0")} />
+                    <span className={`block font-mono text-[10px] font-bold leading-tight sm:text-[11px] ${active ? "text-[#f00000]" : "text-[#111]"}`}>
+                      {item.filename}<span className="text-black/45">{item.extension}</span>
                     </span>
-                    <span className="font-mono text-[10px] text-white/45">
+                    <span className="block font-mono text-[10px] text-black/50">
                       {count} {count === 1 ? "файл" : "файлов"}
+                    </span>
+                    <span className="dg-folder-tooltip">
+                      <strong>{item.label.toUpperCase()} / {count} FILES</strong>
+                      {(item.id === "all" ? projects : projects.filter((project) => project.tag === item.id))
+                        .slice(0, 2)
+                        .map((project) => (
+                          <span key={project.id} className="block truncate">{project.title}</span>
+                        ))}
                     </span>
                   </button>
                 );
               })}
-            </div>
+              </div>
+              <div className="mt-6 hidden lg:flex flex-col items-start gap-7">
+                <span className="dg-desk-sticker">HANDLE WITH<br />CREATIVITY ↗</span>
+                <p className="max-w-[205px] border-l-2 border-black pl-3 font-mono text-[10px] leading-relaxed text-black/55">
+                  КЛИКНИ ПО ПАПКЕ.<br />ВЫБЕРИ ФАЙЛ.<br />ЛИСТАЙ СВОЙ КАТАЛОГ.
+                </p>
+              </div>
+            </aside>
 
             <div className="relative min-w-0 self-start">
               <AnimatePresence mode="wait">
@@ -227,7 +249,7 @@ export function Projects() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, scale: .97 }}
                     transition={{ duration: .22 }}
-                    className="relative z-20 border-2 border-white bg-[#f0eee7] text-black shadow-[9px_9px_0px_#ff0000] sm:shadow-[13px_13px_0px_#ff0000]"
+                    className="dg-desk-window relative z-20"
                     onKeyDown={(event) => {
                       if (event.target !== event.currentTarget) return;
                       if (event.key === "ArrowRight") navigate(1);
@@ -238,9 +260,9 @@ export function Projects() {
                     role="region"
                     aria-label="Окно просмотра проектов"
                   >
-                    <div className="flex min-h-12 items-center gap-2 border-b-2 border-black bg-[#f0eee7] px-3 py-2 sm:px-4">
+                    <div className="dg-window-bar flex min-h-14 items-center gap-2 px-3 py-2 sm:px-5">
                       <span className="h-3 w-3 shrink-0 rounded-full bg-primary" />
-                      <span className="h-3 w-3 shrink-0 rounded-full border border-black bg-white" />
+                      <span className="h-3 w-3 shrink-0 rounded-full border border-white/60 bg-[#fafafa]" />
                       <span className="min-w-0 flex-1 truncate font-mono text-[10px] font-bold uppercase tracking-wide sm:text-xs">
                         DG / {folder.filename} / {visible.length} FILES
                       </span>
@@ -249,7 +271,7 @@ export function Projects() {
                         onPointerDown={(event) => { if (!isMobile) dragControls.start(event); }}
                         title="Перетащить окно"
                         aria-label="Перетащить окно"
-                        className="hidden cursor-grab border border-black/30 p-1.5 hover:bg-primary active:cursor-grabbing lg:inline-flex"
+                        className="hidden cursor-grab border border-white/50 p-1.5 hover:bg-primary hover:text-black active:cursor-grabbing lg:inline-flex"
                       >
                         <Grip size={16} />
                       </button>
@@ -257,14 +279,14 @@ export function Projects() {
                         type="button"
                         onClick={() => setWindowOpen(false)}
                         aria-label="Закрыть окно"
-                        className="border border-black bg-black p-1.5 text-white hover:bg-primary hover:text-black"
+                        className="border border-white/50 bg-[#f40000] p-1.5 text-white hover:bg-white hover:text-black"
                       >
                         <X size={16} />
                       </button>
                     </div>
 
                     <div className="grid min-w-0 lg:grid-cols-[36%_minmax(0,1fr)]">
-                      <div className="min-w-0 border-b-2 border-black lg:border-b-0 lg:border-r-2">
+                      <div className="dg-window-list min-w-0 border-b-2 border-black lg:border-b-0 lg:border-r-2">
                         <div className="flex items-center justify-between gap-2 border-b border-black/20 px-4 py-3 font-mono text-[10px] font-bold uppercase sm:px-5">
                           <span>FILES / {folder.filename}</span>
                           <span>{visible.length} ITEMS</span>
@@ -296,7 +318,7 @@ export function Projects() {
                         </div>
                       </div>
 
-                      <div className="min-w-0 p-4 sm:p-6">
+                      <div className="dg-window-preview min-w-0 p-4 sm:p-6">
                         {activeProject && (
                           <>
                             <div className="mb-4 flex flex-wrap items-center justify-between gap-2 border-b border-black/20 pb-4">
@@ -362,17 +384,17 @@ export function Projects() {
                     key="closed-window"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="flex min-h-[430px] flex-col items-center justify-center border border-dashed border-white/40 p-8 text-center text-white"
+                    className="flex min-h-[470px] flex-col items-center justify-center border-2 border-dashed border-black/30 bg-white/70 p-8 text-center text-black"
                   >
                     <FolderOpen size={60} strokeWidth={1} className="mb-5 text-primary" />
                     <p className="font-display text-3xl uppercase">Папка закрыта</p>
-                    <p className="mt-3 max-w-xs font-mono text-xs leading-relaxed text-white/55">
+                    <p className="mt-3 max-w-xs font-mono text-xs leading-relaxed text-black/55">
                       Нажмите на папку слева или откройте рабочее окно снова.
                     </p>
                     <button
                       onClick={() => setWindowOpen(true)}
                       type="button"
-                      className="mt-6 flex items-center gap-2 border-2 border-primary px-5 py-3 font-mono text-xs font-bold uppercase text-primary hover:bg-primary hover:text-black"
+                      className="mt-6 flex items-center gap-2 border-2 border-black bg-black px-5 py-3 font-mono text-xs font-bold uppercase text-white hover:bg-primary hover:text-black"
                     >
                       <MonitorPlay size={16} /> Открыть окно
                     </button>
@@ -382,13 +404,13 @@ export function Projects() {
               <span
                 aria-hidden="true"
                 style={{ fontFamily: "'Permanent Marker', cursive" }}
-                className="pointer-events-none absolute -bottom-10 right-4 hidden -rotate-6 text-xl text-primary/80 lg:block"
+                className="pointer-events-none absolute -bottom-9 right-1 hidden -rotate-6 text-xl text-primary lg:block"
               >
                 click / explore ↗
               </span>
             </div>
           </div>
-          <div className="relative z-10 flex flex-wrap justify-between gap-3 border-t border-white/15 bg-black/70 px-4 py-3 font-mono text-[10px] uppercase tracking-wider text-white/50 sm:px-6">
+          <div className="dg-desk-bottom relative flex flex-wrap justify-between gap-3 px-4 py-4 font-mono text-[10px] font-bold uppercase tracking-wider sm:px-7">
             <span>DESKTOP // USER: SKINS</span>
             <span>ALL WORKS © 2026</span>
           </div>

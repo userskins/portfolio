@@ -68,7 +68,7 @@ export function Projects() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.02, duration: 0.2 }}
-      className="group block w-full text-left p-6 border border-white/10 hover:border-primary/50 transition-all hover:bg-white/5 bg-transparent cursor-pointer"
+      className="group block w-full min-h-[230px] text-left p-7 rounded-[1.5rem] border border-white/10 hover:border-primary/50 transition-all hover:-translate-y-1 hover:bg-white/[.07] bg-white/[.025] cursor-pointer flex flex-col justify-between"
       data-testid={`link-project-${project.id}`}
     >
       <div className="flex items-start justify-between gap-4 mb-3">
@@ -82,13 +82,13 @@ export function Projects() {
         />
       </div>
       <h4 
-        style={{ fontFamily: 'Comic Relief, cursive' }}
-        className="text-white group-hover:text-primary transition-colors mb-3 uppercase font-bold text-sm"
+        
+        className="font-display text-white group-hover:text-primary transition-colors mb-4 font-semibold tracking-[-.045em] text-lg md:text-xl leading-snug"
       >
         {project.title}
       </h4>
       <div className="space-y-2">
-        <p className="text-white/70 font-mono text-xs">
+        <p className="text-white/70 text-sm">
           {project.category}
         </p>
         <p className="text-white/60 font-mono text-xs">
@@ -110,7 +110,7 @@ export function Projects() {
     >
       <div className="max-w-7xl mx-auto relative z-0 w-full">
         <div className="mb-12">
-          <h3 className="font-display text-5xl text-white uppercase tracking-tighter mb-6">
+          <h3 className="font-display text-4xl md:text-6xl font-semibold text-white tracking-[-.07em] mb-8">
             Projects
           </h3>
           <div className="flex gap-2 flex-wrap">
@@ -138,13 +138,13 @@ export function Projects() {
         </div>
 
         {isMobile ? (
-          <div className="grid grid-cols-1 gap-6">
+          <div className="grid grid-cols-1 gap-4">
             {displayedProjects.map((project, index) => (
               <ProjectCard key={project.id} project={project} index={index} displayNumber={currentPage * itemsPerPage + index + 1} />
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-2 gap-6 auto-rows-fr">
+          <div className="grid grid-cols-2 gap-4 auto-rows-fr">
             {displayedProjects.map((project, index) => (
               <ProjectCard key={project.id} project={project} index={index} displayNumber={currentPage * itemsPerPage + index + 1} />
             ))}

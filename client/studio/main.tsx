@@ -2,11 +2,13 @@ import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 
 import { createRoot } from 'react-dom/client';
 import { AnimatePresence, motion, useMotionValue, useReducedMotion, useSpring } from 'framer-motion';
 import * as Dialog from '@radix-ui/react-dialog';
-import { ArrowUpRight, ArrowLeft, ArrowRight, X, RotateCcw } from 'lucide-react';
+import { ArrowUpRight, ArrowLeft, ArrowRight, X, RotateCcw, Shuffle, HelpCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 import { projects, galleryImages, experiences, skills, education, aboutText, type Project } from '@/lib/data';
 import nameSticker from '@assets/hero-logo.webp';
 import signature from '@assets/logo.webp';
 import './studio.css';
+import './atelier.css';
+import { StudioCursor } from './StudioCursor';
 
 type Category = Project['tag'];
 type View = Category | 'all' | 'gallery' | 'about' | 'contact' | null;
@@ -26,6 +28,14 @@ const folders: { id: Category; name: string; label: string; }[] = [
   { id: 'animation', name: 'MOTION', label: 'Анимация' },
 ];
 const count = (tag: Category) => projects.filter(p => p.tag === tag).length;
+const websites = projects.filter(p => p.tag === 'websites');
+const hoverDescriptions: Record<string, string> = { design: 'ДИЗАЙН / 6 ПРОЕКТОВ', gallery: 'ГАЛЕРЕЯ / АВТОРСКИЕ РАБОТЫ', laptop: 'САЙТЫ / ЛИСТАЙ ВНУТРИ НОУТБУКА', email: 'EMAIL / CRM-КОММУНИКАЦИИ', motion: 'АНИМАЦИЯ / MOTION', about: 'ОБО МНЕ / ОПЫТ И НАВЫКИ', contact: 'КОНТАКТЫ / ОБСУДИМ ПРОЕКТ' };
+const scatterOffsets: Record<string, [number, number, number][]> = {
+  design: [[0,0,0],[-14,-13,-4],[20,10,3]], gallery:[[0,0,0],[18,13,5],[-19,-7,-4]],
+  laptop:[[0,0,0],[7,-18,-3],[-12,12,1]], email:[[0,0,0],[-9,11,4],[17,-16,-3]],
+  motion:[[0,0,0],[16,4,-2],[-17,10,4]], about:[[0,0,0],[-17,-12,4],[18,6,-2]],
+  contact:[[0,0,0],[9,12,5],[-14,-9,2]]
+};
 const art = (id: number) => `${BASE}art/${id}.webp`;
 // Only project-cover pairings identifiable in the original artwork.
 const coverById: Record<string, number> = { '07b': 2, '07': 1, '06': 3, '05': 32 };
@@ -36,20 +46,21 @@ function useSmallScreen() {
   useEffect(() => { const mq = window.matchMedia('(max-width: 900px)'); const update = () => setSmall(mq.matches); mq.addEventListener('change', update); return () => mq.removeEventListener('change', update); }, []);
   return small;
 }
-function Draggable({ name, children, rotation = 0, order = 0, small, onOpen }: {
-  name: string; children: ReactNode; rotation?: number; order?: number; small: boolean; onOpen?: () => void;
+function Draggable({ name, children, rotation = 0, order = 0, small, onOpen, arrangement = 0 }: {
+  name: string; children: ReactNode; rotation?: number; order?: number; small: boolean; onOpen?: () => void; arrangement?: number;
 }) {
   const lastDrag = useRef(0);
   const [raised, setRaised] = useState(false);
   const reduced = useReducedMotion();
+  const [dx, dy, dr] = small ? [0,0,0] : (scatterOffsets[name]?.[arrangement] ?? [0,0,0]);
   return <motion.div className={`desk-object object-${name}`} style={{ zIndex: raised ? 35 : undefined }}
-    initial={reduced ? false : { opacity: 0, y: 28, rotate: rotation - 3 }}
-    animate={{ opacity: 1, y: 0, rotate: small ? 0 : rotation }}
-    transition={{ duration: .75, delay: order * .055, ease: [.22, 1, .36, 1] }}
-    whileHover={small || reduced ? undefined : { rotate: rotation + 2, scale: 1.035 }}
-    whileDrag={{ scale: 1.055, cursor: 'grabbing' }}
+    initial={reduced ? false : { opacity: 0, y: dy + 28, rotate: rotation - 3 }}
+    animate={{ opacity: 1, x: dx, y: dy, rotate: small ? 0 : rotation + dr }}
+    transition={{ duration: reduced ? 0 : .75, delay: order * .055, ease: [.22, 1, .36, 1] }}
+    whileHover={small || reduced ? undefined : { rotate: rotation + dr + 2, scale: 1.04 }}
+    whileDrag={{ scale: 1.075, cursor: 'grabbing' }}
     drag={!small} dragMomentum={false} dragElastic={.06}
-    dragConstraints={{ left: -95, right: 95, top: -65, bottom: 65 }}
+    dragConstraints={{ left: -105, right: 105, top: -75, bottom: 75 }}
     onDragStart={() => setRaised(true)} onDragEnd={() => { lastDrag.current = Date.now(); setRaised(false); }}
     onClick={() => { if (onOpen && Date.now() - lastDrag.current > 180) onOpen(); }} data-object={name}
   >{children}</motion.div>;
@@ -77,16 +88,37 @@ function ProjectPreview({ project, className = '' }: { project: Project; classNa
     </div>}
   </div>;
 }
-function Laptop({ project, onOpen }: { project: Project; onOpen: () => void }) {
+function Laptop({ project, onOpen, onNext, onPrevious, index, total }: {
+  project: Project; onOpen: () => void; onNext: () => void; onPrevious: () => void; index: number; total: number;
+}) {
   const rows = ['ESC F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11', '1 2 3 4 5 6 7 8 9 0 - +', 'Q W E R T Y U I O P [ ]', 'A S D F G H J K L : " ENTER', 'SHIFT Z X C V B N M , . / SHIFT'];
   return <div className="laptop">
-    <button className="laptop-lid" type="button" onClick={e => { e.stopPropagation(); onOpen(); }} aria-label={folders[1].label} data-testid="open-websites">
-      <span className="webcam" /><span className="laptop-display"><ProjectPreview project={project} /><span className="screen-caption">WEB / {count('websites')} CASES <ArrowUpRight size={16} /></span></span><span className="laptop-brand">MADE OF IDEAS.</span>
-    </button><div className="laptop-hinge" />
-    <div className="laptop-base" aria-hidden="true"><div className="speaker speaker-left" /><div className="speaker speaker-right" />
+    <div className="laptop-lid">
+      <span className="webcam" aria-hidden="true" />
+      <button className="atelier-laptop-screen-trigger" type="button"
+        onClick={(event) => { event.stopPropagation(); onOpen(); }}
+        aria-label={`Открыть ${project.title} в каталоге сайтов`} data-testid="open-websites">
+        <span className="laptop-display">
+          <ProjectPreview project={project} />
+          <span className="screen-caption">WEB / ${count('websites')} CASES <ArrowUpRight size={16} /></span>
+        </span>
+        <span className="laptop-brand">MADE OF IDEAS.</span>
+      </button>
+      <div className="atelier-laptop-pager" aria-label="Переключение сайтов на ноутбуке">
+        <button type="button" data-testid="laptop-prev" aria-label="Предыдущий сайт на экране"
+          onClick={(event) => { event.stopPropagation(); onPrevious(); }}><ChevronLeft size={15} /></button>
+        <span><b>WEB</b> ${String(index + 1).padStart(2,'0')} / ${String(total).padStart(2,'0')}</span>
+        <button type="button" data-testid="laptop-next" aria-label="Следующий сайт на экране"
+          onClick={(event) => { event.stopPropagation(); onNext(); }}><ChevronRight size={15} /></button>
+      </div>
+    </div>
+    <div className="laptop-hinge" />
+    <div className="laptop-base" aria-hidden="true">
+      <div className="speaker speaker-left" /><div className="speaker speaker-right" />
       <div className="keyboard">{rows.map((row, i) => <div key={i} className="key-row">{row.split(' ').map((key, j) => <span key={j} className={key.length > 2 ? 'wide-key' : ''}>{key}</span>)}</div>)}<div className="key-row final-row"><span>fn</span><span>ctrl</span><span>alt</span><span>cmd</span><span className="space-key" /><span>cmd</span><span>alt</span><span> &lt; </span><span> &gt; </span></div></div>
       <div className="trackpad" /><span className="laptop-decal">NOT<br />A TEMPLATE<span> *</span></span>
-    </div><span className="laptop-front-edge" />
+    </div>
+    <span className="laptop-front-edge" />
   </div>;
 }
 function Studio() {
@@ -95,6 +127,10 @@ function Studio() {
   const [galleryIndex, setGalleryIndex] = useState(0);
   const [galleryFull, setGalleryFull] = useState(false);
   const [reset, setReset] = useState(0);
+  const [arrangement, setArrangement] = useState(0);
+  const [webIndex, setWebIndex] = useState(0);
+  const [showHelp, setShowHelp] = useState(false);
+  const [hoveredObject, setHoveredObject] = useState<string | null>(null);
   const small = useSmallScreen();
   const reduced = useReducedMotion();
   const holder = useRef<HTMLDivElement>(null);
@@ -105,7 +141,11 @@ function Studio() {
   const list = view === 'all' ? projects : projects.filter(p => p.tag === view);
   const active = list[Math.min(selected, Math.max(0, list.length - 1))];
   const title = view === 'all' ? 'ALL PROJECTS' : view === 'gallery' ? 'VISUAL DIARY' : view === 'about' ? 'ABOUT ME' : view === 'contact' ? 'LET\'S TALK' : folders.find(f => f.id === view)?.name ?? '';
-  const firstWebsite = projects.find(p => p.tag === 'websites')!;
+  const firstWebsite = websites[webIndex] ?? websites[0];
+  const changeWebsite = (direction: number) => setWebIndex(index => (index + direction + websites.length) % websites.length);
+  const openLaptop = () => { open('websites'); setSelected(webIndex); };
+  const resetDesk = () => { setArrangement(0); setReset(index => index + 1); };
+  const shuffleDesk = () => { setArrangement(index => (index + 1) % 3); setReset(index => index + 1); };
   const navigate = (delta: number) => {
     if (view === 'gallery') setGalleryIndex(i => (i + delta + uniqueGallery.length) % uniqueGallery.length);
     else if (list.length) setSelected(i => (i + delta + list.length) % list.length);
@@ -121,7 +161,25 @@ function Studio() {
     const hash = window.location.hash.slice(1);
     if (['websites', 'design', 'email', 'animation', 'all', 'gallery', 'about', 'contact'].includes(hash)) open(hash as View);
   }, []);
-  return <div className="studio-shell">
+  useEffect(() => {
+    const handler = (event: KeyboardEvent) => {
+      if (view || event.altKey || event.ctrlKey || event.metaKey || event.repeat) return;
+      const element = event.target;
+      if (element instanceof HTMLElement && (element.isContentEditable || ['INPUT','TEXTAREA','SELECT'].includes(element.tagName))) return;
+      if (event.key === '?' || event.key.toLowerCase() === 'h') { setShowHelp(current => !current); return; }
+      if (event.key === 'Escape') { setShowHelp(false); return; }
+      const shortcut: Record<string, View> = {'1':'design','2':'websites','3':'email','4':'animation','5':'gallery','6':'about','7':'contact'};
+      if (Object.prototype.hasOwnProperty.call(shortcut, event.key)) {
+        event.preventDefault();
+        setShowHelp(false);
+        open(shortcut[event.key]);
+      }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [view]);
+  return <div className="studio-shell atelier-shell" data-arrangement={arrangement}>
+    <StudioCursor disabled={small || Boolean(reduced) || view !== null} />
     <svg className="noise-filter" aria-hidden="true"><filter id="paper-grain"><feTurbulence type="fractalNoise" baseFrequency=".76" numOctaves="3" stitchTiles="stitch" /></filter></svg>
     <div className="paper-grain" aria-hidden="true" />
     <a href="#studio-navigation" className="skip-link">{T.work}</a>
@@ -135,8 +193,8 @@ function Studio() {
       <div className="rail-bottom"><p className="rail-note">Good ideas<br />don't sit still.<span>*</span></p><div className="social-links"><a href="https://t.me/userskins" target="_blank" rel="noopener noreferrer">TG <ArrowUpRight size={11} /></a><a href="https://vk.com/userskins" target="_blank" rel="noopener noreferrer">VK <ArrowUpRight size={11} /></a><a href="mailto:userskins@gmail.com">MAIL <ArrowUpRight size={11} /></a></div></div>
     </aside>
     <main className="desk-area" aria-label={T.desk}>
-      <div className="desk-topline"><span>PORTFOLIO / WORK IN PROGRESS</span><span className="tiny-cross">+</span><span>OBJECTS WITH STORIES</span></div>
-      <div ref={holder} className="scene-holder" onPointerMove={e => { if (small || reduced || view) return; const rect = e.currentTarget.getBoundingClientRect(); x.set(((e.clientX - rect.left) / rect.width - .5) * -12); y.set(((e.clientY - rect.top) / rect.height - .5) * -9); }} onPointerLeave={() => { x.set(0); y.set(0); }}>
+      <div className="desk-topline"><span>PORTFOLIO / INTERACTIVE ATELIER</span><span className="atelier-hover-status" aria-live="polite">{hoveredObject ? hoverDescriptions[hoveredObject] : 'КУРСОР — ТВОЙ ИНСТРУМЕНТ'}</span><span className="tiny-cross">+</span><span>OBJECTS WITH STORIES</span></div>
+      <div ref={holder} className="scene-holder" onPointerMove={e => { if (small || reduced || view) return; const rect = e.currentTarget.getBoundingClientRect(); x.set(((e.clientX - rect.left) / rect.width - .5) * -12); y.set(((e.clientY - rect.top) / rect.height - .5) * -9); }} onPointerOver={event => { const object = event.target instanceof Element ? event.target.closest('[data-object]') : null; const name = object?.getAttribute('data-object') ?? null; setHoveredObject(current => current === name ? current : name); }} onPointerLeave={() => { x.set(0); y.set(0); setHoveredObject(null); }}>
         <div className="scene-scale" style={{ '--scene-scale': sceneScale } as CSSProperties}>
           <motion.div className={`scene-camera ${view ? 'camera-focused' : ''}`} style={{ x: small || reduced ? 0 : sx, y: small || reduced ? 0 : sy }}>
             <div className="desk-scene" key={reset}>
@@ -144,19 +202,41 @@ function Studio() {
               <svg className="desk-doodle doodle-arrow" viewBox="0 0 160 70" aria-hidden="true"><path d="M3 8 C 39 47 80 54 145 45 M128 25 L148 45 L126 57" fill="none" stroke="currentColor" strokeWidth="2" /></svg>
               <div className="loose-paper loose-one" aria-hidden="true"><img src={art(27)} alt="" /></div>
               <div className="loose-paper loose-two" aria-hidden="true"><img src={art(34)} alt="" /></div>
-              <Draggable name="design" rotation={-10} order={1} small={small} onOpen={() => open('design')}><Binder category="design" number="01" onOpen={() => open('design')} /></Draggable>
-              <Draggable name="gallery" rotation={7} order={2} small={small} onOpen={() => open('gallery')}><button type="button" className="print-stack" data-testid="open-gallery" aria-label={T.gallery}><span className="print-under" /><span className="print-image"><img src={art(67)} alt="" draggable={false} /></span><span className="print-caption">VISUAL DIARY <span>01 / {uniqueGallery.length}</span></span><span className="paperclip" aria-hidden="true" /><span className="hover-tag">EXPLORE THE ARCHIVE <ArrowUpRight size={12} /></span></button></Draggable>
-              <Draggable name="laptop" rotation={12} order={3} small={small}><Laptop project={firstWebsite} onOpen={() => open('websites')} /></Draggable>
-              <Draggable name="email" rotation={5} order={4} small={small} onOpen={() => open('email')}><Binder category="email" number="02" onOpen={() => open('email')} /></Draggable>
-              <Draggable name="motion" rotation={-7} order={5} small={small} onOpen={() => open('animation')}><Binder category="animation" number="03" onOpen={() => open('animation')} /></Draggable>
-              <Draggable name="about" rotation={-6} order={6} small={small} onOpen={() => open('about')}><button className="about-notebook" aria-label={T.about} data-testid="open-about"><span className="notebook-holes" /><span className="notebook-head">NOTES / 2020 - 2026</span><span className="notebook-title">{T.about}</span><span className="notebook-copy">VK / HSE / DESIGN<br />ART + DIGITAL + PEOPLE</span><span className="notebook-sign">Dmitriy <ArrowUpRight size={24} /></span></button></Draggable>
-              <Draggable name="contact" rotation={-12} order={7} small={small} onOpen={() => open('contact')}><button className="contact-card" aria-label={T.contact} data-testid="open-contact"><span>LET'S MAKE</span><strong>SOMETHING<br />MATTER.</strong><span>WRITE ME <ArrowUpRight size={20} /></span></button></Draggable>
+              <Draggable name="design" rotation={-10} order={1} small={small} arrangement={arrangement} onOpen={() => open('design')}><Binder category="design" number="01" onOpen={() => open('design')} /></Draggable>
+              <Draggable name="gallery" rotation={7} order={2} small={small} arrangement={arrangement} onOpen={() => open('gallery')}><button type="button" className="print-stack" data-testid="open-gallery" aria-label={T.gallery}><span className="print-under" /><span className="print-image"><img src={art(67)} alt="" draggable={false} /></span><span className="print-caption">VISUAL DIARY <span>01 / {uniqueGallery.length}</span></span><span className="paperclip" aria-hidden="true" /><span className="hover-tag">EXPLORE THE ARCHIVE <ArrowUpRight size={12} /></span></button></Draggable>
+              <Draggable name="laptop" rotation={12} order={3} small={small} arrangement={arrangement}><Laptop project={firstWebsite} onOpen={openLaptop} onNext={() => changeWebsite(1)} onPrevious={() => changeWebsite(-1)} index={webIndex} total={websites.length} /></Draggable>
+              <Draggable name="email" rotation={5} order={4} small={small} arrangement={arrangement} onOpen={() => open('email')}><Binder category="email" number="02" onOpen={() => open('email')} /></Draggable>
+              <Draggable name="motion" rotation={-7} order={5} small={small} arrangement={arrangement} onOpen={() => open('animation')}><Binder category="animation" number="03" onOpen={() => open('animation')} /></Draggable>
+              <Draggable name="about" rotation={-6} order={6} small={small} arrangement={arrangement} onOpen={() => open('about')}><button className="about-notebook" aria-label={T.about} data-testid="open-about"><span className="notebook-holes" /><span className="notebook-head">NOTES / 2020 - 2026</span><span className="notebook-title">{T.about}</span><span className="notebook-copy">VK / HSE / DESIGN<br />ART + DIGITAL + PEOPLE</span><span className="notebook-sign">Dmitriy <ArrowUpRight size={24} /></span></button></Draggable>
+              <Draggable name="contact" rotation={-12} order={7} small={small} arrangement={arrangement} onOpen={() => open('contact')}><button className="contact-card" aria-label={T.contact} data-testid="open-contact"><span>LET'S MAKE</span><strong>SOMETHING<br />MATTER.</strong><span>WRITE ME <ArrowUpRight size={20} /></span></button></Draggable>
               <div className="pencil" aria-hidden="true"><span /></div><span className="desk-handnote note-bottom" aria-hidden="true">make it<br /><u>mean</u> something.</span><span className="desk-star" aria-hidden="true">*</span>
             </div>
           </motion.div>
         </div>
       </div>
-      <div className="desk-bottomline"><span><span className="small-red-dot" />{small ? T.tapHint : T.hint}</span><button onClick={() => setReset(i => i + 1)} aria-label={T.reset}><RotateCcw size={13} />{T.reset}</button></div>
+      <div className="desk-bottomline">
+        <span><span className="small-red-dot" />{small ? T.tapHint : T.hint}</span>
+        <div className="atelier-desk-actions">
+          <button type="button" onClick={() => setShowHelp(true)} data-testid="atelier-help"><HelpCircle size={14} /> Как пользоваться</button>
+          <button type="button" onClick={shuffleDesk} data-testid="atelier-shuffle"><Shuffle size={13} /> Перемешать</button>
+          <button type="button" onClick={resetDesk} aria-label={T.reset}><RotateCcw size={13} />{T.reset}</button>
+        </div>
+      </div>
+      <AnimatePresence>
+        {showHelp && !view && <motion.aside
+          className="atelier-help-sheet"
+          role="dialog" aria-modal="false" aria-label="Как взаимодействовать с рабочим столом"
+          initial={reduced ? false : { opacity: 0, y: 23, rotate: -3 }} animate={{ opacity: 1, y: 0, rotate: -2 }}
+          exit={{ opacity: 0, y: 15 }} transition={{ duration: .24 }}
+        >
+          <div className="atelier-help-top"><span>USERSKINS / КАК ИССЛЕДОВАТЬ</span><button onClick={() => setShowHelp(false)} aria-label="Закрыть подсказку"><X size={21}/></button></div>
+          <h2>ЭТО НЕ<br/>ПРОСТО САЙТ<span>*</span></h2>
+          <p>Наведи курсор на работу, перетащи предмет по столу и нажми, чтобы открыть её.</p>
+          <p>На ноутбуке стрелки переключают сайты без открытия каталога.</p>
+          <div className="atelier-shortcuts"><span>1–4</span> ПАПКИ <span>5</span> ГАЛЕРЕЯ <span>6</span> ОБО МНЕ <span>7</span> КОНТАКТЫ</div>
+          <button className="atelier-help-action" onClick={() => setShowHelp(false)}>ПОЕХАЛИ <ArrowUpRight size={16}/></button>
+        </motion.aside>}
+      </AnimatePresence>
     </main>
     <Dialog.Root open={view !== null} onOpenChange={value => { if (!value) setView(null); }}>
       <AnimatePresence>

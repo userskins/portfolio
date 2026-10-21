@@ -7,9 +7,11 @@ import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
 
 function Router() {
+  // Vite uses "/" in production and "/creative-chaos/" for the safe preview.
+  const homePath = import.meta.env.BASE_URL || "/";
   return (
     <Switch>
-      <Route path="/" component={Home}/>
+      <Route path={homePath} component={Home}/>
       <Route component={NotFound} />
     </Switch>
   );

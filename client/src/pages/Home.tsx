@@ -1,8 +1,7 @@
 import { Navbar } from "@/components/layout/Navbar";
-import { Hero } from "@/components/ui/Hero";
+import { CreativeDesk } from "@/components/ui/CreativeDesk";
 import { CV } from "@/components/ui/CV";
 import { Gallery } from "@/components/ui/Gallery";
-import { Projects } from "@/components/ui/Projects";
 import { aboutText } from "@/lib/data";
 import { motion, useScroll, useSpring, AnimatePresence } from "framer-motion";
 import { ArrowUp } from "lucide-react";
@@ -47,7 +46,7 @@ export default function Home() {
       <Navbar />
 
       <main>
-        <Hero />
+        <CreativeDesk />
         <CV />
 
         {/* Gallery Section */}
@@ -65,7 +64,6 @@ export default function Home() {
           </div>
         </section>
 
-        <Projects />
 
         {/* About Section */}
         <section

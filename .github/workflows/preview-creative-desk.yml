@@ -1,4 +1,4 @@
-name: Preview creative desk (studio)
+name: Preview Creative Chaos portfolio
 
 on:
   push:
@@ -33,7 +33,7 @@ jobs:
       - name: Check TypeScript
         run: npm run check
 
-      - name: Build isolated preview for /studio/
+      - name: Build isolated preview for /creative-chaos/
         run: npx vite build --base=/creative-chaos/
 
       - name: Deploy ONLY creative-chaos preview folder on SpaceWeb
@@ -50,3 +50,22 @@ jobs:
           local-dir: ./dist/public/
           server-dir: ./public_html/creative-chaos/
           dry-run: false
+
+      - name: Verify public preview does not redirect to home
+        shell: bash
+        run: |
+          set -euo pipefail
+          url="http://usersksite.temp.swtest.ru/creative-chaos/"
+          for attempt in 1 2 3 4 5; do
+            if curl -fLsS --max-time 20 "$url" -o /tmp/creative-preview.html; then
+              if grep -q "/creative-chaos/assets/" /tmp/creative-preview.html && grep -q "Дмитрий Гусев" /tmp/creative-preview.html; then
+                echo "PREVIEW_READY $url"
+                exit 0
+              fi
+            fi
+            echo "Preview not ready yet (attempt $attempt)"
+            sleep 4
+          done
+          echo "Preview could not be verified"
+          exit 1
+

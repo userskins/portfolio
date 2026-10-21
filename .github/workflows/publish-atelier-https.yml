@@ -1,0 +1,100 @@
+name: Publish Atelier V3 HTTPS
+
+on:
+  workflow_run:
+    workflows: ["Atelier V3 - browser QA"]
+    types: [completed]
+    branches: [design/atelier-interactive-v3]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-interactive-atelier-v3
+  cancel-in-progress: true
+
+jobs:
+  build:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout verified interactive branch
+        uses: actions/checkout@v4
+        with:
+          ref: design/atelier-interactive-v3
+
+      - name: Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install packages
+        run: npm ci
+
+      - name: Get verified project screenshots and artwork
+        uses: actions/download-artifact@v4
+        with:
+          name: atelier-v3-dist
+          run-id: ${{ github.event.workflow_run.id || 39682344463 }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: verified-dist
+
+      - name: Copy authentic previews from passing QA
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -d verified-dist/art
+          mkdir -p client/studio/public/art client/studio/public/previews
+          cp -a verified-dist/art/. client/studio/public/art/
+          if [ -d verified-dist/previews ]; then cp -a verified-dist/previews/. client/studio/public/previews/; fi
+          echo "Artwork: $(find client/studio/public/art -name '*.webp' | wc -l)"
+          echo "Project captures: $(find client/studio/public/previews -name '*.jpg' | wc -l)"
+
+      - name: Confirm TypeScript
+        run: npx tsc -p tsconfig.studio.json --noEmit
+
+      - name: Build HTTPS site using correct Pages base
+        env:
+          STUDIO_BASE: /portfolio/
+        run: npx vite build --config vite.studio.config.ts
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload HTTPS static site
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist/studio
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publish Atelier portfolio
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Check public HTTPS page
+        shell: bash
+        run: |
+          set -euo pipefail
+          url="https://userskins.github.io/portfolio/"
+          for n in 1 2 3 4 5 6; do
+            if curl --fail --silent --show-error --location --max-time 20 "$url" -o /tmp/atelier-public.html; then
+              if grep -q "/portfolio/assets/" /tmp/atelier-public.html; then
+                echo "HTTPS_ATELIER_READY $url"
+                exit 0
+              fi
+            fi
+            sleep 5
+          done
+          echo "Public preview could not be verified"
+          exit 1

@@ -29,7 +29,7 @@ await page.waitForTimeout(500);
 assert.equal(await page.locator('.case-files [aria-pressed="true"]').getAttribute('data-case'),'18','opening laptop uses selected website');
 await page.screenshot({path:'atelier-review/03-flipped-laptop-project.png',fullPage:true});
 await page.keyboard.press('Escape');
-await page.waitForTimeout(450);
+await page.waitForTimeout(650);
 
 await page.locator('[data-testid="atelier-shuffle"]').click();
 await page.waitForTimeout(250);
@@ -42,12 +42,13 @@ await page.locator('[data-testid="atelier-help"]').click();
 assert.equal(await page.locator('.atelier-help-sheet').count(),1,'help sheet opens');
 await page.screenshot({path:'atelier-review/04-interaction-guide.png',fullPage:true});
 await page.locator('.atelier-help-top button').click();
+await page.locator('.atelier-help-sheet').waitFor({state:'detached',timeout:2500});
 assert.equal(await page.locator('.atelier-help-sheet').count(),0,'help closes');
 await page.keyboard.press('3');
 await page.locator('[role="dialog"]').waitFor();
 assert.match(await page.locator('.reader-heading').innerText(),/EMAIL/i,'keyboard opens Email / CRM');
 await page.keyboard.press('Escape');
-await page.waitForTimeout(400);
+await page.waitForTimeout(650);
 
 await page.setViewportSize({width:390,height:844});
 await page.waitForTimeout(550);

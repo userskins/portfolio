@@ -5,7 +5,7 @@ import path from 'node:path';
 // Separate entry and output: the existing portfolio is never overwritten.
 export default defineConfig({
   root: path.resolve(import.meta.dirname, 'client/studio'),
-  base: '/studio/',
+  base: process.env.STUDIO_BASE ?? '/studio/',
   plugins: [react()],
   css: { postcss: { plugins: [] } },
   resolve: { alias: {

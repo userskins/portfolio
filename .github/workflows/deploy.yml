@@ -43,8 +43,11 @@ jobs:
             echo "TCP_21_UNREACHABLE"
           fi
 
-      - name: Test SpaceWeb FTP connection
+      
+      - name: Deploy website to SpaceWeb
         uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+        env:
+          NODE_OPTIONS: "--dns-result-order=ipv4first --no-network-family-autoselection"
         with:
           server: ${{ secrets.SWEB_FTP_HOST }}
           username: ${{ secrets.SWEB_FTP_USER }}

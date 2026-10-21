@@ -107,7 +107,7 @@ function Laptop({ project, onOpen, onNext, onPrevious, index, total }: {
       <div className="atelier-laptop-pager" aria-label="Переключение сайтов на ноутбуке">
         <button type="button" data-testid="laptop-prev" aria-label="Предыдущий сайт на экране"
           onClick={(event) => { event.stopPropagation(); onPrevious(); }}><ChevronLeft size={15} /></button>
-        <span><b>WEB</b> ${String(index + 1).padStart(2,'0')} / ${String(total).padStart(2,'0')}</span>
+        <span><b>WEB</b> {String(index + 1).padStart(2,'0')} / {String(total).padStart(2,'0')}</span>
         <button type="button" data-testid="laptop-next" aria-label="Следующий сайт на экране"
           onClick={(event) => { event.stopPropagation(); onNext(); }}><ChevronRight size={15} /></button>
       </div>

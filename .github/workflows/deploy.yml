@@ -52,4 +52,4 @@ jobs:
           security: strict
           local-dir: ./dist/public/
           server-dir: ./public_html/
-          dry-run: true
+          dry-run: false

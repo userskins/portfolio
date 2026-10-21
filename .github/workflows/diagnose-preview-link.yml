@@ -1,0 +1,36 @@
+name: Diagnose preview link
+
+on:
+  push:
+    branches: [design/creative-chaos-site]
+    paths:
+      - .github/workflows/diagnose-preview-link.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  url-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Diagnose HTTP and HTTPS link status
+        shell: bash
+        run: |
+          echo "DNS addresses"
+          getent ahostsv4 usersksite.temp.swtest.ru | head -n 2 || true
+          getent ahostsv4 userskins.site | head -n 2 || true
+          for url in \
+            "http://usersksite.temp.swtest.ru/creative-chaos/" \
+            "https://usersksite.temp.swtest.ru/creative-chaos/" \
+            "http://userskins.site/creative-chaos/" \
+            "https://userskins.site/creative-chaos/"; do
+            echo ""
+            echo "TARGET: $url"
+            curl -sSL --max-time 18 --connect-timeout 8 -o /tmp/creative-check.html -w 'HTTP_CODE=%{http_code} EFFECTIVE_URL=%{url_effective} SSL_VERIFICATION=%{ssl_verify_result} CONTENT_TYPE=%{content_type}\n' "$url" || echo "CURL_FAILED"
+            if grep -q "/creative-chaos/assets/" /tmp/creative-check.html 2>/dev/null; then
+              echo "CREATIVE_ASSETS_REFERENCED"
+            else
+              echo "CREATIVE_ASSETS_NOT_FOUND"
+            fi
+          done

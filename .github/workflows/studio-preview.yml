@@ -5,9 +5,13 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+concurrency:
+  group: studio-preview
+  cancel-in-progress: false
 jobs:
-  prepare:
+  build:
     runs-on: ubuntu-24.04
+    timeout-minutes: 18
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -15,12 +19,38 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
-      - name: Package development source
+      - name: Browser tools
         run: |
-          mkdir -p /tmp/studio-prep
-          tar --exclude=.git -czf /tmp/studio-prep/portfolio-source.tgz .
-      - uses: actions/upload-artifact@v4
+          npm install --prefix /tmp/studio-tools --ignore-scripts playwright@1.56.1
+          /tmp/studio-tools/node_modules/.bin/playwright install --with-deps chromium
+          python3 -m venv /tmp/studio-py
+          /tmp/studio-py/bin/pip install pillow==11.3.0
+      - name: Prepare owned artwork previews
+        run: /tmp/studio-py/bin/python scripts/studio-assets.py
+      - name: Capture real project websites
+        run: node scripts/studio-capture.mjs
+      - name: Type check and build
+        run: |
+          npx tsc -p tsconfig.studio.json --noEmit
+          npx vite build --config vite.studio.config.ts
+      - name: Browser interaction checks
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory dist > /tmp/studio-http.log 2>&1 &
+          sleep 2
+          node scripts/studio-test.mjs
+      - name: Review screenshots and test report
+        if: always()
+        uses: actions/upload-artifact@v4
         with:
-          name: studio-development-source
-          path: /tmp/studio-prep/portfolio-source.tgz
-          retention-days: 1
+          name: studio-review
+          path: |
+            studio-review/
+            client/studio/public/previews/
+          retention-days: 3
+      - name: Compiled preview
+        uses: actions/upload-artifact@v4
+        with:
+          name: studio-built
+          path: dist/studio/
+          include-hidden-files: true
+          retention-days: 3

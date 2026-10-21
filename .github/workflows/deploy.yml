@@ -27,6 +27,20 @@ jobs:
       - name: Build React website
         run: npx vite build
 
+        
+      - name: Diagnose SpaceWeb connection
+        shell: bash
+        run: |
+          echo "GitHub Runner public IPv4:"
+          curl -4fsS --max-time 10 https://api.ipify.org || true
+          echo ""
+          echo "Testing SpaceWeb FTP port:"
+          if nc -4 -z -w 10 vh403.sweb.ru 21; then
+            echo "TCP_21_OPEN"
+          else
+            echo "TCP_21_UNREACHABLE"
+          fi
+
       - name: Test SpaceWeb FTP connection
         uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:

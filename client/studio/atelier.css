@@ -1,0 +1,299 @@
+/* ATELIER V3 — interaction, not decoration.
+   All additions are opt-in, scoped to the separate studio entry. */
+.atelier-shell .desk-topline {
+  gap: 16px;
+}
+.atelier-shell .atelier-hover-status {
+  position: relative;
+  color: var(--red);
+  font-weight: 700;
+  font-size: 9px;
+  letter-spacing: .11em;
+  white-space: nowrap;
+  transition: color .2s;
+}
+.atelier-shell .atelier-hover-status::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  display: inline-block;
+  vertical-align: 2px;
+  margin-right: 8px;
+  background: var(--red);
+  transform: rotate(45deg);
+}
+.atelier-shell .scene-holder::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse 240px 230px at var(--atelier-x, -200px) var(--atelier-y, -200px), rgba(255,255,255,.36), transparent 80%);
+  z-index: 0;
+}
+.atelier-shell .scene-camera {
+  perspective: 1300px;
+  will-change: transform;
+}
+.atelier-shell .desk-object {
+  transition: filter .36s cubic-bezier(.2,.8,.2,1), box-shadow .35s;
+}
+@media (hover:hover) and (pointer:fine) {
+  .atelier-shell .scene-holder:has(.desk-object:hover) .desk-object:not(:hover) {
+    filter: saturate(.9) brightness(.96);
+  }
+  .atelier-shell:has(.atelier-cursor[data-visible="true"]) .scene-holder,
+  .atelier-shell:has(.atelier-cursor[data-visible="true"]) .scene-holder * {
+    cursor: none !important;
+  }
+}
+.atelier-cursor {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 200;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .18s ease;
+  mix-blend-mode: normal;
+}
+.atelier-cursor[data-visible="true"] { opacity: 1; }
+.atelier-cursor-ring {
+  position: absolute;
+  width: 89px;
+  height: 89px;
+  transform: translate(-50%, -50%);
+  border: 2px solid var(--ink);
+  background: var(--red);
+  color: white;
+  border-radius: 50%;
+  box-shadow: 5px 7px 0 #19181724, inset 0 0 0 2px #fff6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: width .2s, height .2s, background .2s, box-shadow .2s, border-color .2s;
+}
+.atelier-cursor-ring span {
+  display: block;
+  transform: rotate(-8deg);
+  font: 800 10px/1 "JetBrains Mono", monospace;
+  letter-spacing: -.05em;
+}
+.atelier-cursor-dot {
+  width: 5px;
+  height: 5px;
+  background: var(--ink);
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px #f4f1eb;
+}
+.atelier-cursor[data-label="MOVE"] .atelier-cursor-ring {
+  width: 35px;
+  height: 35px;
+  border-color: var(--red);
+  background: #fffaf6ee;
+  box-shadow: none;
+}
+.atelier-cursor[data-label="MOVE"] .atelier-cursor-ring span {
+  display: none;
+}
+.atelier-cursor-ring.is-pressed {
+  width: 67px;
+  height: 67px;
+  background: #111;
+  color: white;
+  border-color: var(--red);
+  box-shadow: 3px 4px 0 #ed161d;
+}
+.atelier-shell .laptop-lid { overflow: visible; }
+.atelier-shell .atelier-laptop-screen-trigger {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 1px;
+  cursor: pointer;
+}
+.atelier-shell .atelier-laptop-screen-trigger:focus-visible {
+  outline: 2px solid #ff1720;
+  outline-offset: 3px;
+}
+.atelier-laptop-pager {
+  position: absolute;
+  z-index: 8;
+  right: 25px;
+  bottom: -21px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 5px;
+  color: #f9f5ea;
+  border: 1px solid #151515;
+  background: #181818;
+  box-shadow: 3px 4px 0 #ed161d;
+  transform: rotate(-3deg);
+  font: 500 9px "JetBrains Mono", monospace;
+  letter-spacing: -.02em;
+}
+.atelier-laptop-pager span {
+  min-width: 94px;
+  text-align: center;
+}
+.atelier-laptop-pager span b {
+  margin-right: 5px;
+  font-size: 8px;
+  font-weight: 800;
+  color: #ff4147;
+}
+.atelier-laptop-pager button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 25px;
+  height: 25px;
+  border: 1px solid #ffffff50;
+  color: white;
+  background: #202020;
+  transition: background .15s, color .15s;
+}
+.atelier-laptop-pager button:hover,
+.atelier-laptop-pager button:focus-visible {
+  background: var(--red);
+  color: white;
+}
+.atelier-desk-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.atelier-desk-actions button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  font: 700 9px/1 "JetBrains Mono", monospace;
+  color: #666057;
+  letter-spacing: .03em;
+  transition: color .18s, transform .18s;
+}
+.atelier-desk-actions button:hover { color: var(--red); transform: translateY(-2px); }
+.atelier-desk-actions button:focus-visible { outline-offset: 5px; }
+.atelier-help-sheet {
+  position: absolute;
+  z-index: 70;
+  right: clamp(45px,7vw,135px);
+  top: 14%;
+  width: min(340px, calc(100% - 30px));
+  padding: 22px 24px 25px;
+  border: 1px solid #111;
+  background: #f9f6ee;
+  color: #191817;
+  box-shadow: 13px 15px 0 #ed161d, 16px 18px 20px #1112;
+  transform-origin: center;
+}
+.atelier-help-sheet::after {
+  content: "";
+  position: absolute;
+  right: 19%;
+  top: -8px;
+  width: 96px;
+  height: 25px;
+  background: #d0c9b596;
+  transform: rotate(7deg);
+  backdrop-filter: blur(1px);
+  pointer-events: none;
+}
+.atelier-help-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid #111;
+  padding-bottom: 9px;
+  font: 800 9px "JetBrains Mono", monospace;
+  letter-spacing: .06em;
+}
+.atelier-help-top button { display: grid; place-items: center; color: #191817; }
+.atelier-help-sheet h2 {
+  color: #171717;
+  margin: 25px 0 20px;
+  font: 400 36px/.97 "Permanent Marker", cursive;
+  letter-spacing: -1.8px;
+}
+.atelier-help-sheet h2 span {
+  color: var(--red);
+  font-size: 66px;
+  line-height: 0;
+  vertical-align: -18px;
+  margin-left: 12px;
+}
+.atelier-help-sheet p {
+  font: 500 12px/1.65 "JetBrains Mono", monospace;
+  margin: 0 0 12px;
+}
+.atelier-shortcuts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+  margin: 22px 0 20px;
+  font: 800 9px "JetBrains Mono", monospace;
+}
+.atelier-shortcuts span {
+  display: inline-block;
+  padding: 6px;
+  background: #181818;
+  color: white;
+}
+.atelier-help-action {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 12px 15px;
+  background: var(--red);
+  color: white;
+  font: 700 11px "JetBrains Mono", monospace;
+}
+.atelier-help-action:hover { background: #111; }
+@media (min-width: 901px) {
+  .atelier-shell .desk-topline .tiny-cross { margin: 0 8px; }
+}
+@media (max-width: 1200px) and (min-width: 901px) {
+  .atelier-shell .atelier-hover-status { font-size: 7px; letter-spacing: -.04em; }
+  .atelier-desk-actions { gap: 10px; }
+  .atelier-desk-actions button { font-size: 7px; }
+}
+@media (max-width: 900px) {
+  .atelier-shell .atelier-hover-status { display: none; }
+  .atelier-shell .scene-holder::before { display: none; }
+  .atelier-desk-actions { gap: 13px; flex-wrap: wrap; }
+  .atelier-desk-actions button { font-size: 8px; }
+  .atelier-help-sheet { position: fixed; right: 25px; top: 17%; width: min(350px, calc(100vw - 60px)); }
+  .atelier-laptop-pager { right: 18px; bottom: -16px; }
+}
+@media (max-width: 420px) {
+  .atelier-shell .desk-bottomline { align-items: flex-start; }
+  .atelier-shell .desk-bottomline > span { width: 100%; }
+  .atelier-desk-actions { width: 100%; justify-content: space-between; gap: 6px; }
+  .atelier-desk-actions button { font-size: 7px; gap: 3px; }
+  .atelier-laptop-pager { right: 15px; bottom: -17px; padding: 3px; }
+  .atelier-laptop-pager span { min-width: 75px; font-size: 8px; }
+  .atelier-laptop-pager button { width: 23px; height: 23px; }
+  .atelier-help-sheet { right: 18px; width: calc(100vw - 47px); padding: 19px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .atelier-shell *,
+  .atelier-shell *::before,
+  .atelier-shell *::after { transition-duration: 0.01ms !important; }
+  .atelier-cursor { display: none !important; }
+}

@@ -1,0 +1,4 @@
+/* Keep the lower notebook inside the physical desktop at laptop heights. */
+@media (min-width: 901px) {
+  .studio-shell .object-about { top: 626px; height: 176px; }
+}

@@ -1,0 +1,52 @@
+name: Preview creative desk (studio)
+
+on:
+  push:
+    branches:
+      - design/creative-chaos-site
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: creative-chaos-studio-preview
+  cancel-in-progress: true
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout portfolio
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install packages
+        run: npm ci
+
+      - name: Check TypeScript
+        run: npm run check
+
+      - name: Build isolated preview for /studio/
+        run: npx vite build --base=/studio/
+
+      - name: Deploy ONLY preview folder on SpaceWeb
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+        env:
+          NODE_OPTIONS: "--dns-result-order=ipv4first --no-network-family-autoselection"
+        with:
+          server: ${{ secrets.SWEB_FTP_HOST }}
+          username: ${{ secrets.SWEB_FTP_USER }}
+          password: ${{ secrets.SWEB_FTP_PASSWORD }}
+          protocol: ftps
+          port: 21
+          security: strict
+          local-dir: ./dist/public/
+          server-dir: ./public_html/studio/
+          dry-run: false

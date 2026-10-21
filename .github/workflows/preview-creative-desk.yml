@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: creative-chaos-isolated-preview
+  group: creative-chaos-studio-preview
   cancel-in-progress: true
 
 jobs:

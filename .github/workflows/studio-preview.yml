@@ -33,6 +33,7 @@ jobs:
         run: |
           npx tsc -p tsconfig.studio.json --noEmit
           npx vite build --config vite.studio.config.ts
+          /tmp/studio-py/bin/python scripts/studio-optimize.py
       - name: Browser interaction checks
         run: |
           python3 -m http.server 4173 --bind 127.0.0.1 --directory dist > /tmp/studio-http.log 2>&1 &
@@ -53,4 +54,34 @@ jobs:
           name: studio-built
           path: dist/studio/
           include-hidden-files: true
+          retention-days: 3
+      - name: Remember original home page
+        run: curl --fail --silent --show-error --max-time 30 --retry 2 https://usersksite.temp.swtest.ru/ -o /tmp/original-home.html
+      - name: Publish isolated studio only
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+        env:
+          NODE_OPTIONS: '--dns-result-order=ipv4first --no-network-family-autoselection'
+        with:
+          server: ${{ secrets.SWEB_FTP_HOST }}
+          username: ${{ secrets.SWEB_FTP_USER }}
+          password: ${{ secrets.SWEB_FTP_PASSWORD }}
+          protocol: ftps
+          port: 21
+          security: strict
+          local-dir: ./dist/studio/
+          server-dir: ./public_html/studio/
+          dry-run: false
+      - name: Check original home is unchanged
+        run: |
+          curl --fail --silent --show-error --max-time 30 --retry 2 https://usersksite.temp.swtest.ru/ -o /tmp/original-home-after.html
+          cmp /tmp/original-home.html /tmp/original-home-after.html
+      - name: Verify published preview in browser
+        run: node scripts/studio-live-check.mjs
+      - name: Published preview screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: studio-live
+          path: studio-live/
+          if-no-files-found: ignore
           retention-days: 3

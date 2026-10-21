@@ -88,6 +88,17 @@ export function Hero() {
         >
           Дизайн, email-рассылки, сайты
         </motion.p>
+        <motion.a
+          href="#projects"
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6, duration: 0.5 }}
+          whileHover={{ rotate: -2, y: -3 }}
+          className="mt-5 inline-flex items-center gap-4 border-2 border-primary bg-black/70 px-5 py-3 font-mono text-xs font-bold uppercase tracking-widest text-primary shadow-[5px_5px_0px_#ff0000] transition-colors hover:bg-primary hover:text-black"
+          data-testid="open-workspace"
+        >
+          OPEN WORKSPACE.exe <span aria-hidden="true">↗</span>
+        </motion.a>
       </div>
 
       {/* Scroll Indicator */}

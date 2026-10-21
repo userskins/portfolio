@@ -1,0 +1,54 @@
+name: HTTPS preview via GitHub Pages
+
+on:
+  push:
+    branches: [design/creative-chaos-site]
+    paths:
+      - client/**
+      - attached_assets/**
+      - .github/workflows/preview-pages.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-creative-chaos-preview
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout portfolio
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install packages
+        run: npm ci
+      - name: Check TypeScript
+        run: npm run check
+      - name: Build for GitHub Pages HTTPS
+        run: npx vite build --base=/portfolio/
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+      - name: Upload static site
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist/public
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy HTTPS preview
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -33,27 +33,27 @@ function FolderIcon({ active, number }: { active: boolean; number: string }) {
   );
 }
 
-function FilePoster({ project }: { project: Project }) {
+function FilePoster({ project, compact = false }: { project: Project; compact?: boolean }) {
   return (
-    <div className="relative flex h-full min-h-[260px] flex-col justify-between overflow-hidden border-2 border-black bg-[#f2f0e9] p-5 text-black sm:p-7">
+    <div className={`relative flex h-full flex-col justify-between overflow-hidden border-2 border-black bg-[#f2f0e9] text-black ${compact ? "min-h-0 p-3 sm:p-5" : "min-h-[260px] p-5 sm:p-7"}`}>
       <div className="pointer-events-none absolute -right-20 -top-14 h-56 w-56 rotate-12 border-[25px] border-primary" />
       <div className="pointer-events-none absolute -bottom-20 left-[32%] h-52 w-16 -rotate-[28deg] bg-black/10" />
       <div className="relative flex items-start justify-between gap-2 border-b-2 border-black pb-3 font-mono text-[10px] font-bold uppercase">
         <span>DG / ARCHIVE</span>
         <span>{project.year} — {extensions[project.tag]}</span>
       </div>
-      <div className="relative my-7 max-w-md">
-        <span className="mb-3 inline-block bg-primary px-2 py-1 font-mono text-[10px] font-bold uppercase tracking-wider">
+      <div className={`relative max-w-md ${compact ? "my-2 sm:my-4" : "my-7"}`}>
+        <span className={`mb-3 bg-primary px-2 py-1 font-mono text-[10px] font-bold uppercase tracking-wider ${compact ? "hidden sm:inline-block" : "inline-block"}`}>
           {project.category}
         </span>
         <h4
           style={{ fontFamily: "'Comic Relief', cursive" }}
-          className="break-words text-xl font-bold leading-[1.2] sm:text-3xl"
+          className={`break-words font-bold leading-[1.2] ${compact ? "text-sm sm:text-2xl" : "text-xl sm:text-3xl"}`}
         >
           {project.title}
         </h4>
       </div>
-      <div className="relative flex justify-between gap-3 border-t-2 border-black pt-3 font-mono text-[10px] uppercase tracking-wider">
+      <div className={`relative justify-between gap-3 border-t-2 border-black pt-3 font-mono text-[10px] uppercase tracking-wider ${compact ? "hidden sm:flex" : "flex"}`}>
         <span>PROJECT FILE / #{project.id}</span>
         <span>OPEN ORIGINAL ↗</span>
       </div>
@@ -103,7 +103,7 @@ function LaptopPreview({
                 </div>
               </div>
             ) : (
-              <FilePoster project={project} />
+              <FilePoster project={project} compact />
             )}
           </div>
         </div>

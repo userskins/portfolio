@@ -1,0 +1,78 @@
+name: Atelier V3 - browser QA
+
+on:
+  push:
+    branches: [design/atelier-interactive-v3]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: atelier-v3-check
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Checkout interactive portfolio
+        uses: actions/checkout@v4
+
+      - name: Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Browser and image tools
+        run: |
+          npm install --prefix /tmp/studio-tools --ignore-scripts playwright@1.56.1
+          /tmp/studio-tools/node_modules/.bin/playwright install --with-deps chromium
+          python3 -m venv /tmp/studio-py
+          /tmp/studio-py/bin/pip install pillow==11.3.0
+
+      - name: Prepare authentic artworks
+        run: /tmp/studio-py/bin/python scripts/studio-assets.py
+
+      - name: Capture actual project sites and emails
+        run: node scripts/studio-capture.mjs
+
+      - name: Type-check interactive portfolio
+        run: npx tsc -p tsconfig.studio.json --noEmit
+
+      - name: Build isolated portfolio
+        run: |
+          npx vite build --config vite.studio.config.ts
+          /tmp/studio-py/bin/python scripts/studio-optimize.py
+
+      - name: Real browser interactions and screenshots
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory dist > /tmp/atelier-http.log 2>&1 &
+          sleep 2
+          node scripts/studio-test.mjs
+          node scripts/atelier-test.mjs
+
+      - name: Upload design review screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: atelier-v3-review
+          path: |
+            atelier-review/
+            studio-review/
+            client/studio/public/previews/manifest.json
+          retention-days: 7
+
+      - name: Upload built site
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: atelier-v3-dist
+          path: dist/studio/
+          include-hidden-files: true
+          retention-days: 7

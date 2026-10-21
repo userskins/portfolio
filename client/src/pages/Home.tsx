@@ -40,7 +40,7 @@ export default function Home() {
     <div className="min-h-screen bg-background text-foreground selection:bg-primary selection:text-white relative">
       {/* Progress Bar */}
       <motion.div
-        className="fixed top-0 left-0 right-0 h-[2px] bg-primary origin-left z-[60]"
+        className="fixed top-0 left-0 right-0 h-1 bg-primary origin-left z-0"
         style={{ scaleX }}
       />
 
@@ -48,16 +48,16 @@ export default function Home() {
 
       <main>
         <Hero />
-        <Projects />
+        <CV />
 
         {/* Gallery Section */}
         <section
           id="gallery"
-          className="py-24 px-6 md:px-12 bg-background relative overflow-hidden border-t border-white/10"
+          className="py-24 px-6 md:px-12 bg-card relative overflow-hidden border-t border-white/10"
         >
           <div className="max-w-7xl mx-auto relative z-0">
             <div className="mb-16">
-              <h3 className="font-display text-4xl md:text-6xl text-white font-semibold tracking-[-.07em]">
+              <h3 className="font-display text-4xl md:text-5xl text-white uppercase tracking-tighter">
                 Gallery
               </h3>
             </div>
@@ -65,7 +65,7 @@ export default function Home() {
           </div>
         </section>
 
-        <CV />
+        <Projects />
 
         {/* About Section */}
         <section
@@ -75,11 +75,11 @@ export default function Home() {
           <div id="contact" className="absolute top-0 left-0" />
           <div className="max-w-7xl mx-auto relative z-0">
             <div className="mb-24">
-              <h2 className="font-display text-4xl md:text-6xl text-white mb-8 font-semibold tracking-[-.07em]">
+              <h2 className="font-display text-5xl text-white mb-8 uppercase tracking-tighter">
                 About Me
               </h2>
 
-              <p className="font-sans text-lg md:text-2xl leading-relaxed text-white/75 max-w-5xl lg:max-w-6xl">
+              <p className="font-mono text-xl md:text-2xl leading-relaxed text-white/90 max-w-5xl lg:max-w-6xl">
                 {aboutText}
               </p>
             </div>
@@ -98,6 +98,7 @@ export default function Home() {
                     <li>
                       <a
                         href="mailto:userskins@gmail.com"
+                        style={{ fontFamily: 'Comic Relief, cursive' }}
                         className="hover:text-primary hover:pl-4 transition-all cursor-pointer flex items-center gap-4 group font-bold"
                       >
                         <span className="w-2 h-2 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -109,6 +110,7 @@ export default function Home() {
                         href="https://t.me/userskins"
                         target="_blank"
                         rel="noreferrer"
+                        style={{ fontFamily: 'Comic Relief, cursive' }}
                         className="hover:text-primary hover:pl-4 transition-all cursor-pointer flex items-center gap-4 group font-bold"
                       >
                         <span className="w-2 h-2 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -120,6 +122,7 @@ export default function Home() {
                         href="https://vk.com/userskins"
                         target="_blank"
                         rel="noreferrer"
+                        style={{ fontFamily: 'Comic Relief, cursive' }}
                         className="hover:text-primary hover:pl-4 transition-all cursor-pointer flex items-center gap-4 group font-bold"
                       >
                         <span className="w-2 h-2 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />

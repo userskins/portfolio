@@ -47,8 +47,8 @@ assert.equal(await page.locator('.atelier-help-sheet').count(),0,'help closes');
 await page.keyboard.press('3');
 await page.locator('[role="dialog"]').waitFor();
 assert.match(await page.locator('.reader-heading').innerText(),/EMAIL/i,'keyboard opens Email / CRM');
-await page.keyboard.press('Escape');
-await page.waitForTimeout(650);
+await page.locator('.reader .back-to-desk').click();
+await page.locator('.reader[role="dialog"]').waitFor({state:'detached',timeout:6000});
 
 await page.setViewportSize({width:390,height:844});
 await page.waitForTimeout(550);

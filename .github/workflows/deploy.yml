@@ -37,5 +37,5 @@ jobs:
           port: 21
           security: strict
           local-dir: ./dist/public/
-          server-dir: ./
+          server-dir: ./public_html/
           dry-run: true

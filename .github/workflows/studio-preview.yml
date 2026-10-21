@@ -55,8 +55,11 @@ jobs:
           path: dist/studio/
           include-hidden-files: true
           retention-days: 3
+      # This temporary hosting hostname currently has no trusted HTTPS cert.
+      # Public, read-only page checks use its original HTTP address.
+      # ALL uploads and credentials still travel through strictly verified FTPS.
       - name: Remember original home page
-        run: curl --fail --silent --show-error --max-time 30 --retry 2 https://usersksite.temp.swtest.ru/ -o /tmp/original-home.html
+        run: curl --fail --silent --show-error --max-time 30 --retry 2 http://usersksite.temp.swtest.ru/ -o /tmp/original-home.html
       - name: Publish isolated studio only
         uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         env:
@@ -73,7 +76,7 @@ jobs:
           dry-run: false
       - name: Check original home is unchanged
         run: |
-          curl --fail --silent --show-error --max-time 30 --retry 2 https://usersksite.temp.swtest.ru/ -o /tmp/original-home-after.html
+          curl --fail --silent --show-error --max-time 30 --retry 2 http://usersksite.temp.swtest.ru/ -o /tmp/original-home-after.html
           cmp /tmp/original-home.html /tmp/original-home-after.html
       - name: Verify published preview in browser
         run: node scripts/studio-live-check.mjs

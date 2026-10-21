@@ -4,7 +4,8 @@ const {chromium}=await import('/tmp/studio-tools/node_modules/playwright/index.m
 const browser=await chromium.launch({headless:true});
 const page=await browser.newPage({viewport:{width:1440,height:950}});
 const errors=[];page.on('pageerror',e=>errors.push(e.message));
-const url='https://usersksite.temp.swtest.ru/studio/';
+// The temporary SpaceWeb URL was supplied as HTTP; its HTTPS cert is self-signed.
+const url='http://usersksite.temp.swtest.ru/studio/';
 const response=await page.goto(url,{waitUntil:'domcontentloaded',timeout:45000});
 assert.equal(response.status(),200);
 await page.locator('[data-folder="design"]').waitFor({timeout:20000});

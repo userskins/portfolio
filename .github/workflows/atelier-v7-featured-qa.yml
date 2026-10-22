@@ -30,11 +30,11 @@ jobs:
       - name: Install packages
         run: npm ci
 
-      - name: Download original artwork and previews from passing Tech V6 build
+      - name: Reuse previously verified artwork and live-site previews
         uses: actions/download-artifact@v4
         with:
-          name: atelier-v6-tech-dist
-          run-id: 39776554333
+          name: atelier-v7-featured-dist
+          run-id: 39779750626
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path: saved-owned-assets
 
@@ -47,6 +47,7 @@ jobs:
           cp -a saved-owned-assets/art/. client/studio/public/art/
           if [ -d saved-owned-assets/previews ]; then cp -a saved-owned-assets/previews/. client/studio/public/previews/; fi
           echo "Artworks: $(find client/studio/public/art -type f -name '*.webp' | wc -l)"
+          rm -f client/studio/public/previews/18.jpg
           echo "Project previews: $(find client/studio/public/previews -type f -name '*.jpg' | wc -l)"
 
       - name: Install Chromium and preview optimizer
@@ -56,11 +57,11 @@ jobs:
           python3 -m venv /tmp/studio-py
           /tmp/studio-py/bin/pip install pillow==11.3.0
 
-      - name: Capture ITMM and Learnio from live public sites
+      - name: Verify genuine ITMM and Learnio screenshots and deleted project removal
         run: |
-          node scripts/capture-featured-websites.mjs
           test -s client/studio/public/previews/itmm.jpg
           test -s client/studio/public/previews/learnio.jpg
+          test ! -e client/studio/public/previews/18.jpg
 
       - name: TypeScript checks
         run: npx tsc -p tsconfig.studio.json --noEmit

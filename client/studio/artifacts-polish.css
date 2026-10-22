@@ -1,0 +1,200 @@
+/* USERSKINS — tactile details: calm movement, real paper, clear hierarchy. */
+
+/* The desk reacts slightly to a mouse, without free dragging or spin handles. */
+.atelier-shell .desk-scene .desk-item {
+  touch-action: pan-y;
+  cursor: pointer;
+}
+.atelier-shell .desk-scene .object-laptop { cursor: default; }
+.atelier-shell .desk-scene .object-pencil { cursor: default; }
+@media (hover: hover) and (pointer: fine) {
+  .atelier-shell .desk-scene .object-email:hover,
+  .atelier-shell .desk-scene .object-email:focus-within { z-index: 28; }
+  .atelier-shell .desk-scene .object-motion:hover,
+  .atelier-shell .desk-scene .object-motion:focus-within { z-index: 19; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .atelier-shell .desk-item { transition: none !important; }
+}
+
+/* The Design folder keeps its red geometry; the contrasting asterisk
+   is ink-blue instead of disappearing red-on-red. */
+html[data-studio-theme="tech"] .atelier-shell .design-cover .binder-title .hand-star {
+  color: #122438;
+  text-shadow: 0 1px 0 #f8c6c8;
+}
+.atelier-shell .design-cover .binder-meta { font-size: 8px; letter-spacing: .07em; }
+.atelier-shell .design-cover .design-glyph-caption { display: none; }
+
+/* The handwritten About heading rises; its underline sits lower, not through letters. */
+.atelier-shell .about-notebook .notebook-title {
+  transform: translateY(-9px) rotate(-4deg);
+}
+.atelier-shell .about-notebook .notebook-title::after {
+  bottom: -8px;
+  width: 127px;
+}
+
+/* Motion: a single hand-marked title on a jewel case, not a UI full of labels. */
+.atelier-shell .motion-cd-inlay {
+  background:
+    linear-gradient(152deg, #17293c 0 57%, #ef1629 57% 80%, #12243b 80%),
+    #14273e;
+}
+.atelier-shell .motion-record-caption {
+  right: -3px;
+  top: 43%;
+  left: auto;
+  background: #e90019;
+  color: #fcf9f6;
+  padding: 1px 13px 5px 15px;
+  font: 700 27px/1 "Caveat", cursive;
+  letter-spacing: -.035em;
+  text-transform: none;
+  border-radius: 2px 0 2px 1px;
+  box-shadow: 2px 4px 0 #15263c, 4px 7px 8px #13293e33;
+  transform: rotate(-6deg);
+}
+.atelier-shell .motion-record-index,
+.atelier-shell .motion-cd-player-display,
+.atelier-shell .motion-cd-inlay-title,
+.atelier-shell .motion-cd-inlay-subtitle { display: none; }
+
+/* Envelope: matching folds, a believable letter and a quiet sealing sticker.
+   On hover the letter lifts above the laptop rather than being clipped by it. */
+.atelier-shell .mail-envelope { perspective: 1000px; isolation: isolate; }
+.atelier-shell .mail-envelope-shadow {
+  left: 9%; right: 9%; bottom: 7%;
+  background: #2139504c; filter: blur(14px);
+}
+.atelier-shell .mail-envelope-back,
+.atelier-shell .mail-envelope-flap,
+.atelier-shell .mail-envelope-pocket {
+  left: 5%; right: 5%; bottom: 10%; height: 68%;
+}
+.atelier-shell .mail-envelope-back {
+  background: linear-gradient(145deg, #f1f6fb 0%, #c6d8e7 80%);
+  border: 1px solid #90a7bd;
+  border-radius: 3px 3px 5px 5px;
+  box-shadow: 1px 2px 0 #b2c3d3, 5px 12px 14px #1c375335;
+}
+.atelier-shell .mail-envelope-letter {
+  z-index: 3;
+  left: 13%;
+  right: 13%;
+  top: 7%;
+  height: 74%;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  padding: 16px 14px 14px;
+  color: #1a2d43;
+  background:
+    repeating-linear-gradient(to bottom, transparent 0 28px, #d8e4ed63 29px 30px),
+    linear-gradient(#fffefa, #f6f8f8);
+  border: 1px solid #b2c4d1;
+  box-shadow: 1px 4px 8px #27435e24;
+  transform: translateY(29px);
+  transition: transform .52s cubic-bezier(.18,.75,.2,1), box-shadow .4s;
+}
+.atelier-shell .mail-envelope-letter strong {
+  display: block;
+  margin: 0;
+  font: 700 37px/.82 "Caveat", cursive;
+  letter-spacing: -.035em;
+  white-space: nowrap;
+}
+.atelier-shell .mail-envelope-letter strong span {
+  display: inline-block;
+  padding: 7px 0 0 12px;
+  color: #d90a1d;
+}
+.atelier-shell .mail-envelope-letter .mail-letter-rule {
+  margin-top: 12px;
+  width: 53px;
+  height: 2px;
+  background: #e80b20;
+  transform: rotate(-3deg);
+}
+.atelier-shell .mail-envelope-flap {
+  z-index: 6;
+  background: linear-gradient(165deg, #f9fbfe 0%, #c4d5e5 88%);
+  border: 0;
+  clip-path: polygon(0 0, 100% 0, 50% 64%);
+  transform-origin: 50% 0;
+  transition: transform .52s cubic-bezier(.25,.78,.22,1), filter .4s, z-index .01s;
+  backface-visibility: visible;
+}
+.atelier-shell .mail-envelope-pocket {
+  z-index: 5;
+  background:
+    linear-gradient(150deg, #d8e5f1 0 49%, transparent 50%) left bottom / 51% 100% no-repeat,
+    linear-gradient(210deg, #cbdce9 0 49%, transparent 50%) right bottom / 51% 100% no-repeat,
+    linear-gradient(180deg, #f5f9fd 0%, #bacfe1 98%);
+  clip-path: polygon(0 0, 50% 66%, 100% 0, 100% 100%, 0 100%);
+  border-bottom: 1px solid #8da6bf;
+}
+.atelier-shell .mail-envelope-seal {
+  z-index: 7;
+  top: 49%;
+  left: 51%;
+  width: 28px;
+  height: 28px;
+  border: 2px solid #ffe2e1a8;
+  border-radius: 49% 51% 53% 47%;
+  background: #dc0f25;
+  box-shadow: 1px 3px 4px #11273a33;
+  transform: translateX(-50%) rotate(14deg);
+}
+.atelier-shell .mail-envelope-seal::after {
+  content: "";
+  display: block;
+  width: 11px; height: 11px;
+  border: 1px solid #fff9;
+  border-radius: 50%;
+}
+.atelier-shell .mail-envelope-caption {
+  z-index: 6;
+  left: 15%;
+  bottom: 15%;
+  gap: 4px;
+  color: #34516d;
+  font: 700 22px/1 "Caveat", cursive;
+  letter-spacing: -.02em;
+  transform: rotate(-3deg);
+}
+.atelier-shell .mail-envelope-caption svg { width: 13px; height: 13px; }
+.atelier-shell .mail-envelope:is(:hover,:focus-visible) .mail-envelope-flap,
+.atelier-shell .object-email:focus-within .mail-envelope-flap {
+  z-index: 1;
+  transform: rotateX(172deg);
+  filter: brightness(1.035);
+}
+.atelier-shell .mail-envelope:is(:hover,:focus-visible) .mail-envelope-letter,
+.atelier-shell .object-email:focus-within .mail-envelope-letter {
+  transform: translateY(-36px);
+  box-shadow: 2px 12px 18px #1934523a;
+}
+.atelier-shell .mail-envelope:is(:hover,:focus-visible) .mail-envelope-seal,
+.atelier-shell .object-email:focus-within .mail-envelope-seal {
+  opacity: 0;
+  transform: translateX(-50%) translateY(9px) rotate(12deg);
+}
+.atelier-shell .mail-envelope:is(:hover,:focus-visible) .mail-envelope-caption,
+.atelier-shell .object-email:focus-within .mail-envelope-caption { opacity: .65; }
+
+@media (max-width: 900px) {
+  .atelier-shell .mail-envelope-letter { padding: 10px 8px; }
+  .atelier-shell .mail-envelope-letter strong { font-size: clamp(22px, 4vw, 31px); }
+  .atelier-shell .mail-envelope-letter strong span { padding: 5px 0 0 7px; }
+  .atelier-shell .mail-envelope-caption { font-size: 18px; left: 12%; bottom: 13%; }
+  .atelier-shell .mail-envelope-seal { width: 23px; height: 23px; }
+  .atelier-shell .motion-record-caption { top: 43%; right: -5px; font-size: clamp(17px,3.3vw,23px); padding: 1px 10px 4px; }
+  .atelier-shell .about-notebook .notebook-title { transform: translateY(-5px) rotate(-4deg); }
+  .atelier-shell .about-notebook .notebook-title::after { bottom: -8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .atelier-shell .mail-envelope-letter,
+  .atelier-shell .mail-envelope-flap,
+  .atelier-shell .mail-envelope-seal { transition: none !important; }
+}

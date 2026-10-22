@@ -29,6 +29,7 @@ export function DeskItem({
   extraClass?: string;
 }) {
   const reduced = useReducedMotion();
+  const mobileDecoration = small && ['loose-one', 'loose-two', 'pencil'].includes(name);
   const controls = useDragControls();
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -122,8 +123,8 @@ export function DeskItem({
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: reduced ? 0 : .62, delay: order * .045, ease: [.22, 1, .36, 1] }}
       whileHover={small || reduced || rotating || name === 'laptop' ? undefined : { scale: 1.025 }}
-      drag
-      dragListener={!small}
+      drag={!mobileDecoration}
+      dragListener={!small && !mobileDecoration}
       dragControls={controls}
       dragConstraints={areaRef}
       dragMomentum={false}
@@ -137,7 +138,7 @@ export function DeskItem({
       }}
     >
       {children}
-      <button
+      {!mobileDecoration && <button
         type="button"
         className="desk-rotate-handle"
         aria-label={`Вращать: ${label}. Потяните за ручку или нажимайте стрелки влево и вправо`}
@@ -161,8 +162,8 @@ export function DeskItem({
         onKeyDown={rotateKey}
       >
         <RotateCw size={17} strokeWidth={2.25} aria-hidden="true" />
-      </button>
-      {small && (
+      </button>}
+      {small && !mobileDecoration && (
         <button
           type="button"
           className="desk-move-handle"

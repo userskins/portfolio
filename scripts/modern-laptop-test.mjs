@@ -23,13 +23,13 @@ await page.screenshot({ path:'ultralight-review/01-ultralight-desktop.png', full
 
 await page.locator('[data-testid="laptop-next"]').click();
 await page.waitForTimeout(520);
-assert.match(await page.locator('.modern-page-count').innerText(), /02\s*\/\s*06/, 'modern pager shows second project');
-assert.match((await page.locator('.modern-screen-open').getAttribute('aria-label')) ?? '', /The Russian Symphony/, 'selected project changed');
+assert.match(await page.locator('.modern-page-count').innerText(), /02\s*\/\s*08/, 'modern pager shows second project');
+assert.match((await page.locator('.modern-screen-open').getAttribute('aria-label')) ?? '', /Лёрнио/, 'selected project changed');
 await page.screenshot({ path:'ultralight-review/02-next-site-on-laptop.png', fullPage:true });
 
 await page.locator('[data-testid="open-websites"]').click();
 await page.locator('[role="dialog"]').waitFor();
-assert.equal(await page.locator('.case-files [aria-pressed="true"]').getAttribute('data-case'), '18', 'opening modern laptop selects project 02');
+assert.equal(await page.locator('.case-files [aria-pressed="true"]').getAttribute('data-case'), 'learnio', 'opening modern laptop selects project 02');
 await page.locator('.reader .back-to-desk').click();
 await page.locator('.reader[role="dialog"]').waitFor({state:'detached',timeout:6000});
 
@@ -50,7 +50,7 @@ const swipeResult = await page.locator('.modern-screen-open').evaluate(element =
 });
 assert.equal(swipeResult,true,'mobile swipe is handled and cancels accidental project-open click');
 await page.waitForTimeout(580);
-assert.match(await page.locator('.modern-page-count').innerText(),/03\s*\/\s*06/,'mobile swipe advances to site 03');
+assert.match(await page.locator('.modern-page-count').innerText(),/03\s*\/\s*08/,'mobile swipe advances to site 03');
 await page.screenshot({path:'ultralight-review/04-mobile-swiped-project.png',fullPage:true});
 assert.deepEqual(errors,[],'no runtime JavaScript errors');
 

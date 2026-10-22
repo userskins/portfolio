@@ -1,10 +1,10 @@
-name: Publish Atelier V3 HTTPS
+name: Publish Atelier V4 HTTPS
 
 on:
   workflow_run:
-    workflows: ["Atelier V3 - browser QA"]
+    workflows: ["Atelier V4 - ultralight laptop QA"]
     types: [completed]
-    branches: [design/atelier-interactive-v3]
+    branches: [design/atelier-v4-modern-laptop]
   workflow_dispatch:
 
 permissions:
@@ -14,7 +14,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages-interactive-atelier-v3
+  group: pages-interactive-atelier-v4
   cancel-in-progress: true
 
 jobs:
@@ -25,7 +25,7 @@ jobs:
       - name: Checkout verified interactive branch
         uses: actions/checkout@v4
         with:
-          ref: design/atelier-interactive-v3
+          ref: design/atelier-v4-modern-laptop
 
       - name: Node.js 22
         uses: actions/setup-node@v4
@@ -39,8 +39,8 @@ jobs:
       - name: Get verified project screenshots and artwork
         uses: actions/download-artifact@v4
         with:
-          name: atelier-v3-dist
-          run-id: ${{ github.event.workflow_run.id || 39682344463 }}
+          name: atelier-v4-dist
+          run-id: ${{ github.event.workflow_run.id || 39758359496 }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path: verified-dist
 

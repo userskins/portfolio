@@ -167,7 +167,7 @@ function Laptop({ project, onOpen, onNext, onPrevious, index, total }: {
       <div className="modern-laptop-edge" aria-hidden="true">
         <span />
       </div>
-      <div className="atelier-laptop-pager modern-laptop-pager" aria-label="Переключение проектов на экране ноутбука">
+      <div className="atelier-laptop-pager modern-laptop-pager" aria-label="Переключение проектов на экране ноутбука" onPointerDown={(event) => event.stopPropagation()}>
         <button
           type="button"
           data-testid="laptop-prev"

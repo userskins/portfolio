@@ -30,7 +30,7 @@ await page.keyboard.press('Tab');
 assert.equal(await page.evaluate(()=>!!document.activeElement?.closest('[role="dialog"]')),true);
 await page.keyboard.press('Escape');await page.locator('.reader[role="dialog"]').waitFor({state:'detached',timeout:7000});
 await page.locator('[data-testid="open-websites"]').click();await page.waitForTimeout(700);
-assert.equal(await page.locator('.original-link').getAttribute('href'),'https://9may.sirius.ru');
+assert.equal(await page.locator('.original-link').getAttribute('href'),'https://itmm.unn.ru/');
 await page.screenshot({path:'studio-review/03-websites.png',fullPage:true});
 await page.keyboard.press('Escape');await page.locator('.reader[role="dialog"]').waitFor({state:'detached',timeout:7000});
 await page.locator('[data-testid="open-gallery"]').click();await page.waitForTimeout(650);

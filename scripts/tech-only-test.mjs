@@ -38,7 +38,7 @@ assert.equal(a.ink,'#101824','graphite lettering');
 assert.equal(a.red,'#ff0000','pure red accents');
 assert.match(a.screenBackground,/radial-gradient/,'real silver gradient, not old beige background');
 assert.equal(await page.locator('.theme-console, .theme-option').count(),0,'no palette switchers');
-assert.equal(await page.locator('[data-object]').count(),7,'physical interactive objects remain');
+assert.equal(await page.locator('[data-object]').count(),10,'physical interactive objects remain');
 assert.equal(await page.locator('[data-testid="modern-laptop"]').count(),1,'modern laptop remains');
 await page.screenshot({path:'tech-review/01-desktop-tech.png',fullPage:true});
 

@@ -13,6 +13,8 @@ import './tech.css';
 import './showcase.css';
 import './freedesk.css';
 import { DeskItem } from './DeskItem';
+import { MotionRecord, MailEnvelope } from './DeskArtifacts';
+import './desk-artifacts.css';
 import { StudioCursor } from './StudioCursor';
 
 type Category = Project['tag'];
@@ -50,10 +52,10 @@ function Binder({ category, number, onOpen }: { category: Category; number: stri
   const item = folders.find(f => f.id === category)!;
   const artwork = category === 'design' ? 32 : category === 'email' ? 33 : 27;
   return <button className={`binder ${cropClasses[category]}`} type="button" aria-label={`${item.label}: ${count(category)} projects`} data-folder={category} onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.stopPropagation(); onOpen(); } }}>
-    <span className="binder-leaf leaf-back"><img src={art(category === 'design' ? 3 : 34)} alt="" draggable={false} /></span>
-    <span className="binder-leaf leaf-middle"><img src={art(artwork)} alt="" draggable={false} /></span>
+    <span className="binder-leaf leaf-back">{category === 'design' ? <span className="design-sheet design-sheet-back" aria-hidden="true" /> : <img src={art(34)} alt="" draggable={false} />}</span>
+    <span className="binder-leaf leaf-middle">{category === 'design' ? <span className="design-sheet design-sheet-front" aria-hidden="true" /> : <img src={art(artwork)} alt="" draggable={false} />}</span>
     <span className="binder-front">
-      <span className="cover-art"><img src={art(artwork)} alt="" draggable={false} /></span><span className="cover-overprint" />
+      {category === 'design' ? <span className="design-cover-graphic" aria-hidden="true"><span className="design-glyph-orbit" /><span className="design-glyph-slice" /><span className="design-glyph-cross" /><span className="design-glyph-caption">SHAPE / CONCEPT / FORM</span></span> : <><span className="cover-art"><img src={art(artwork)} alt="" draggable={false} /></span><span className="cover-overprint" /></>}
       <span className="binder-meta"><span>DG / {number}</span><span>{count(category)} CASES</span></span>
       <span className="binder-title">{category === 'email' ? <>EMAIL<br />&amp; CRM</> : item.name}<span className="hand-star">*</span></span>
       <span className="binder-foot"><span>{item.label}</span><ArrowUpRight size={25} strokeWidth={1.4} /></span><span className="binder-spine" />
@@ -313,8 +315,8 @@ function Studio() {
                   onHoverChange={setLaptopHover}
                   onFocusChange={setLaptopFocus}
                 /></DeskItem>
-              <DeskItem name="email" label="Папка с рассылками" areaRef={sceneRef} onRaise={lift} rotation={5} order={4} small={small} onOpen={() => open('email')}><Binder category="email" number="02" onOpen={() => open('email')} /></DeskItem>
-              <DeskItem name="motion" label="Папка с анимацией" areaRef={sceneRef} onRaise={lift} rotation={-7} order={5} small={small} onOpen={() => open('animation')}><Binder category="animation" number="03" onOpen={() => open('animation')} /></DeskItem>
+              <DeskItem name="email" label="Конверт Email + CRM" areaRef={sceneRef} onRaise={lift} rotation={5} order={4} small={small} onOpen={() => open('email')}><MailEnvelope total={count('email')} onOpen={() => open('email')} /></DeskItem>
+              <DeskItem name="motion" label="Диск Motion" areaRef={sceneRef} onRaise={lift} rotation={-7} order={5} small={small} onOpen={() => open('animation')}><MotionRecord previewSrc={art(27)} total={count('animation')} onOpen={() => open('animation')} /></DeskItem>
               <DeskItem name="about" label="Блокнот" areaRef={sceneRef} onRaise={lift} rotation={-6} order={6} small={small} onOpen={() => open('about')}><button className="about-notebook" aria-label={T.about} data-testid="open-about"><span className="notebook-holes" /><span className="notebook-head">ЗАМЕТКИ / 2020–2026</span><span className="notebook-title">{T.about}</span><span className="notebook-copy">VK / ВШЭ / ИТММ<br />ДИЗАЙН + ЛЮДИ + ИДЕИ</span><span className="notebook-sign">Dmitriy <ArrowUpRight size={24} /></span></button></DeskItem>
               <DeskItem name="contact" label="Карточка контактов" areaRef={sceneRef} onRaise={lift} rotation={-12} order={7} small={small} onOpen={() => open('contact')}><button className="contact-card" aria-label={T.contact} data-testid="open-contact"><span>LET'S MAKE</span><strong>SOMETHING<br />MATTER.</strong><span>WRITE ME <ArrowUpRight size={20} /></span></button></DeskItem>
               <DeskItem name="pencil" label="Карандаш" extraClass="pencil" rotation={30} order={5} small={small} areaRef={sceneRef} onRaise={lift}><span /></DeskItem><span className="desk-handnote note-bottom" aria-hidden="true">делаю<br /><u>со смыслом</u>.</span><span className="desk-star" aria-hidden="true">*</span>

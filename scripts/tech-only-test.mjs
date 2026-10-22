@@ -60,7 +60,7 @@ await page.locator('.reader[role="dialog"]').waitFor({state:'detached',timeout:7
 
 await page.locator('[data-testid="laptop-next"]').click();
 await page.waitForTimeout(350);
-assert.match(await page.locator('.modern-page-count').innerText(),/02\s*\/\s*06/,'websites still scroll inside modern laptop');
+assert.match(await page.locator('.modern-page-count').innerText(),/02\s*\/\s*08/,'websites still scroll inside modern laptop');
 await page.locator('[data-testid="atelier-shuffle"]').click();
 await page.waitForTimeout(350);
 assert.equal(await page.locator('.atelier-shell').getAttribute('data-arrangement'),'1','object shuffle still works');

@@ -296,11 +296,11 @@ function Studio() {
             <div className="desk-scene" ref={sceneRef} key={reset}>
               <span className="desk-handnote note-top" aria-hidden="true">a little bit of chaos.<br />a lot of design.</span>
               <svg className="desk-doodle doodle-arrow" viewBox="0 0 160 70" aria-hidden="true"><path d="M3 8 C 39 47 80 54 145 45 M128 25 L148 45 L126 57" fill="none" stroke="currentColor" strokeWidth="2" /></svg>
-              <div className="loose-paper loose-one" aria-hidden="true"><img src={art(27)} alt="" /></div>
-              <div className="loose-paper loose-two" aria-hidden="true"><img src={art(34)} alt="" /></div>
-              <Draggable name="design" rotation={-10} order={1} small={small} arrangement={arrangement} onOpen={() => open('design')}><Binder category="design" number="01" onOpen={() => open('design')} /></Draggable>
-              <Draggable name="gallery" rotation={7} order={2} small={small} arrangement={arrangement} onOpen={() => open('gallery')}><button type="button" className="print-stack" data-testid="open-gallery" aria-label={T.gallery}><span className="print-under" /><span className="print-image"><img src={art(67)} alt="" draggable={false} /></span><span className="print-caption">VISUAL DIARY <span>01 / {uniqueGallery.length}</span></span><span className="paperclip" aria-hidden="true" /><span className="hover-tag">EXPLORE THE ARCHIVE <ArrowUpRight size={12} /></span></button></Draggable>
-              <Draggable name="laptop" rotation={12} order={3} small={small} arrangement={arrangement}><Laptop
+              <DeskItem name="loose-one" label="Верхнее фото" extraClass="loose-paper loose-one" rotation={13} order={1} small={small} areaRef={sceneRef} onRaise={lift}><img src={art(27)} alt="Фото из творческого архива" draggable={false} /></DeskItem>
+              <DeskItem name="loose-two" label="Нижнее фото" extraClass="loose-paper loose-two" rotation={5} order={1} small={small} areaRef={sceneRef} onRaise={lift}><img src={art(34)} alt="Ещё одна фотография из архива" draggable={false} /></DeskItem>
+              <DeskItem name="design" label="Папка «Дизайн»" areaRef={sceneRef} onRaise={lift} rotation={-10} order={1} small={small} onOpen={() => open('design')}><Binder category="design" number="01" onOpen={() => open('design')} /></DeskItem>
+              <DeskItem name="gallery" label="Галерея работ" areaRef={sceneRef} onRaise={lift} rotation={7} order={2} small={small} onOpen={() => open('gallery')}><button type="button" className="print-stack" data-testid="open-gallery" aria-label={T.gallery}><span className="print-under" /><span className="print-image"><img src={art(67)} alt="" draggable={false} /></span><span className="print-caption">VISUAL DIARY <span>01 / {uniqueGallery.length}</span></span><span className="paperclip" aria-hidden="true" /><span className="hover-tag">EXPLORE THE ARCHIVE <ArrowUpRight size={12} /></span></button></DeskItem>
+              <DeskItem name="laptop" label="Ноутбук с сайтами" areaRef={sceneRef} onRaise={lift} rotation={12} order={3} small={small}><Laptop
                   project={firstWebsite}
                   onOpen={openLaptop}
                   onNext={() => changeWebsite(1)}
@@ -312,12 +312,12 @@ function Studio() {
                   onToggleAuto={() => setAutoplayEnabled(v => !v)}
                   onHoverChange={setLaptopHover}
                   onFocusChange={setLaptopFocus}
-                /></Draggable>
-              <Draggable name="email" rotation={5} order={4} small={small} arrangement={arrangement} onOpen={() => open('email')}><Binder category="email" number="02" onOpen={() => open('email')} /></Draggable>
-              <Draggable name="motion" rotation={-7} order={5} small={small} arrangement={arrangement} onOpen={() => open('animation')}><Binder category="animation" number="03" onOpen={() => open('animation')} /></Draggable>
-              <Draggable name="about" rotation={-6} order={6} small={small} arrangement={arrangement} onOpen={() => open('about')}><button className="about-notebook" aria-label={T.about} data-testid="open-about"><span className="notebook-holes" /><span className="notebook-head">NOTES / 2020 - 2026</span><span className="notebook-title">{T.about}</span><span className="notebook-copy">VK / HSE / DESIGN<br />ART + DIGITAL + PEOPLE</span><span className="notebook-sign">Dmitriy <ArrowUpRight size={24} /></span></button></Draggable>
-              <Draggable name="contact" rotation={-12} order={7} small={small} arrangement={arrangement} onOpen={() => open('contact')}><button className="contact-card" aria-label={T.contact} data-testid="open-contact"><span>LET'S MAKE</span><strong>SOMETHING<br />MATTER.</strong><span>WRITE ME <ArrowUpRight size={20} /></span></button></Draggable>
-              <div className="pencil" aria-hidden="true"><span /></div><span className="desk-handnote note-bottom" aria-hidden="true">make it<br /><u>mean</u> something.</span><span className="desk-star" aria-hidden="true">*</span>
+                /></DeskItem>
+              <DeskItem name="email" label="Папка с рассылками" areaRef={sceneRef} onRaise={lift} rotation={5} order={4} small={small} onOpen={() => open('email')}><Binder category="email" number="02" onOpen={() => open('email')} /></DeskItem>
+              <DeskItem name="motion" label="Папка с анимацией" areaRef={sceneRef} onRaise={lift} rotation={-7} order={5} small={small} onOpen={() => open('animation')}><Binder category="animation" number="03" onOpen={() => open('animation')} /></DeskItem>
+              <DeskItem name="about" label="Блокнот" areaRef={sceneRef} onRaise={lift} rotation={-6} order={6} small={small} onOpen={() => open('about')}><button className="about-notebook" aria-label={T.about} data-testid="open-about"><span className="notebook-holes" /><span className="notebook-head">NOTES / 2020 - 2026</span><span className="notebook-title">{T.about}</span><span className="notebook-copy">VK / HSE / DESIGN<br />ART + DIGITAL + PEOPLE</span><span className="notebook-sign">Dmitriy <ArrowUpRight size={24} /></span></button></DeskItem>
+              <DeskItem name="contact" label="Карточка контактов" areaRef={sceneRef} onRaise={lift} rotation={-12} order={7} small={small} onOpen={() => open('contact')}><button className="contact-card" aria-label={T.contact} data-testid="open-contact"><span>LET'S MAKE</span><strong>SOMETHING<br />MATTER.</strong><span>WRITE ME <ArrowUpRight size={20} /></span></button></DeskItem>
+              <DeskItem name="pencil" label="Карандаш" extraClass="pencil" rotation={30} order={5} small={small} areaRef={sceneRef} onRaise={lift}><span /></DeskItem><span className="desk-handnote note-bottom" aria-hidden="true">make it<br /><u>mean</u> something.</span><span className="desk-star" aria-hidden="true">*</span>
             </div>
           </motion.div>
         </div>
@@ -326,7 +326,7 @@ function Studio() {
         <span><span className="small-red-dot" />{small ? T.tapHint : T.hint}</span>
         <div className="atelier-desk-actions">
           <button type="button" onClick={() => setShowHelp(true)} data-testid="atelier-help"><HelpCircle size={14} /> Как пользоваться</button>
-          <button type="button" onClick={shuffleDesk} data-testid="atelier-shuffle"><Shuffle size={13} /> Перемешать</button>
+          
           <button type="button" onClick={resetDesk} aria-label={T.reset}><RotateCcw size={13} />{T.reset}</button>
         </div>
       </div>

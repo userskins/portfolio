@@ -1,10 +1,10 @@
-name: Publish Featured Website Showcase HTTPS
+name: Publish Free-Desk Portfolio HTTPS
 
 on:
   workflow_run:
-    workflows: ["Atelier V7 - Featured websites QA"]
+    workflows: ["Atelier V8 - Free Desk QA"]
     types: [completed]
-    branches: [feature/featured-websites-autoplay]
+    branches: [feature/free-rotate-desk]
 
 permissions:
   contents: read
@@ -13,7 +13,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages-featured-websites-tech
+  group: pages-free-desk-tech
   cancel-in-progress: true
 
 jobs:
@@ -38,7 +38,7 @@ jobs:
       - name: Get verified project screenshots and artwork
         uses: actions/download-artifact@v4
         with:
-          name: atelier-v7-featured-dist
+          name: atelier-v8-free-desk-dist
           run-id: ${{ github.event.workflow_run.id }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path: verified-dist

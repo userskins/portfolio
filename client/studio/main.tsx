@@ -9,8 +9,7 @@ import signature from '@assets/logo.webp';
 import './studio.css';
 import './atelier.css';
 import './ultralight.css';
-import './themes.css';
-import { ThemeSwitcher, THEME_STORAGE_KEY, readInitialTheme, type StudioTheme } from './ThemeSwitcher';
+import './tech.css';
 import { StudioCursor } from './StudioCursor';
 
 type Category = Project['tag'];
@@ -198,7 +197,6 @@ function Studio() {
   const [reset, setReset] = useState(0);
   const [arrangement, setArrangement] = useState(0);
   const [webIndex, setWebIndex] = useState(0);
-  const [theme, setTheme] = useState<StudioTheme>(readInitialTheme);
   const [showHelp, setShowHelp] = useState(false);
   const [hoveredObject, setHoveredObject] = useState<string | null>(null);
   const small = useSmallScreen();
@@ -216,12 +214,6 @@ function Studio() {
   const openLaptop = () => { open('websites'); setSelected(webIndex); };
   const resetDesk = () => { setArrangement(0); setReset(index => index + 1); };
   const shuffleDesk = () => { setArrangement(index => (index + 1) % 3); setReset(index => index + 1); };
-  useEffect(() => {
-    document.documentElement.dataset.studioTheme = theme;
-    try { window.localStorage.setItem(THEME_STORAGE_KEY, theme); } catch { /* Private mode: keep the theme for this visit. */ }
-    const meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
-    if (meta) meta.content = theme === 'tech' ? '#eaf0f6' : theme === 'swiss' ? '#ffffff' : '#f7f9fc';
-  }, [theme]);
   const navigate = (delta: number) => {
     if (view === 'gallery') setGalleryIndex(i => (i + delta + uniqueGallery.length) % uniqueGallery.length);
     else if (list.length) setSelected(i => (i + delta + list.length) % list.length);
@@ -254,7 +246,7 @@ function Studio() {
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
   }, [view]);
-  return <div className="studio-shell atelier-shell" data-arrangement={arrangement} data-theme={theme}>
+  return <div className="studio-shell atelier-shell" data-arrangement={arrangement} data-theme="tech">
     <StudioCursor disabled={small || Boolean(reduced) || view !== null} />
     <svg className="noise-filter" aria-hidden="true"><filter id="paper-grain"><feTurbulence type="fractalNoise" baseFrequency=".76" numOctaves="3" stitchTiles="stitch" /></filter></svg>
     <div className="paper-grain" aria-hidden="true" />
@@ -266,7 +258,6 @@ function Studio() {
       <nav id="studio-navigation" className="rail-nav" aria-label="Portfolio navigation">
         {([{ title: T.desk, value: null }, { title: T.work, value: 'all' }, { title: T.gallery, value: 'gallery' }, { title: T.about, value: 'about' }, { title: T.contact, value: 'contact' }] as { title: string; value: View }[]).map((item, i) => <button key={i} onClick={() => open(item.value)} aria-current={view === item.value ? 'page' : undefined}><span>{String(i + 1).padStart(2, '0')}</span>{item.title}<ArrowUpRight size={14} /></button>)}
       </nav>
-      <ThemeSwitcher value={theme} onChange={setTheme} />
       <div className="rail-bottom"><p className="rail-note">Good ideas<br />don't sit still.<span>*</span></p><div className="social-links"><a href="https://t.me/userskins" target="_blank" rel="noopener noreferrer">TG <ArrowUpRight size={11} /></a><a href="https://vk.com/userskins" target="_blank" rel="noopener noreferrer">VK <ArrowUpRight size={11} /></a><a href="mailto:userskins@gmail.com">MAIL <ArrowUpRight size={11} /></a></div></div>
     </aside>
     <main className="desk-area" aria-label={T.desk}>
@@ -321,7 +312,7 @@ function Studio() {
           <Dialog.Overlay forceMount asChild><motion.div className="reader-backdrop" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: reduced ? 0 : .4 }} /></Dialog.Overlay>
           <Dialog.Content forceMount asChild aria-describedby="reader-description" onKeyDown={e => { if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return; if (e.key === 'ArrowRight') { e.preventDefault(); navigate(1); } if (e.key === 'ArrowLeft') { e.preventDefault(); navigate(-1); } }}>
             <motion.section className={`reader reader-${view}`} initial={reduced ? false : { opacity: 0, y: 110, rotate: -2 }} animate={{ opacity: 1, y: 0, rotate: 0 }} exit={{ opacity: 0, y: 85, rotate: 1 }} transition={{ duration: reduced ? 0 : .48, ease: [.22, 1, .36, 1] }}>
-              <div className="reader-top"><Dialog.Close className="back-to-desk"><ArrowLeft size={17} />{T.back}</Dialog.Close><span>THE WORK / NOT THE TEMPLATE.</span><ThemeSwitcher value={theme} onChange={setTheme} compact /><Dialog.Close className="close-reader" aria-label={T.back}><X size={25} /></Dialog.Close></div>
+              <div className="reader-top"><Dialog.Close className="back-to-desk"><ArrowLeft size={17} />{T.back}</Dialog.Close><span>THE WORK / NOT THE TEMPLATE.</span><Dialog.Close className="close-reader" aria-label={T.back}><X size={25} /></Dialog.Close></div>
               <div className="reader-heading"><Dialog.Title>{title}<span className="hand-star">*</span></Dialog.Title><Dialog.Description id="reader-description">{T.realWork}</Dialog.Description></div>
               {active && <div className="case-layout">
                 <div className="case-preview-column"><AnimatePresence mode="wait"><motion.div key={active.id} initial={reduced ? false : { opacity: 0, x: 28, rotate: 1 }} animate={{ opacity: 1, x: 0, rotate: 0 }} exit={{ opacity: 0, x: -25 }} transition={{ duration: .28 }} className="case-proof">

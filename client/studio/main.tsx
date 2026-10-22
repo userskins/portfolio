@@ -8,6 +8,7 @@ import nameSticker from '@assets/hero-logo.webp';
 import signature from '@assets/logo.webp';
 import './studio.css';
 import './atelier.css';
+import './ultralight.css';
 import { StudioCursor } from './StudioCursor';
 
 type Category = Project['tag'];
@@ -91,35 +92,101 @@ function ProjectPreview({ project, className = '' }: { project: Project; classNa
 function Laptop({ project, onOpen, onNext, onPrevious, index, total }: {
   project: Project; onOpen: () => void; onNext: () => void; onPrevious: () => void; index: number; total: number;
 }) {
-  const rows = ['ESC F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11', '1 2 3 4 5 6 7 8 9 0 - +', 'Q W E R T Y U I O P [ ]', 'A S D F G H J K L : " ENTER', 'SHIFT Z X C V B N M , . / SHIFT'];
-  return <div className="laptop">
-    <div className="laptop-lid">
-      <span className="webcam" aria-hidden="true" />
-      <button className="atelier-laptop-screen-trigger" type="button"
-        onClick={(event) => { event.stopPropagation(); onOpen(); }}
-        aria-label={`Открыть ${project.title} в каталоге сайтов`} data-testid="open-websites">
-        <span className="laptop-display">
-          <ProjectPreview project={project} />
-          <span className="screen-caption">WEB / ${count('websites')} CASES <ArrowUpRight size={16} /></span>
-        </span>
-        <span className="laptop-brand">MADE OF IDEAS.</span>
-      </button>
-      <div className="atelier-laptop-pager" aria-label="Переключение сайтов на ноутбуке">
-        <button type="button" data-testid="laptop-prev" aria-label="Предыдущий сайт на экране"
-          onClick={(event) => { event.stopPropagation(); onPrevious(); }}><ChevronLeft size={15} /></button>
-        <span><b>WEB</b> {String(index + 1).padStart(2,'0')} / {String(total).padStart(2,'0')}</span>
-        <button type="button" data-testid="laptop-next" aria-label="Следующий сайт на экране"
-          onClick={(event) => { event.stopPropagation(); onNext(); }}><ChevronRight size={15} /></button>
+  const reduceMotion = useReducedMotion();
+  const [direction, setDirection] = useState(1);
+  const swipeStart = useRef<number | null>(null);
+  const swipeBlockUntil = useRef(0);
+
+  const move = (delta: number) => {
+    setDirection(delta);
+    if (delta > 0) onNext();
+    else onPrevious();
+  };
+  return (
+    <div className="modern-laptop" data-testid="modern-laptop" aria-label={"Интерактивный ноутбук с проектом " + project.title}>
+      <div className="modern-laptop-lid">
+        <span className="modern-laptop-camera" aria-hidden="true" />
+        <div className="modern-laptop-screen">
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={project.id}
+              className="modern-screen-content"
+              initial={reduceMotion ? false : { opacity: 0, x: direction * 42, scale: 1.035 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              exit={reduceMotion ? undefined : { opacity: 0, x: direction * -34, scale: 0.985 }}
+              transition={{ duration: reduceMotion ? 0 : 0.3, ease: [.22, 1, .36, 1] }}
+            >
+              <ProjectPreview project={project} />
+            </motion.div>
+          </AnimatePresence>
+          <div className="modern-screen-shine" aria-hidden="true" />
+          <div className="modern-screen-toolbar" aria-hidden="true">
+            <span className="modern-screen-brand">
+              <span className="modern-red-cross">✳</span> DG.STUDIO
+            </span>
+            <span className="modern-screen-address">SELECTED / WEB</span>
+            <span className="modern-live-dot" />
+          </div>
+          <button
+            type="button"
+            className="modern-screen-open"
+            data-testid="open-websites"
+            onClick={(event) => { event.stopPropagation(); if (Date.now() > swipeBlockUntil.current) onOpen(); }}
+            onTouchStart={(event) => { swipeStart.current = event.touches[0]?.clientX ?? null; }}
+            onTouchEnd={(event) => {
+              const initialX = swipeStart.current;
+              swipeStart.current = null;
+              if (initialX === null) return;
+              const distance = event.changedTouches[0].clientX - initialX;
+              if (Math.abs(distance) < 42) return;
+              if (event.cancelable) event.preventDefault();
+              event.stopPropagation();
+              swipeBlockUntil.current = Date.now() + 650;
+              move(distance < 0 ? 1 : -1);
+            }}
+            aria-label={"Открыть проект " + project.title + ". На телефоне листайте свайпом."}
+          >
+            <span className="modern-screen-open-label">
+              <span className="modern-open-prefix">№ {String(index + 1).padStart(2, "0")} / {project.year}</span>
+              <strong>{project.title}</strong>
+              <small>OPEN PROJECT <ArrowUpRight size={12} strokeWidth={2} /></small>
+            </span>
+          </button>
+        </div>
+        <span className="modern-laptop-bezel-wordmark" aria-hidden="true">DG / OBJECTS WITH STORIES</span>
       </div>
+      <div className="modern-laptop-hinge" aria-hidden="true" />
+      <div className="modern-laptop-deck" aria-hidden="true">
+        <div className="modern-laptop-speaker modern-laptop-speaker-left" />
+        <div className="modern-laptop-speaker modern-laptop-speaker-right" />
+        <div className="modern-keyboard">
+          {Array.from({ length: 49 }, (_, key) => <span key={key} className="modern-key" />)}
+        </div>
+        <div className="modern-trackpad" />
+      </div>
+      <div className="modern-laptop-edge" aria-hidden="true">
+        <span />
+      </div>
+      <div className="atelier-laptop-pager modern-laptop-pager" aria-label="Переключение проектов на экране ноутбука">
+        <button
+          type="button"
+          data-testid="laptop-prev"
+          aria-label="Предыдущий сайт на экране"
+          onClick={(event) => { event.stopPropagation(); move(-1); }}
+        ><ChevronLeft size={17} strokeWidth={1.8} /></button>
+        <span className="modern-page-count" aria-live="polite">
+          <b>WEB</b> {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
+        </span>
+        <button
+          type="button"
+          data-testid="laptop-next"
+          aria-label="Следующий сайт на экране"
+          onClick={(event) => { event.stopPropagation(); move(1); }}
+        ><ChevronRight size={17} strokeWidth={1.8} /></button>
+      </div>
+      <span className="modern-laptop-note" aria-hidden="true">click to explore ↗</span>
     </div>
-    <div className="laptop-hinge" />
-    <div className="laptop-base" aria-hidden="true">
-      <div className="speaker speaker-left" /><div className="speaker speaker-right" />
-      <div className="keyboard">{rows.map((row, i) => <div key={i} className="key-row">{row.split(' ').map((key, j) => <span key={j} className={key.length > 2 ? 'wide-key' : ''}>{key}</span>)}</div>)}<div className="key-row final-row"><span>fn</span><span>ctrl</span><span>alt</span><span>cmd</span><span className="space-key" /><span>cmd</span><span>alt</span><span> &lt; </span><span> &gt; </span></div></div>
-      <div className="trackpad" /><span className="laptop-decal">NOT<br />A TEMPLATE<span> *</span></span>
-    </div>
-    <span className="laptop-front-edge" />
-  </div>;
+  );
 }
 function Studio() {
   const [view, setView] = useState<View>(null);

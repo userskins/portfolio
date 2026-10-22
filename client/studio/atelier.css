@@ -91,14 +91,14 @@
   border-radius: 50%;
   box-shadow: 0 0 0 2px #f4f1eb;
 }
-.atelier-cursor[data-label="MOVE"] .atelier-cursor-ring {
+.atelier-cursor[data-label="КУРСОР"] .atelier-cursor-ring {
   width: 35px;
   height: 35px;
   border-color: var(--red);
   background: #fffaf6ee;
   box-shadow: none;
 }
-.atelier-cursor[data-label="MOVE"] .atelier-cursor-ring span {
+.atelier-cursor[data-label="КУРСОР"] .atelier-cursor-ring span {
   display: none;
 }
 .atelier-cursor-ring.is-pressed {

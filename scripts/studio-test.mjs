@@ -56,7 +56,12 @@ await page.screenshot({path:'studio-review/05-mobile-websites.png',fullPage:true
 assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>window.innerWidth),false);
 await page.keyboard.press('Escape');await page.locator('.reader[role="dialog"]').waitFor({state:'detached',timeout:7000});
 await page.emulateMedia({reducedMotion:'reduce'});
-await page.setViewportSize({width:1440,height:950});await page.waitForTimeout(700);
+await page.setViewportSize({width:1440,height:950});
+// Start the reduced-motion desktop scenario from a clean viewport. A scrolled
+// mobile page can otherwise retain a stale hit-test position during resize.
+await page.goto('http://127.0.0.1:4173/studio/',{waitUntil:'networkidle',timeout:45000});
+await page.evaluate(()=>document.fonts.ready);
+await page.mouse.move(2,2);
 await page.locator('[data-folder="design"]').click();await page.waitForTimeout(200);
 assert.equal(await page.locator('[role="dialog"]').count(),1);
 assert.deepEqual(errors,[]);

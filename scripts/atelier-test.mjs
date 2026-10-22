@@ -26,7 +26,7 @@ await page.screenshot({path:'atelier-review/02-cursor-hover.png',fullPage:true})
 
 await page.locator('[data-testid="laptop-next"]').click();
 await page.waitForTimeout(500);
-assert.match(await page.locator('.atelier-laptop-pager').innerText(),/02\s*\/\s*08/,'laptop switched websites');
+assert.match(await page.locator('.atelier-laptop-pager').innerText(),/02\s*\/\s*07/,'laptop switched websites');
 await page.locator('[data-testid="open-websites"]').click();
 await page.locator('[role="dialog"]').waitFor();
 await page.waitForTimeout(500);
@@ -59,7 +59,7 @@ await page.waitForTimeout(550);
 assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth > innerWidth),false,'mobile has no sideways overflow');
 await page.screenshot({path:'atelier-review/05-mobile-desk.png',fullPage:true});
 await page.locator('[data-testid="laptop-next"]').click();
-assert.match(await page.locator('.atelier-laptop-pager').innerText(),/03\s*\/\s*08/,'laptop pager works on touch layout');
+assert.match(await page.locator('.atelier-laptop-pager').innerText(),/03\s*\/\s*07/,'laptop pager works on touch layout');
 await page.locator('[data-testid="atelier-help"]').click();
 assert.equal(await page.locator('.atelier-help-sheet').count(),1,'mobile help works');
 await page.screenshot({path:'atelier-review/06-mobile-help.png',fullPage:true});

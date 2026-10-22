@@ -13,7 +13,7 @@ await page.locator('[data-testid="laptop-auto-toggle"]').click();
 await page.evaluate(() => { if(document.activeElement instanceof HTMLElement) document.activeElement.blur(); });
 await page.mouse.move(2,2);
 await page.waitForTimeout(1500);
-assert.equal(await page.locator('[data-object]').count(),7);
+assert.equal(await page.locator('[data-object]').count(),10);
 await page.screenshot({path:'studio-review/01-desktop.png',fullPage:true});
 await page.locator('[data-folder="design"]').click();
 await page.locator('[role="dialog"]').waitFor();await page.waitForTimeout(550);

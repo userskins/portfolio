@@ -69,7 +69,7 @@ jobs:
           npx vite build --config vite.studio.config.ts
           /tmp/studio-py/bin/python scripts/studio-optimize.py
 
-      - name: Test existing design plus free movement/rotation in real browser
+      - name: Test fixed layout, project navigation and material interactions
         run: |
           python3 -m http.server 4173 --bind 127.0.0.1 --directory dist > /tmp/atelier-v8-http.log 2>&1 &
           sleep 2

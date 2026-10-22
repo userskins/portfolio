@@ -38,7 +38,7 @@ assert.equal(a.ink,'#101824','graphite lettering');
 assert.equal(a.red,'#ff0000','pure red accents');
 assert.match(a.screenBackground,/radial-gradient/,'real silver gradient, not old beige background');
 assert.equal(await page.locator('.theme-console, .theme-option').count(),0,'no palette switchers');
-assert.equal(await page.locator('[data-object]').count(),10,'physical interactive objects remain');
+assert.equal(await page.locator('[data-object]').count(),8,'seven interactive objects and static pencil remain');
 assert.equal(await page.locator('[data-testid="modern-laptop"]').count(),1,'modern laptop remains');
 await page.screenshot({path:'tech-review/01-desktop-tech.png',fullPage:true});
 
@@ -65,10 +65,8 @@ await page.locator('.reader[role="dialog"]').waitFor({state:'detached',timeout:7
 await page.locator('[data-testid="laptop-next"]').click();
 await page.waitForTimeout(350);
 assert.match(await page.locator('.modern-page-count').innerText(),/02\s*\/\s*07/,'websites still scroll inside modern laptop');
-assert.equal(await page.locator('[data-testid="atelier-shuffle"]').count(),0,'shuffle button stays removed');
-await page.getByRole('button',{name:'Собрать стол'}).click();
-await page.waitForTimeout(500);
-assert.equal(await page.locator('.desk-rotate-handle').count(),10,'all ten interactive objects return on reset');
+assert.equal(await page.locator('.desk-rotate-handle, .desk-move-handle').count(),0,'static desk has no drag handles');
+assert.equal(await page.locator('[data-object="loose-one"],[data-object="loose-two"]').count(),0,'unneeded loose photos are absent');
 
 for (const width of [768,390]) {
   await page.setViewportSize({width,height:844});
@@ -86,7 +84,7 @@ await fs.writeFile('tech-review/results.json',JSON.stringify({
  passed:true,
  checks:['fixed single Tech theme','pure red accents','silver-blue desk','no switch controls',
   'old stored Cold/Swiss ignored','Tech project viewer','modern laptop carousel',
-  'freely movable desk reset without shuffle','768px and 390px responsive layouts','no runtime errors'],
+  'fixed desk without rotate or reset controls','768px and 390px responsive layouts','no runtime errors'],
  errors
 },null,2));
 await browser.close();

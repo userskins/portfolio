@@ -15,7 +15,7 @@ assert.equal(await page.locator('[data-testid="laptop-auto-toggle"]').getAttribu
 await page.evaluate(() => { if(document.activeElement instanceof HTMLElement) document.activeElement.blur(); });
 await page.mouse.move(2,2);
 await page.waitForTimeout(1000);
-assert.equal(await page.locator('[data-object]').count(),10,'10 moveable desk objects');
+assert.equal(await page.locator('[data-object]').count(),8,'7 clickable objects and static pencil');
 assert.equal(await page.locator('[data-testid="laptop-next"]').count(),1,'laptop pagination is visible');
 await page.screenshot({path:'atelier-review/01-interactive-desk.png',fullPage:true});
 
@@ -40,18 +40,12 @@ await page.screenshot({path:'atelier-review/03-flipped-laptop-project.png',fullP
 await page.keyboard.press('Escape');
 await page.waitForTimeout(650);
 
-assert.equal(await page.locator('[data-testid="atelier-shuffle"]').count(),0,'shuffle was removed');
-assert.equal(await page.locator('.desk-rotate-handle').count(),10,'all ten desk items have rotation controls');
-await page.locator('.desk-bottomline button[aria-label="Собрать стол"]').click();
-await page.waitForTimeout(450);
-assert.equal(await page.locator('[data-testid="desk-item-pencil"]').count(),1,'reset keeps movable pencil on the desk');
-
-await page.locator('[data-testid="atelier-help"]').click();
-assert.equal(await page.locator('.atelier-help-sheet').count(),1,'help sheet opens');
-await page.screenshot({path:'atelier-review/04-interaction-guide.png',fullPage:true});
-await page.locator('.atelier-help-top button').click();
-await page.locator('.atelier-help-sheet').waitFor({state:'detached',timeout:2500});
-assert.equal(await page.locator('.atelier-help-sheet').count(),0,'help closes');
+assert.equal(await page.locator('.desk-rotate-handle,.desk-move-handle').count(),0,'no drag or rotation controls');
+assert.equal(await page.locator('[data-object="loose-one"],[data-object="loose-two"]').count(),0,'both extra background photos removed');
+assert.equal(await page.locator('[data-testid="atelier-help"],[aria-label="Собрать стол"]').count(),0,'obsolete movement actions removed');
+assert.equal(await page.locator('.rail-note .rail-note-first').innerText(),'Идеи не сидят','first slogan line');
+assert.equal(await page.locator('.rail-note .rail-note-second').innerText(),'на месте.','second slogan line');
+assert.equal(await page.locator('.notebook-title').evaluate(el=>getComputedStyle(el,'::after').bottom),'7px','About underline moved up');
 await page.keyboard.press('3');
 await page.locator('[role="dialog"]').waitFor();
 assert.match(await page.locator('.reader-heading').innerText(),/EMAIL/i,'keyboard opens Email / CRM');
@@ -65,17 +59,15 @@ await page.screenshot({path:'atelier-review/05-mobile-desk.png',fullPage:true});
 await page.locator('[data-testid="laptop-next"]').click();
 await page.waitForFunction(() => /03\s*\/\s*07/.test(document.querySelector('.atelier-laptop-pager')?.textContent ?? ''),null,{timeout:3500});
 assert.match(await page.locator('.atelier-laptop-pager').innerText(),/03\s*\/\s*07/,'laptop pager works on touch layout');
-await page.locator('[data-testid="atelier-help"]').click();
-assert.equal(await page.locator('.atelier-help-sheet').count(),1,'mobile help works');
-await page.screenshot({path:'atelier-review/06-mobile-help.png',fullPage:true});
+assert.equal(await page.locator('[data-testid="atelier-help"],.desk-rotate-handle,.desk-move-handle').count(),0,'mobile has no drag/rotate UI');
 assert.deepEqual(errors,[],'no JavaScript errors');
 await fs.writeFile('atelier-review/results.json',JSON.stringify({
  passed: true,
  checks: [
-  '10 movable desk objects','responsive custom cursor','hover reacts with contextual label',
+  '8 fixed desk objects','responsive custom cursor','hover reacts with contextual label',
   'real laptop website pagination','opening selected laptop project',
-  '10 rotatable objects and reset, no shuffle','keyboard shortcuts','interactive help card',
-  'mobile has no horizontal overflow','mobile laptop pager','mobile help','no page errors'
+  'no movement or rotation handles','keyboard shortcuts','two-line sidebar note and raised About underline',
+  'mobile has no horizontal overflow','mobile laptop pager','no page errors'
  ],
  errors
 },null,2));

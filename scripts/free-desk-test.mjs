@@ -91,8 +91,13 @@ await page.setViewportSize({width:390,height:844});
 await page.waitForTimeout(500);
 for(const name of names){
  assert.equal(await item(name).isVisible(),true,'mobile object is visible: '+name);
- assert.equal(await page.getByTestId('rotate-'+name).isVisible(),true,'mobile rotation control is visible: '+name);
- assert.equal(await page.getByTestId('move-'+name).isVisible(),true,'mobile drag handle exists: '+name);
+ if(['loose-one','loose-two','pencil'].includes(name)) {
+  assert.equal(await page.getByTestId('rotate-'+name).count(),0,'mobile decoration has no rotation handle: '+name);
+  assert.equal(await page.getByTestId('move-'+name).count(),0,'mobile decoration has no move handle: '+name);
+ } else {
+  assert.equal(await page.getByTestId('rotate-'+name).isVisible(),true,'mobile rotation control is visible: '+name);
+  assert.equal(await page.getByTestId('move-'+name).isVisible(),true,'mobile drag handle exists: '+name);
+ }
 }
 assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,'no mobile sideways overflow');
 await page.screenshot({path:'free-desk-review/04-mobile-with-photos-pencil.png',fullPage:true});

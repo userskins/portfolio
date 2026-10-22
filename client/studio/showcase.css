@@ -113,8 +113,6 @@
   background: #ff0000;
   color: #fff;
 }
-  50% { opacity: .62; box-shadow: 0 0 0 6px #ed161d16; }
-}
 @media (max-width: 900px) {
   .atelier-shell .modern-screen-index { top: 13px; right: 6px; gap: 3px; padding: 5px 3px; }
   .atelier-shell .modern-screen-tick { width: 17px; height: 13px; }
@@ -135,7 +133,7 @@
     max-width: 205px;
     font-size: clamp(16px,4.4vw,20px);
   }
-    .atelier-shell .modern-auto-meter { top: 5px; left: 9px; right: 9px; }
+  .atelier-shell .modern-auto-meter { top: 5px; left: 9px; right: 9px; }
   .atelier-shell .modern-laptop .modern-laptop-pager { margin-right: 0; gap: 3px; }
   .atelier-shell .modern-laptop .modern-laptop-pager .modern-page-count { min-width: 71px; }
   .atelier-shell .modern-laptop .modern-laptop-pager .modern-auto-toggle {
@@ -143,5 +141,6 @@
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .atelier-shell .modern-auto-meter span.meter-running,  .atelier-shell .modern-screen-tick span { transition: none !important; }
+  .atelier-shell .modern-auto-meter span.meter-running { animation: none !important; }
+  .atelier-shell .modern-screen-tick span { transition: none !important; }
 }

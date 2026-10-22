@@ -133,16 +133,6 @@ export const projects: Project[] = [
     url: 'https://nyfestival.parksirius.ru/',
   },
   {
-    id: '18',
-    title: 'The Russian Symphony',
-    category: 'Дизайн и вёрстка сайта',
-    image: userRef,
-    year: '2025',
-    size: 'large',
-    tag: 'websites',
-    url: 'https://russianstars-concert.ru/',
-  },
-  {
     id: '19',
     title: 'Sirius Talent Summit',
     category: 'Дизайн и вёрстка сайта',

@@ -35,7 +35,7 @@ const folders: { id: Category; name: string; label: string; }[] = [
 const count = (tag: Category) => projects.filter(p => p.tag === tag).length;
 const websites = projects.filter(p => p.tag === 'websites');
 const WEBSITE_INTERVAL_MS = 4500;
-const hoverDescriptions: Record<string, string> = { design: 'ДИЗАЙН / 6 ПРОЕКТОВ', gallery: 'ГАЛЕРЕЯ / АВТОРСКИЕ РАБОТЫ', laptop: 'САЙТЫ / 7 ПРОЕКТОВ · AUTO 4.5S', email: 'EMAIL / CRM-КОММУНИКАЦИИ', motion: 'АНИМАЦИЯ / MOTION', about: 'ОБО МНЕ / ОПЫТ И НАВЫКИ', contact: 'КОНТАКТЫ / ОБСУДИМ ПРОЕКТ' };
+const hoverDescriptions: Record<string, string> = { design: 'ДИЗАЙН / МАКЕТЫ И АЙДЕНТИКА', gallery: 'ГАЛЕРЕЯ / АВТОРСКИЕ РАБОТЫ', laptop: 'САЙТЫ / 7 ПРОЕКТОВ · АВТОПОКАЗ', email: 'РАССЫЛКИ / CRM-КОММУНИКАЦИИ', motion: 'АНИМАЦИЯ / ДВИЖЕНИЕ', about: 'ОБО МНЕ / ОПЫТ И НАВЫКИ', contact: 'КОНТАКТЫ / ОБСУДИМ ПРОЕКТ', 'loose-one': 'ФОТОГРАФИЯ / МОЖНО ДВИГАТЬ И ВРАЩАТЬ', 'loose-two': 'АРХИВНОЕ ФОТО / МОЖНО ВРАЩАТЬ', pencil: 'КАРАНДАШ / РАСКРУТИ МЕНЯ ↻' };
 const art = (id: number) => `${BASE}art/${id}.webp`;
 // Only project-cover pairings identifiable in the original artwork.
 const coverById: Record<string, number> = { '07b': 2, '07': 1, '06': 3, '05': 32 };
@@ -57,7 +57,7 @@ function Binder({ category, number, onOpen }: { category: Category; number: stri
       <span className="binder-meta"><span>DG / {number}</span><span>{count(category)} CASES</span></span>
       <span className="binder-title">{category === 'email' ? <>EMAIL<br />&amp; CRM</> : item.name}<span className="hand-star">*</span></span>
       <span className="binder-foot"><span>{item.label}</span><ArrowUpRight size={25} strokeWidth={1.4} /></span><span className="binder-spine" />
-    </span><span className="tape binder-tape" aria-hidden="true" /><span className="hover-tag">OPEN {item.name} <ArrowUpRight size={12} /></span>
+    </span><span className="tape binder-tape" aria-hidden="true" /><span className="hover-tag">ОТКРЫТЬ {item.label} <ArrowUpRight size={12} /></span>
   </button>;
 }
 function ProjectPreview({ project, className = '' }: { project: Project; className?: string }) {
@@ -221,7 +221,7 @@ function Studio() {
   const open = (next: View) => { setSelected(0); setGalleryFull(false); setView(next); };
   const list = view === 'all' ? projects : projects.filter(p => p.tag === view);
   const active = list[Math.min(selected, Math.max(0, list.length - 1))];
-  const title = view === 'all' ? 'ALL PROJECTS' : view === 'gallery' ? 'VISUAL DIARY' : view === 'about' ? 'ABOUT ME' : view === 'contact' ? 'LET\'S TALK' : folders.find(f => f.id === view)?.name ?? '';
+  const title = view === 'all' ? 'ВСЕ ПРОЕКТЫ' : view === 'gallery' ? 'ГАЛЕРЕЯ РАБОТ' : view === 'about' ? 'ОБО МНЕ' : view === 'contact' ? 'НА СВЯЗИ' : folders.find(f => f.id === view)?.label.toUpperCase() ?? '';
   const firstWebsite = websites[webIndex] ?? websites[0];
   const pauseForInteraction = () => {
     setManualHold(true);
@@ -280,26 +280,26 @@ function Studio() {
     <div className="paper-grain" aria-hidden="true" />
     <a href="#studio-navigation" className="skip-link">{T.work}</a>
     <aside className="identity-rail">
-      <div className="eyebrow">DESIGNER / CREATIVE EXPLORER</div>
+      <div className="eyebrow">ДИЗАЙНЕР / СОЗДАЮ И ИССЛЕДУЮ</div>
       <button className="name-sticker" onClick={() => open(null)} aria-label={T.desk}><img src={nameSticker} alt="Dmitriy Gusev" draggable={false} /></button>
-      <p className="intro-line">{T.intro}<br /><span>Since 2020. Always curious.</span></p><span className="red-underline" />
+      <p className="intro-line">{T.intro}<br /><span>В дизайне с 2020-го. Ищу новое.</span></p><span className="red-underline" />
       <nav id="studio-navigation" className="rail-nav" aria-label="Portfolio navigation">
         {([{ title: T.desk, value: null }, { title: T.work, value: 'all' }, { title: T.gallery, value: 'gallery' }, { title: T.about, value: 'about' }, { title: T.contact, value: 'contact' }] as { title: string; value: View }[]).map((item, i) => <button key={i} onClick={() => open(item.value)} aria-current={view === item.value ? 'page' : undefined}><span>{String(i + 1).padStart(2, '0')}</span>{item.title}<ArrowUpRight size={14} /></button>)}
       </nav>
-      <div className="rail-bottom"><p className="rail-note">Good ideas<br />don't sit still.<span>*</span></p><div className="social-links"><a href="https://t.me/userskins" target="_blank" rel="noopener noreferrer">TG <ArrowUpRight size={11} /></a><a href="https://vk.com/userskins" target="_blank" rel="noopener noreferrer">VK <ArrowUpRight size={11} /></a><a href="mailto:userskins@gmail.com">MAIL <ArrowUpRight size={11} /></a></div></div>
+      <div className="rail-bottom"><p className="rail-note">Идеи не<br />сидят на месте.<span>*</span></p><div className="social-links"><a href="https://t.me/userskins" target="_blank" rel="noopener noreferrer">TG <ArrowUpRight size={11} /></a><a href="https://vk.com/userskins" target="_blank" rel="noopener noreferrer">VK <ArrowUpRight size={11} /></a><a href="mailto:userskins@gmail.com">MAIL <ArrowUpRight size={11} /></a></div></div>
     </aside>
     <main className="desk-area" aria-label={T.desk}>
-      <div className="desk-topline"><span>PORTFOLIO / INTERACTIVE ATELIER</span><span className="atelier-hover-status" aria-live="polite">{hoveredObject ? hoverDescriptions[hoveredObject] : 'КУРСОР — ТВОЙ ИНСТРУМЕНТ'}</span><span className="tiny-cross">+</span><span>OBJECTS WITH STORIES</span></div>
+      <div className="desk-topline"><span>ПОРТФОЛИО / ЖИВОЙ РАБОЧИЙ СТОЛ</span><span className="atelier-hover-status" aria-live="polite">{hoveredObject ? hoverDescriptions[hoveredObject] : 'КУРСОР — ТВОЙ ИНСТРУМЕНТ'}</span><span className="tiny-cross">+</span><span>У ПРЕДМЕТОВ ЕСТЬ ИСТОРИИ</span></div>
       <div ref={holder} className="scene-holder" onPointerMove={e => { if (small || reduced || view) return; const rect = e.currentTarget.getBoundingClientRect(); e.currentTarget.style.setProperty('--atelier-x', (e.clientX - rect.left) + 'px'); e.currentTarget.style.setProperty('--atelier-y', (e.clientY - rect.top) + 'px'); x.set(((e.clientX - rect.left) / rect.width - .5) * -12); y.set(((e.clientY - rect.top) / rect.height - .5) * -9); }} onPointerOver={event => { const object = event.target instanceof Element ? event.target.closest('[data-object]') : null; const name = object?.getAttribute('data-object') ?? null; setHoveredObject(current => current === name ? current : name); }} onPointerLeave={() => { x.set(0); y.set(0); setHoveredObject(null); }}>
         <div className="scene-scale" style={{ '--scene-scale': sceneScale } as CSSProperties}>
           <motion.div className={`scene-camera ${view ? 'camera-focused' : ''}`} style={{ x: small || reduced ? 0 : sx, y: small || reduced ? 0 : sy }}>
             <div className="desk-scene" ref={sceneRef} key={reset}>
-              <span className="desk-handnote note-top" aria-hidden="true">a little bit of chaos.<br />a lot of design.</span>
+              <span className="desk-handnote note-top" aria-hidden="true">чуть-чуть хаоса.<br />много дизайна.</span>
               <svg className="desk-doodle doodle-arrow" viewBox="0 0 160 70" aria-hidden="true"><path d="M3 8 C 39 47 80 54 145 45 M128 25 L148 45 L126 57" fill="none" stroke="currentColor" strokeWidth="2" /></svg>
               <DeskItem name="loose-one" label="Верхнее фото" extraClass="loose-paper loose-one" rotation={13} order={1} small={small} areaRef={sceneRef} onRaise={lift}><img src={art(27)} alt="Фото из творческого архива" draggable={false} /></DeskItem>
               <DeskItem name="loose-two" label="Нижнее фото" extraClass="loose-paper loose-two" rotation={5} order={1} small={small} areaRef={sceneRef} onRaise={lift}><img src={art(34)} alt="Ещё одна фотография из архива" draggable={false} /></DeskItem>
               <DeskItem name="design" label="Папка «Дизайн»" areaRef={sceneRef} onRaise={lift} rotation={-10} order={1} small={small} onOpen={() => open('design')}><Binder category="design" number="01" onOpen={() => open('design')} /></DeskItem>
-              <DeskItem name="gallery" label="Галерея работ" areaRef={sceneRef} onRaise={lift} rotation={7} order={2} small={small} onOpen={() => open('gallery')}><button type="button" className="print-stack" data-testid="open-gallery" aria-label={T.gallery}><span className="print-under" /><span className="print-image"><img src={art(67)} alt="" draggable={false} /></span><span className="print-caption">VISUAL DIARY <span>01 / {uniqueGallery.length}</span></span><span className="paperclip" aria-hidden="true" /><span className="hover-tag">EXPLORE THE ARCHIVE <ArrowUpRight size={12} /></span></button></DeskItem>
+              <DeskItem name="gallery" label="Галерея работ" areaRef={sceneRef} onRaise={lift} rotation={7} order={2} small={small} onOpen={() => open('gallery')}><button type="button" className="print-stack" data-testid="open-gallery" aria-label={T.gallery}><span className="print-under" /><span className="print-image"><img src={art(67)} alt="" draggable={false} /></span><span className="print-caption">ГАЛЕРЕЯ РАБОТ <span>01 / {uniqueGallery.length}</span></span><span className="paperclip" aria-hidden="true" /><span className="hover-tag">СМОТРЕТЬ ГАЛЕРЕЮ <ArrowUpRight size={12} /></span></button></DeskItem>
               <DeskItem name="laptop" label="Ноутбук с сайтами" areaRef={sceneRef} onRaise={lift} rotation={12} order={3} small={small}><Laptop
                   project={firstWebsite}
                   onOpen={openLaptop}
@@ -315,13 +315,14 @@ function Studio() {
                 /></DeskItem>
               <DeskItem name="email" label="Папка с рассылками" areaRef={sceneRef} onRaise={lift} rotation={5} order={4} small={small} onOpen={() => open('email')}><Binder category="email" number="02" onOpen={() => open('email')} /></DeskItem>
               <DeskItem name="motion" label="Папка с анимацией" areaRef={sceneRef} onRaise={lift} rotation={-7} order={5} small={small} onOpen={() => open('animation')}><Binder category="animation" number="03" onOpen={() => open('animation')} /></DeskItem>
-              <DeskItem name="about" label="Блокнот" areaRef={sceneRef} onRaise={lift} rotation={-6} order={6} small={small} onOpen={() => open('about')}><button className="about-notebook" aria-label={T.about} data-testid="open-about"><span className="notebook-holes" /><span className="notebook-head">NOTES / 2020 - 2026</span><span className="notebook-title">{T.about}</span><span className="notebook-copy">VK / HSE / DESIGN<br />ART + DIGITAL + PEOPLE</span><span className="notebook-sign">Dmitriy <ArrowUpRight size={24} /></span></button></DeskItem>
+              <DeskItem name="about" label="Блокнот" areaRef={sceneRef} onRaise={lift} rotation={-6} order={6} small={small} onOpen={() => open('about')}><button className="about-notebook" aria-label={T.about} data-testid="open-about"><span className="notebook-holes" /><span className="notebook-head">ЗАМЕТКИ / 2020–2026</span><span className="notebook-title">{T.about}</span><span className="notebook-copy">VK / ВШЭ / ИТММ<br />ДИЗАЙН + ЛЮДИ + ИДЕИ</span><span className="notebook-sign">Dmitriy <ArrowUpRight size={24} /></span></button></DeskItem>
               <DeskItem name="contact" label="Карточка контактов" areaRef={sceneRef} onRaise={lift} rotation={-12} order={7} small={small} onOpen={() => open('contact')}><button className="contact-card" aria-label={T.contact} data-testid="open-contact"><span>LET'S MAKE</span><strong>SOMETHING<br />MATTER.</strong><span>WRITE ME <ArrowUpRight size={20} /></span></button></DeskItem>
-              <DeskItem name="pencil" label="Карандаш" extraClass="pencil" rotation={30} order={5} small={small} areaRef={sceneRef} onRaise={lift}><span /></DeskItem><span className="desk-handnote note-bottom" aria-hidden="true">make it<br /><u>mean</u> something.</span><span className="desk-star" aria-hidden="true">*</span>
+              <DeskItem name="pencil" label="Карандаш" extraClass="pencil" rotation={30} order={5} small={small} areaRef={sceneRef} onRaise={lift}><span /></DeskItem><span className="desk-handnote note-bottom" aria-hidden="true">делаю<br /><u>со смыслом</u>.</span><span className="desk-star" aria-hidden="true">*</span>
             </div>
           </motion.div>
         </div>
       </div>
+      <div className="desk-help-hand" aria-hidden="true">ХВАТАЙ И ДВИГАЙ · <b>↻</b> ВРАЩАЙ</div>
       <div className="desk-bottomline">
         <span><span className="small-red-dot" />{small ? T.tapHint : T.hint}</span>
         <div className="atelier-desk-actions">
@@ -339,8 +340,8 @@ function Studio() {
         >
           <div className="atelier-help-top"><span>USERSKINS / КАК ИССЛЕДОВАТЬ</span><button onClick={() => setShowHelp(false)} aria-label="Закрыть подсказку"><X size={21}/></button></div>
           <h2>ЭТО НЕ<br/>ПРОСТО САЙТ<span>*</span></h2>
-          <p>Наведи курсор на работу, перетащи предмет по столу и нажми, чтобы открыть её.</p>
-          <p>На ноутбуке стрелки переключают сайты без открытия каталога.</p>
+          <p>Больше ничего не прикреплено! Перетаскивай любой предмет по столу. Чтобы вращать, тяни красную ручку ↻ вокруг центра — можно сделать полный оборот.</p>
+          <p>На телефоне двигай предмет за ручку ↔. На компьютере поворачивай за ↻ или стрелками ← →, когда ручка выбрана. Двойной клик по ↻ — полный оборот.</p><p>«Собрать стол» вернёт всё на свои места, включая фотографии и карандаш. Стрелки ноутбука листают сайты.</p>
           <div className="atelier-shortcuts"><span>1–4</span> ПАПКИ <span>5</span> ГАЛЕРЕЯ <span>6</span> ОБО МНЕ <span>7</span> КОНТАКТЫ</div>
           <button className="atelier-help-action" onClick={() => setShowHelp(false)}>ПОЕХАЛИ <ArrowUpRight size={16}/></button>
         </motion.aside>}
@@ -352,21 +353,21 @@ function Studio() {
           <Dialog.Overlay forceMount asChild><motion.div className="reader-backdrop" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: reduced ? 0 : .4 }} /></Dialog.Overlay>
           <Dialog.Content forceMount asChild aria-describedby="reader-description" onKeyDown={e => { if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return; if (e.key === 'ArrowRight') { e.preventDefault(); navigate(1); } if (e.key === 'ArrowLeft') { e.preventDefault(); navigate(-1); } }}>
             <motion.section className={`reader reader-${view}`} initial={reduced ? false : { opacity: 0, y: 110, rotate: -2 }} animate={{ opacity: 1, y: 0, rotate: 0 }} exit={{ opacity: 0, y: 85, rotate: 1 }} transition={{ duration: reduced ? 0 : .48, ease: [.22, 1, .36, 1] }}>
-              <div className="reader-top"><Dialog.Close className="back-to-desk"><ArrowLeft size={17} />{T.back}</Dialog.Close><span>THE WORK / NOT THE TEMPLATE.</span><Dialog.Close className="close-reader" aria-label={T.back}><X size={25} /></Dialog.Close></div>
+              <div className="reader-top"><Dialog.Close className="back-to-desk"><ArrowLeft size={17} />{T.back}</Dialog.Close><span>НАСТОЯЩИЕ РАБОТЫ / НИКАКИХ ШАБЛОНОВ</span><Dialog.Close className="close-reader" aria-label={T.back}><X size={25} /></Dialog.Close></div>
               <div className="reader-heading"><Dialog.Title>{title}<span className="hand-star">*</span></Dialog.Title><Dialog.Description id="reader-description">{T.realWork}</Dialog.Description></div>
               {active && <div className="case-layout">
                 <div className="case-preview-column"><AnimatePresence mode="wait"><motion.div key={active.id} initial={reduced ? false : { opacity: 0, x: 28, rotate: 1 }} animate={{ opacity: 1, x: 0, rotate: 0 }} exit={{ opacity: 0, x: -25 }} transition={{ duration: .28 }} className="case-proof">
-                  <div className="proof-meta"><span>FIG. {String(selected + 1).padStart(2, '0')}</span><span>{active.year} / {active.tag.toUpperCase()}</span></div><ProjectPreview project={active} />
+                  <div className="proof-meta"><span>РАБОТА {String(selected + 1).padStart(2, '0')}</span><span>{active.year} / {active.tag.toUpperCase()}</span></div><ProjectPreview project={active} />
                   <div className="proof-bottom"><span>{active.title}</span><span>DG / {active.id}</span></div>
                 </motion.div></AnimatePresence>
                   <div className="case-controls"><button onClick={() => navigate(-1)} aria-label={T.prev}><ArrowLeft size={22} /></button><span aria-live="polite">{String(selected + 1).padStart(2, '0')} / {String(list.length).padStart(2, '0')}</span><button onClick={() => navigate(1)} aria-label={T.next}><ArrowRight size={22} /></button><a href={active.url} target="_blank" rel="noopener noreferrer" className="original-link">{T.original}<ArrowUpRight size={18} /></a></div>
                 </div>
-                <div className="case-index"><div className="index-label">CONTENTS / {list.length} PROJECTS</div>{view === 'all' && <div className="category-shortcuts">{folders.map(f => <button key={f.id} onClick={() => open(f.id)}>{f.name}</button>)}</div>}<div className="case-files">{list.map((p, i) => <button key={p.id} data-case={p.id} aria-pressed={i === selected} onClick={() => setSelected(i)}><span>{String(i + 1).padStart(2, '0')}</span><span><strong>{p.title}</strong><small>{p.category} / {p.year}</small></span><ArrowUpRight size={16} /></button>)}</div><p className="index-handnote">ideas into<br />real things.</p></div>
+                <div className="case-index"><div className="index-label">СОДЕРЖАНИЕ / {list.length} ПРОЕКТОВ</div>{view === 'all' && <div className="category-shortcuts">{folders.map(f => <button key={f.id} onClick={() => open(f.id)}>{f.name}</button>)}</div>}<div className="case-files">{list.map((p, i) => <button key={p.id} data-case={p.id} aria-pressed={i === selected} onClick={() => setSelected(i)}><span>{String(i + 1).padStart(2, '0')}</span><span><strong>{p.title}</strong><small>{p.category} / {p.year}</small></span><ArrowUpRight size={16} /></button>)}</div><p className="index-handnote">ideas into<br />real things.</p></div>
               </div>}
               {view === 'gallery' && <div className="gallery-reader">{galleryFull ? <><button className="gallery-grid-back" onClick={() => setGalleryFull(false)}><ArrowLeft size={15} />ALL IMAGES</button><div className="gallery-lightbox"><button aria-label={T.prev} onClick={() => navigate(-1)}><ArrowLeft size={28} /></button><img src={uniqueGallery[galleryIndex].src} alt={`Artwork ${uniqueGallery[galleryIndex].id}`} /><button aria-label={T.next} onClick={() => navigate(1)}><ArrowRight size={28} /></button></div><div className="gallery-counter">{galleryIndex + 1} / {uniqueGallery.length}</div></> : <div className="gallery-wall">{uniqueGallery.map((g, i) => <button key={g.id} onClick={() => { setGalleryIndex(i); setGalleryFull(true); }} aria-label={`Open artwork ${g.id}`} style={{ '--r': `${(i % 5 - 2) * 1.5}deg` } as CSSProperties}><img src={art(g.id === 41 ? 42 : g.id)} alt={`Artwork ${g.id}`} loading="lazy" /><span>{String(i + 1).padStart(2, '0')}<ArrowUpRight size={14} /></span></button>)}</div>}</div>}
               {view === 'about' && <div className="about-reader"><div className="bio-sheet"><img className="bio-sticker" src={nameSticker} alt="Dmitriy Gusev" /><p>{aboutText}</p><h3>TOOLS &amp; THINKING</h3><div className="skill-labels">{[...skills.advanced, ...skills.intermediate].map(s => <span key={s}>{s}</span>)}</div></div><div className="experience-sheet"><h3>EXPERIENCE</h3>{experiences.map((exp, i) => <article key={i}><span>{exp.period}</span><h4>{exp.company}</h4><p>{exp.role}</p><ul>{exp.description.map(s => <li key={s}>{s}</li>)}</ul></article>)}<h3>EDUCATION</h3>{education.map(edu => <article key={edu.university}><span>{edu.year}</span><h4>{edu.university}</h4><p>{edu.degree}</p></article>)}</div></div>}
               {view === 'contact' && <div className="contact-reader"><span className="contact-hand">{T.idea}</span><h3>{T.letsTalk}</h3><div className="contact-options"><a href="mailto:userskins@gmail.com"><span>01 / EMAIL</span>userskins@gmail.com<ArrowUpRight /></a><a href="https://t.me/userskins" target="_blank" rel="noopener noreferrer"><span>02 / TELEGRAM</span>@userskins<ArrowUpRight /></a><a href="https://vk.com/userskins" target="_blank" rel="noopener noreferrer"><span>03 / VK</span>userskins<ArrowUpRight /></a></div><img src={signature} alt="" /></div>}
-              <div className="reader-footer"><span>DMITRIY GUSEV / SELECTED WORK</span><span>DESIGN IS A VERB.</span></div>
+              <div className="reader-footer"><span>ДМИТРИЙ ГУСЕВ / ИЗБРАННЫЕ РАБОТЫ</span><span>ДИЗАЙН — ЭТО ДЕЙСТВИЕ.</span></div>
             </motion.section>
           </Dialog.Content>
         </Dialog.Portal>}

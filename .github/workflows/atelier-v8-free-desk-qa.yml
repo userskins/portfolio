@@ -75,6 +75,7 @@ jobs:
           node scripts/tech-only-test.mjs
           node scripts/featured-autoplay-test.mjs
           node scripts/free-desk-test.mjs
+          node scripts/desk-artifacts-test.mjs
 
       - name: Upload screenshot visual reviews
         if: always()
@@ -82,6 +83,7 @@ jobs:
         with:
           name: atelier-v8-free-desk-review
           path: |
+            desk-artifacts-review/
             free-desk-review/
             tech-review/
             featured-review/

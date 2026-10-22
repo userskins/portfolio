@@ -24,6 +24,10 @@ const readAppearance = () => page.evaluate(() => {
 });
 await page.goto('http://127.0.0.1:4173/studio/', {waitUntil:'networkidle', timeout:45000});
 await page.evaluate(() => document.fonts.ready);
+// Keep historical case-navigation assertions deterministic; autoplay itself is exercised in featured-autoplay-test.mjs.
+await page.locator('[data-testid="laptop-auto-toggle"]').click();
+await page.evaluate(() => { if(document.activeElement instanceof HTMLElement) document.activeElement.blur(); });
+await page.mouse.move(2,2);
 await page.waitForTimeout(500);
 
 let a = await readAppearance();

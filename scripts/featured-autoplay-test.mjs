@@ -26,7 +26,7 @@ for(const id of ['itmm','learnio']){
  assert.equal(await page.locator('.modern-screen-content img').first().evaluate(img=>img instanceof HTMLImageElement && img.complete && img.naturalWidth>100),true,'website screenshot must be authentic and loaded: '+id);
  if(id==='itmm')await page.screenshot({path:'featured-review/01-itmm-first.png',fullPage:true});
  else await page.screenshot({path:'featured-review/02-learnio-second.png',fullPage:true});
- if(id==='itmm') await awaitCounter(2);
+ if(id==='itmm') { await awaitCounter(2); await page.waitForTimeout(500); }
 }
 assert.match(await page.locator('.modern-screen-open').getAttribute('aria-label')??'',/Лёрнио/,'auto-advance goes to Learnio');
 await page.locator('.modern-laptop').hover();

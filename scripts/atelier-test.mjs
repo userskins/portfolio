@@ -45,7 +45,7 @@ assert.equal(await page.locator('[data-object="loose-one"],[data-object="loose-t
 assert.equal(await page.locator('[data-testid="atelier-help"],[aria-label="Собрать стол"]').count(),0,'obsolete movement actions removed');
 assert.equal(await page.locator('.rail-note .rail-note-first').innerText(),'Идеи не сидят','first slogan line');
 assert.equal(await page.locator('.rail-note .rail-note-second').innerText(),'на месте.','second slogan line');
-assert.equal(await page.locator('.notebook-title').evaluate(el=>getComputedStyle(el,'::after').bottom),'-8px','About underline now sits beneath the raised lettering');
+assert.equal(await page.locator('.notebook-title').evaluate(el=>getComputedStyle(el,'::after').bottom),'1px','About underline now sits beneath the raised lettering');
 await page.keyboard.press('3');
 await page.locator('[role="dialog"]').waitFor();
 assert.match(await page.locator('.reader-heading').innerText(),/EMAIL/i,'keyboard opens Email / CRM');

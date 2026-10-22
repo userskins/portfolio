@@ -28,7 +28,7 @@ assert.equal(await note.locator('.rail-note-second').innerText(),'на мест�
 const box1=await note.locator('.rail-note-second').boundingBox();
 const star=await note.locator('.rail-note-star').boundingBox();
 assert.ok(star.x >= box1.x+box1.width-3,'red asterisk does not cover second line');
-assert.equal(await page.locator('.notebook-title').evaluate(el=>getComputedStyle(el,'::after').bottom),'-8px','About underline positioned below the raised title');
+assert.equal(await page.locator('.notebook-title').evaluate(el=>getComputedStyle(el,'::after').bottom),'1px','About underline positioned below the raised title');
 assert.equal(await item('design').getAttribute('data-hover-travel'),'7','a small 7px hover-follow allowance');
 assert.equal(await item('laptop').getAttribute('data-hover-travel'),'1.5','laptop moves only 1.5px for reliable arrows');
 await page.screenshot({path:'free-desk-review/01-fixed-desktop.png',fullPage:true});

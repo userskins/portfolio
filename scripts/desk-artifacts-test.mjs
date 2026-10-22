@@ -14,9 +14,14 @@ await page.waitForTimeout(700);
 assert.equal(await page.locator('[data-object]').count(), 8, 'the seven main desk objects and pencil remain fixed');
 assert.equal(await page.locator('[data-folder="design"] .design-cover-graphic').count(), 1, 'design has custom art-directed geometry');
 assert.equal(await page.locator('[data-folder="design"] img').count(), 0, 'design has no unrelated pasted-on photo');
+assert.equal(await page.locator('[data-folder="design"] .hand-star').evaluate(el=>getComputedStyle(el).color),'rgb(18, 36, 56)','Design star contrasts against bright-red block');
+assert.equal(await page.locator('.notebook-title').evaluate(el=>getComputedStyle(el,'::after').bottom),'-8px','About underline sits lower');
 assert.equal(await page.getByTestId('mail-envelope').count(), 1, 'email is a physical envelope');
 assert.equal(await page.getByTestId('motion-disc').count(), 1, 'motion uses an animated physical record');
-assert.equal(await page.locator('[data-testid^="rotate-"],[data-testid^="move-"]').count(), 0, 'rotation and movement controls removed');
+assert.equal(await page.locator('[data-testid^="rotate-"],[data-testid^="move-"]').count(), 0, 'free drag/rotation controls remain removed');
+assert.equal(await page.getByTestId('motion-disc').innerText(),'motion.','only one handwritten Motion label remains');
+assert.equal(await page.locator('.motion-cd-player-display,.motion-record-index,.motion-cd-inlay-subtitle').count(),0,'fake technical CD labels are gone');
+assert.equal(await page.locator('.mail-letter-number,.mail-letter-footer').count(),0,'envelope no longer contains generic placeholder metadata');
 await page.screenshot({ path: 'desk-artifacts-review/01-new-objects-desktop.png', fullPage: true });
 
 const envelope = page.getByTestId('mail-envelope');
@@ -29,6 +34,8 @@ await envelope.hover();
 await page.waitForTimeout(780);
 const opened = await y();
 assert.ok(opened < closed - 40, `hover visibly opens mail letter: ${closed} -> ${opened}`);
+const layers = await page.evaluate(() => ({ email: Number(getComputedStyle(document.querySelector('.object-email')).zIndex), laptop: Number(getComputedStyle(document.querySelector('.object-laptop')).zIndex) }));
+assert.ok(layers.email > layers.laptop,'opened envelope rises above laptop instead of being hidden under it');
 await page.screenshot({ path: 'desk-artifacts-review/02-envelope-opening.png', fullPage: true });
 await envelope.click();
 await page.locator('.reader[role="dialog"]').waitFor();
@@ -59,8 +66,8 @@ assert.equal(await page.locator('[data-testid^="move-"]').count(),0,'no dragging
 await page.screenshot({ path: 'desk-artifacts-review/03-new-objects-mobile.png', fullPage: true });
 assert.deepEqual(errors, [], 'no runtime errors');
 await fs.writeFile('desk-artifacts-review/results.json', JSON.stringify({ passed: true,
-  checks: ['8 fixed desk objects', 'geometric design cover without photos', 'openable hover envelope',
-    'email project dialog', 'rotating CD in jewel case', 'no play button', 'animation project dialog',
+  checks: ['8 desk objects with gentle bounded hover motion', 'contrasting star on Design cover', 'openable envelope layered above laptop',
+    'email project dialog', 'rotating jewel-case CD with one handwritten label', 'no play button', 'animation project dialog',
     'mobile layout', 'no mobile drag handles', 'no JavaScript errors'], errors }, null, 2));
 await browser.close();
 console.log('Desk art-direction and interactive material tests passed.');

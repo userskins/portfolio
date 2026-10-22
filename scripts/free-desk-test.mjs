@@ -28,8 +28,23 @@ assert.equal(await note.locator('.rail-note-second').innerText(),'на мест�
 const box1=await note.locator('.rail-note-second').boundingBox();
 const star=await note.locator('.rail-note-star').boundingBox();
 assert.ok(star.x >= box1.x+box1.width-3,'red asterisk does not cover second line');
-assert.equal(await page.locator('.notebook-title').evaluate(el=>getComputedStyle(el,'::after').bottom),'7px','notebook underline lifted');
+assert.equal(await page.locator('.notebook-title').evaluate(el=>getComputedStyle(el,'::after').bottom),'-8px','About underline positioned below the raised title');
+assert.equal(await item('design').getAttribute('data-hover-travel'),'7','a small 7px hover-follow allowance');
+assert.equal(await item('laptop').getAttribute('data-hover-travel'),'1.5','laptop moves only 1.5px for reliable arrows');
 await page.screenshot({path:'free-desk-review/01-fixed-desktop.png',fullPage:true});
+
+// Mouse movement gives a slight temporary nudge, not a persistent drag.
+const start=await item('design').boundingBox();
+await page.mouse.move(start.x+19,start.y+130,{steps:8});
+await page.waitForTimeout(430);
+const hovered=await item('design').boundingBox();
+const nudge=Math.hypot(hovered.x-start.x,hovered.y-start.y);
+assert.ok(nudge>1 && nudge<11,'folder follows hover within an 11px visual envelope: '+nudge);
+await page.screenshot({path:'free-desk-review/01b-gentle-hover.png',fullPage:true});
+await page.mouse.move(2,2);
+await page.waitForTimeout(600);
+const settled=await item('design').boundingBox();
+assert.ok(Math.hypot(settled.x-start.x,settled.y-start.y)<2,'folder springs back after hover');
 
 // Attempt a long pointer gesture over the design folder; fixed geometry must not move.
 const old=await item('design').boundingBox();
@@ -59,7 +74,7 @@ await page.screenshot({path:'free-desk-review/02-fixed-mobile.png',fullPage:true
 assert.deepEqual(errors,[],'no runtime JS errors');
 await fs.writeFile('free-desk-review/results.json',JSON.stringify({
  passed:true,
- checks:['fixed layout 8 objects','no background photos','drag handles removed','no reset controls',
+ checks:['eight objects with bounded pointer nudge, no free drag','no background photos','drag handles removed','no reset controls',
    'design stays in place after pointer drag','About opens on click','two-line slogan without overlap',
    'notebook underline raised','mobile no horizontal overflow','no JS errors'],
  errors

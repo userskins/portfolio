@@ -35,12 +35,11 @@ await page.screenshot({path:'atelier-review/03-flipped-laptop-project.png',fullP
 await page.keyboard.press('Escape');
 await page.waitForTimeout(650);
 
-await page.locator('[data-testid="atelier-shuffle"]').click();
-await page.waitForTimeout(250);
-assert.equal(await page.locator('.atelier-shell').getAttribute('data-arrangement'),'1','shuffle changes arrangement');
+assert.equal(await page.locator('[data-testid="atelier-shuffle"]').count(),0,'shuffle was removed');
+assert.equal(await page.locator('.desk-rotate-handle').count(),10,'all ten desk items have rotation controls');
 await page.locator('.desk-bottomline button[aria-label="Собрать стол"]').click();
 await page.waitForTimeout(450);
-assert.equal(await page.locator('.atelier-shell').getAttribute('data-arrangement'),'0','reset restores arrangement');
+assert.equal(await page.locator('[data-testid="desk-item-pencil"]').count(),1,'reset keeps movable pencil on the desk');
 
 await page.locator('[data-testid="atelier-help"]').click();
 assert.equal(await page.locator('.atelier-help-sheet').count(),1,'help sheet opens');
@@ -69,7 +68,7 @@ await fs.writeFile('atelier-review/results.json',JSON.stringify({
  checks: [
   '7 real desk objects','responsive custom cursor','hover reacts with contextual label',
   'real laptop website pagination','opening selected laptop project',
-  'shuffle and reset objects','keyboard shortcuts','interactive help card',
+  '10 rotatable objects and reset, no shuffle','keyboard shortcuts','interactive help card',
   'mobile has no horizontal overflow','mobile laptop pager','mobile help','no page errors'
  ],
  errors

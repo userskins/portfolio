@@ -15,6 +15,7 @@ import './static-desk.css';
 import { DeskItem } from './DeskItem';
 import { MotionRecord, MailEnvelope } from './DeskArtifacts';
 import './desk-artifacts.css';
+import './artifacts-polish.css';
 import { StudioCursor } from './StudioCursor';
 
 type Category = Project['tag'];
@@ -55,8 +56,8 @@ function Binder({ category, number, onOpen }: { category: Category; number: stri
     <span className="binder-leaf leaf-back">{category === 'design' ? <span className="design-sheet design-sheet-back" aria-hidden="true" /> : <img src={art(34)} alt="" draggable={false} />}</span>
     <span className="binder-leaf leaf-middle">{category === 'design' ? <span className="design-sheet design-sheet-front" aria-hidden="true" /> : <img src={art(artwork)} alt="" draggable={false} />}</span>
     <span className="binder-front">
-      {category === 'design' ? <span className="design-cover-graphic" aria-hidden="true"><span className="design-glyph-orbit" /><span className="design-glyph-slice" /><span className="design-glyph-cross" /><span className="design-glyph-caption">SHAPE / CONCEPT / FORM</span></span> : <><span className="cover-art"><img src={art(artwork)} alt="" draggable={false} /></span><span className="cover-overprint" /></>}
-      <span className="binder-meta"><span>DG / {number}</span><span>{count(category)} CASES</span></span>
+      {category === 'design' ? <span className="design-cover-graphic" aria-hidden="true"><span className="design-glyph-orbit" /><span className="design-glyph-slice" /><span className="design-glyph-cross" /></span> : <><span className="cover-art"><img src={art(artwork)} alt="" draggable={false} /></span><span className="cover-overprint" /></>}
+      <span className="binder-meta">{category === 'design' ? <span>ЭСКИЗЫ И МАКЕТЫ</span> : <><span>DG / {number}</span><span>{count(category)} РАБОТ</span></>}</span>
       <span className="binder-title">{category === 'email' ? <>EMAIL<br />&amp; CRM</> : item.name}<span className="hand-star">*</span></span>
       <span className="binder-foot"><span>{item.label}</span><ArrowUpRight size={25} strokeWidth={1.4} /></span><span className="binder-spine" />
     </span><span className="tape binder-tape" aria-hidden="true" /><span className="hover-tag">ОТКРЫТЬ {item.label} <ArrowUpRight size={12} /></span>
@@ -280,7 +281,7 @@ function Studio() {
       <div className="rail-bottom"><p className="rail-note"><span className="rail-note-first">Идеи не сидят</span><span className="rail-note-second">на месте.</span><span className="rail-note-star" aria-hidden="true">*</span></p><div className="social-links"><a href="https://t.me/userskins" target="_blank" rel="noopener noreferrer">TG <ArrowUpRight size={11} /></a><a href="https://vk.com/userskins" target="_blank" rel="noopener noreferrer">VK <ArrowUpRight size={11} /></a><a href="mailto:userskins@gmail.com">MAIL <ArrowUpRight size={11} /></a></div></div>
     </aside>
     <main className="desk-area" aria-label={T.desk}>
-      <div className="desk-topline"><span>ПОРТФОЛИО / ЖИВОЙ РАБОЧИЙ СТОЛ</span><span className="atelier-hover-status" aria-live="polite">{hoveredObject ? hoverDescriptions[hoveredObject] : 'КУРСОР — ТВОЙ ИНСТРУМЕНТ'}</span><span className="tiny-cross">+</span><span>У ПРЕДМЕТОВ ЕСТЬ ИСТОРИИ</span></div>
+      <div className="desk-topline"><span>ПОРТФОЛИО / ЖИВОЙ РАБОЧИЙ СТОЛ</span><span className="atelier-hover-status" aria-live="polite">{hoveredObject ? hoverDescriptions[hoveredObject] : 'ПОДВЕДИ КУРСОР ПОБЛИЖЕ'}</span><span className="tiny-cross">+</span><span>У ПРЕДМЕТОВ ЕСТЬ ИСТОРИИ</span></div>
       <div ref={holder} className="scene-holder" onPointerOver={event => { const object = event.target instanceof Element ? event.target.closest('[data-object]') : null; const name = object?.getAttribute('data-object') ?? null; setHoveredObject(current => current === name ? current : name); }} onPointerLeave={() => setHoveredObject(null)}>
         <div className="scene-scale" style={{ '--scene-scale': sceneScale } as CSSProperties}>
           <motion.div className={`scene-camera ${view ? 'camera-focused' : ''}`}>
@@ -302,7 +303,7 @@ function Studio() {
                   onHoverChange={setLaptopHover}
                   onFocusChange={setLaptopFocus}
                 /></DeskItem>
-              <DeskItem name="email" label="Конверт Email + CRM" rotation={5} order={4} small={small} onOpen={() => open('email')}><MailEnvelope total={count('email')} onOpen={() => open('email')} /></DeskItem>
+              <DeskItem name="email" label="Конверт Email + CRM" rotation={-2} order={4} small={small} onOpen={() => open('email')}><MailEnvelope total={count('email')} onOpen={() => open('email')} /></DeskItem>
               <DeskItem name="motion" label="Диск Motion" rotation={-7} order={5} small={small} onOpen={() => open('animation')}><MotionRecord previewSrc={art(27)} total={count('animation')} onOpen={() => open('animation')} /></DeskItem>
               <DeskItem name="about" label="Блокнот" rotation={-6} order={6} small={small} onOpen={() => open('about')}><button className="about-notebook" aria-label={T.about} data-testid="open-about"><span className="notebook-holes" /><span className="notebook-head">ЗАМЕТКИ / 2020–2026</span><span className="notebook-title">{T.about}</span><span className="notebook-copy">VK / ВШЭ / ИТММ<br />ДИЗАЙН + ЛЮДИ + ИДЕИ</span><span className="notebook-sign">Dmitriy <ArrowUpRight size={24} /></span></button></DeskItem>
               <DeskItem name="contact" label="Карточка контактов" rotation={-12} order={7} small={small} onOpen={() => open('contact')}><button className="contact-card" aria-label={T.contact} data-testid="open-contact"><span>LET'S MAKE</span><strong>SOMETHING<br />MATTER.</strong><span>WRITE ME <ArrowUpRight size={20} /></span></button></DeskItem>

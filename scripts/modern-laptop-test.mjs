@@ -24,7 +24,7 @@ await page.screenshot({ path:'ultralight-review/01-ultralight-desktop.png', full
 await page.locator('[data-testid="laptop-next"]').click();
 await page.waitForTimeout(520);
 assert.match(await page.locator('.modern-page-count').innerText(), /02\s*\/\s*06/, 'modern pager shows second project');
-assert.ok(await page.locator('.modern-screen-open').getAttribute('aria-label').then(s => s && !s.includes('9 мая')), 'selected project changed');
+assert.match((await page.locator('.modern-screen-open').getAttribute('aria-label')) ?? '', /The Russian Symphony/, 'selected project changed');
 await page.screenshot({ path:'ultralight-review/02-next-site-on-laptop.png', fullPage:true });
 
 await page.locator('[data-testid="open-websites"]').click();

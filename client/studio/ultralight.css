@@ -109,52 +109,6 @@
   background:
     linear-gradient(118deg,#ffffff16 0%,transparent 34%,transparent 68%,#f4f4f40a 100%);
 }
-.atelier-shell .modern-screen-toolbar {
-  position: absolute;
-  z-index: 6;
-  left: 11px;
-  right: 11px;
-  top: 9px;
-  min-height: 30px;
-  padding: 0 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 6px;
-  pointer-events: none;
-  background: #101115eb;
-  color: #fbfaf6;
-  border: 1px solid #ffffff24;
-  border-radius: 4px;
-  box-shadow: 0 4px 11px #0002;
-  backdrop-filter: blur(9px);
-  font: 700 8px/1 "JetBrains Mono", monospace;
-  letter-spacing: .055em;
-}
-.atelier-shell .modern-screen-brand {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-shrink: 0;
-  font-size: 9px;
-}
-.atelier-shell .modern-red-cross {
-  color: var(--red);
-  font: 700 17px/.8 "Permanent Marker", cursive;
-}
-.atelier-shell .modern-screen-address {
-  color: #f8f7f6ad;
-  font-size: 7px;
-  white-space: nowrap;
-}
-.atelier-shell .modern-live-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #ff2529;
-  box-shadow: 0 0 0 4px #ed161d2f;
-  flex-shrink: 0;
-}
 .atelier-shell .modern-screen-open {
   position: absolute;
   z-index: 5;
@@ -411,13 +365,10 @@
 @media (max-width: 420px) {
   .atelier-shell .modern-laptop-lid { padding: 6px 6px 9px; border-radius: 9px 9px 3px 3px; }
   .atelier-shell .modern-laptop-camera { top: 2px; width: 4px; height: 4px; }
-  .atelier-shell .modern-screen-toolbar { top: 6px; left: 7px; right: 7px; padding: 0 8px; min-height: 25px; }
-  .atelier-shell .modern-screen-address { display: none; }
   .atelier-shell .modern-screen-open-label { inset: auto 10px 10px; }
   .atelier-shell .modern-screen-open-label strong { font-size: 17px; }
   .atelier-shell .modern-open-prefix { margin-bottom: 4px; font-size: 7px; }
   .atelier-shell .modern-screen-open-label small { padding: 8px 7px; font-size: 7px; }
-  .atelier-shell .modern-screen-brand { font-size: 8px; }
   .atelier-shell .modern-laptop-deck { height: 106px; }
   .atelier-shell .modern-keyboard { height: 48px; top: 8px; }
   .atelier-shell .modern-key { border-radius: 1px; }

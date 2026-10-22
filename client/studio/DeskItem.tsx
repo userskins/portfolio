@@ -121,7 +121,7 @@ export function DeskItem({
       initial={reduced ? false : { opacity: 0, scale: .96 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: reduced ? 0 : .62, delay: order * .045, ease: [.22, 1, .36, 1] }}
-      whileHover={small || reduced || rotating ? undefined : { scale: 1.025 }}
+      whileHover={small || reduced || rotating || name === 'laptop' ? undefined : { scale: 1.025 }}
       drag
       dragListener={!small}
       dragControls={controls}

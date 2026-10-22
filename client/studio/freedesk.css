@@ -227,3 +227,11 @@
     transition: none !important;
   }
 }
+
+/* Keep the laptop pager stationary on hover so the first pointer click reliably lands. */
+@media (min-width: 901px) and (hover: hover) {
+  .atelier-shell .object-laptop:hover .modern-laptop,
+  .atelier-shell .object-laptop:hover .modern-laptop-lid {
+    transform: none;
+  }
+}

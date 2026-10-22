@@ -1,0 +1,5 @@
+{
+  "extends": "./tsconfig.json",
+  "include": ["client/studio/**/*.ts", "client/studio/**/*.tsx", "client/src/lib/data.ts", "vite.studio.config.ts"],
+  "compilerOptions": { "tsBuildInfoFile": "./node_modules/.cache/studio.tsbuildinfo" }
+}

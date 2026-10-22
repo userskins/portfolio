@@ -1,0 +1,90 @@
+name: Studio preview
+on:
+  push:
+    branches: [feature/studio-scene]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: studio-preview
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Browser tools
+        run: |
+          npm install --prefix /tmp/studio-tools --ignore-scripts playwright@1.56.1
+          /tmp/studio-tools/node_modules/.bin/playwright install --with-deps chromium
+          python3 -m venv /tmp/studio-py
+          /tmp/studio-py/bin/pip install pillow==11.3.0
+      - name: Prepare owned artwork previews
+        run: /tmp/studio-py/bin/python scripts/studio-assets.py
+      - name: Capture real project websites
+        run: node scripts/studio-capture.mjs
+      - name: Type check and build
+        run: |
+          npx tsc -p tsconfig.studio.json --noEmit
+          npx vite build --config vite.studio.config.ts
+          /tmp/studio-py/bin/python scripts/studio-optimize.py
+      - name: Browser interaction checks
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory dist > /tmp/studio-http.log 2>&1 &
+          sleep 2
+          node scripts/studio-test.mjs
+      - name: Review screenshots and test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: studio-review
+          path: |
+            studio-review/
+            client/studio/public/previews/
+          retention-days: 3
+      - name: Compiled preview
+        uses: actions/upload-artifact@v4
+        with:
+          name: studio-built
+          path: dist/studio/
+          include-hidden-files: true
+          retention-days: 3
+      # This temporary hosting hostname currently has no trusted HTTPS cert.
+      # Public, read-only page checks use its original HTTP address.
+      # ALL uploads and credentials still travel through strictly verified FTPS.
+      - name: Remember original home page
+        run: curl --fail --silent --show-error --max-time 30 --retry 2 http://usersksite.temp.swtest.ru/ -o /tmp/original-home.html
+      - name: Publish isolated studio only
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+        env:
+          NODE_OPTIONS: '--dns-result-order=ipv4first --no-network-family-autoselection'
+        with:
+          server: ${{ secrets.SWEB_FTP_HOST }}
+          username: ${{ secrets.SWEB_FTP_USER }}
+          password: ${{ secrets.SWEB_FTP_PASSWORD }}
+          protocol: ftps
+          port: 21
+          security: strict
+          local-dir: ./dist/studio/
+          server-dir: ./public_html/studio/
+          dry-run: false
+      - name: Check original home is unchanged
+        run: |
+          curl --fail --silent --show-error --max-time 30 --retry 2 http://usersksite.temp.swtest.ru/ -o /tmp/original-home-after.html
+          cmp /tmp/original-home.html /tmp/original-home-after.html
+      - name: Verify published preview in browser
+        run: node scripts/studio-live-check.mjs
+      - name: Published preview screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: studio-live
+          path: studio-live/
+          if-no-files-found: ignore
+          retention-days: 3

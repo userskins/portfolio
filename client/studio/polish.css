@@ -1,0 +1,9 @@
+/* Keep the lower notebook inside the physical desktop at laptop heights. */
+@media (min-width: 901px) {
+  .studio-shell .object-about { top: 626px; height: 176px; }
+}
+/* Browser screenshots should keep their actual aspect ratio on a phone. */
+@media (max-width: 900px) {
+  .reader .project-visual.websites { height: auto; min-height: 0; aspect-ratio: 16 / 11; }
+  .reader .project-visual.websites > img { height: 100%; object-fit: cover; object-position: top; }
+}

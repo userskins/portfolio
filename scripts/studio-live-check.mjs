@@ -1,0 +1,26 @@
+import fs from 'node:fs/promises';
+import assert from 'node:assert/strict';
+const {chromium}=await import('/tmp/studio-tools/node_modules/playwright/index.mjs');
+const browser=await chromium.launch({headless:true});
+const page=await browser.newPage({viewport:{width:1440,height:950}});
+const errors=[];page.on('pageerror',e=>errors.push(e.message));
+// The temporary SpaceWeb URL was supplied as HTTP; its HTTPS cert is self-signed.
+const url='http://usersksite.temp.swtest.ru/studio/';
+const response=await page.goto(url,{waitUntil:'domcontentloaded',timeout:45000});
+assert.equal(response.status(),200);
+await page.locator('[data-folder="design"]').waitFor({timeout:20000});
+await page.evaluate(()=>document.fonts.ready);await page.waitForTimeout(1500);
+assert.equal(await page.locator('[data-object]').count(),7);
+await fs.mkdir('studio-live',{recursive:true});
+await page.screenshot({path:'studio-live/desktop.png',fullPage:true});
+await page.locator('[data-testid="open-websites"]').click();await page.waitForTimeout(700);
+assert.equal(await page.locator('[role="dialog"]').count(),1);
+assert.equal(await page.locator('.original-link').getAttribute('href'),'https://9may.sirius.ru');
+await page.screenshot({path:'studio-live/websites.png',fullPage:true});
+await page.keyboard.press('Escape');await page.waitForTimeout(650);
+await page.setViewportSize({width:390,height:844});await page.waitForTimeout(650);
+assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
+await page.screenshot({path:'studio-live/mobile.png',fullPage:true});
+assert.deepEqual(errors,[]);
+await fs.writeFile('studio-live/report.json',JSON.stringify({url,status:response.status(),objects:7,websiteLinkVerified:true,mobileNoOverflow:true,errors,checkedAt:new Date().toISOString()},null,2));
+await browser.close();console.log('Published studio opened successfully; real interactions verified.');

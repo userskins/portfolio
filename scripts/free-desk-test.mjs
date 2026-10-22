@@ -35,7 +35,7 @@ await page.screenshot({path:'free-desk-review/01-fixed-desktop.png',fullPage:tru
 
 // Mouse movement gives a slight temporary nudge, not a persistent drag.
 const start=await item('design').boundingBox();
-await page.mouse.move(start.x+19,start.y+130,{steps:8});
+await page.mouse.move(start.x+70,start.y+180,{steps:8});
 await page.waitForTimeout(430);
 const hovered=await item('design').boundingBox();
 const nudge=Math.hypot(hovered.x-start.x,hovered.y-start.y);

@@ -14,7 +14,7 @@ await page.locator('[data-testid="laptop-auto-toggle"]').click();
 await page.evaluate(() => { if(document.activeElement instanceof HTMLElement) document.activeElement.blur(); });
 await page.mouse.move(2,2);
 await page.waitForTimeout(1000);
-assert.equal(await page.locator('[data-object]').count(),7,'7 physical desk objects');
+assert.equal(await page.locator('[data-object]').count(),10,'10 moveable desk objects');
 assert.equal(await page.locator('[data-testid="laptop-next"]').count(),1,'laptop pagination is visible');
 await page.screenshot({path:'atelier-review/01-interactive-desk.png',fullPage:true});
 
@@ -66,7 +66,7 @@ assert.deepEqual(errors,[],'no JavaScript errors');
 await fs.writeFile('atelier-review/results.json',JSON.stringify({
  passed: true,
  checks: [
-  '7 real desk objects','responsive custom cursor','hover reacts with contextual label',
+  '10 movable desk objects','responsive custom cursor','hover reacts with contextual label',
   'real laptop website pagination','opening selected laptop project',
   '10 rotatable objects and reset, no shuffle','keyboard shortcuts','interactive help card',
   'mobile has no horizontal overflow','mobile laptop pager','mobile help','no page errors'

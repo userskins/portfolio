@@ -33,7 +33,8 @@ await page.screenshot({ path: 'desk-artifacts-review/02-envelope-opening.png', f
 await envelope.click();
 await page.locator('.reader[role="dialog"]').waitFor();
 assert.match(await page.locator('.reader-heading').innerText(), /EMAIL/i, 'envelope opens actual CRM work');
-await page.keyboard.press('Escape');
+await page.waitForTimeout(430);
+await page.locator('.reader .back-to-desk').click();
 await page.locator('.reader[role="dialog"]').waitFor({ state: 'detached', timeout: 7000 });
 
 const record = page.getByTestId('motion-disc');
@@ -51,7 +52,8 @@ assert.equal((await spinStyle()).state, 'running', 'play button resumes the reco
 await page.getByTestId('open-motion').click();
 await page.locator('.reader[role="dialog"]').waitFor();
 assert.match(await page.locator('.reader-heading').innerText(), /АНИМАЦИЯ|MOTION/i, 'record opens actual animation projects');
-await page.keyboard.press('Escape');
+await page.waitForTimeout(430);
+await page.locator('.reader .back-to-desk').click();
 await page.locator('.reader[role="dialog"]').waitFor({ state: 'detached', timeout: 7000 });
 
 await page.setViewportSize({ width: 390, height: 844 });

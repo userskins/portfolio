@@ -1,0 +1,100 @@
+name: Atelier V8 - Free Desk QA
+
+on:
+  push:
+    branches: [feature/free-rotate-desk]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: atelier-v8-free-desk-qa
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - name: Checkout movable, freely rotatable Tech portfolio
+        uses: actions/checkout@v4
+
+      - name: Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install packages
+        run: npm ci
+
+      - name: Download existing verified genuine artworks and public-site previews
+        uses: actions/download-artifact@v4
+        with:
+          name: atelier-v7-featured-dist
+          run-id: 39782463189
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: original-portfolio-assets
+
+      - name: Restore real screenshots and artwork
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -d original-portfolio-assets/art
+          test -s original-portfolio-assets/previews/itmm.jpg
+          test -s original-portfolio-assets/previews/learnio.jpg
+          mkdir -p client/studio/public/art client/studio/public/previews
+          cp -a original-portfolio-assets/art/. client/studio/public/art/
+          cp -a original-portfolio-assets/previews/. client/studio/public/previews/
+          test ! -f client/studio/public/previews/18.jpg
+
+      - name: Install Chromium and Pillow
+        run: |
+          npm install --prefix /tmp/studio-tools --ignore-scripts playwright@1.56.1
+          /tmp/studio-tools/node_modules/.bin/playwright install --with-deps chromium
+          python3 -m venv /tmp/studio-py
+          /tmp/studio-py/bin/pip install pillow==11.3.0
+
+      - name: Check TypeScript
+        run: npx tsc -p tsconfig.studio.json --noEmit
+
+      - name: Build and optimize portfolio
+        run: |
+          npx vite build --config vite.studio.config.ts
+          /tmp/studio-py/bin/python scripts/studio-optimize.py
+
+      - name: Test existing design plus free movement/rotation in real browser
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory dist > /tmp/atelier-v8-http.log 2>&1 &
+          sleep 2
+          node scripts/studio-test.mjs
+          node scripts/atelier-test.mjs
+          node scripts/modern-laptop-test.mjs
+          node scripts/tech-only-test.mjs
+          node scripts/featured-autoplay-test.mjs
+          node scripts/free-desk-test.mjs
+
+      - name: Upload screenshot visual reviews
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: atelier-v8-free-desk-review
+          path: |
+            free-desk-review/
+            tech-review/
+            featured-review/
+            ultralight-review/
+            atelier-review/
+            studio-review/
+          retention-days: 7
+
+      - name: Upload verified site for HTTPS publishing
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: atelier-v8-free-desk-dist
+          path: dist/studio/
+          include-hidden-files: true
+          retention-days: 7

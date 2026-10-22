@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { createRoot } from 'react-dom/client';
 import { AnimatePresence, motion, useMotionValue, useReducedMotion, useSpring } from 'framer-motion';
 import * as Dialog from '@radix-ui/react-dialog';
-import { ArrowUpRight, ArrowLeft, ArrowRight, X, RotateCcw, Shuffle, HelpCircle, ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
+import { ArrowUpRight, ArrowLeft, ArrowRight, X, RotateCcw, HelpCircle, ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
 import { projects, galleryImages, experiences, skills, education, aboutText, type Project } from '@/lib/data';
 import nameSticker from '@assets/hero-logo.webp';
 import signature from '@assets/logo.webp';
@@ -11,6 +11,8 @@ import './atelier.css';
 import './ultralight.css';
 import './tech.css';
 import './showcase.css';
+import './freedesk.css';
+import { DeskItem } from './DeskItem';
 import { StudioCursor } from './StudioCursor';
 
 type Category = Project['tag'];
@@ -19,8 +21,8 @@ const BASE = import.meta.env.BASE_URL;
 const T = {
   desk: 'Рабочий стол', work: 'Проекты', gallery: 'Галерея', about: 'Обо мне', contact: 'Контакты',
   back: 'На стол', original: 'Открыть проект', prev: 'Предыдущий', next: 'Следующий', reset: 'Собрать стол',
-  intro: 'Дизайн. Сайты. CRM.', hint: 'Двигай предметы. Нажимай, чтобы открыть.',
-  tapHint: 'Нажми на предмет, чтобы открыть.', preview: 'Предпросмотр сайта',
+  intro: 'Дизайн. Сайты. CRM.', hint: 'Свободно двигай предметы. Вращай за ↻. Нажимай, чтобы открыть.',
+  tapHint: 'Нажми для открытия. ↔ — переместить, ↻ — вращать.', preview: 'Предпросмотр сайта',
   noPreview: 'Превью недоступно. Оригинал — по ссылке.', idea: 'Есть идея?', letsTalk: 'Давай обсудим.',
   realWork: 'Проекты и работы из моего архива.',
 };
@@ -34,12 +36,6 @@ const count = (tag: Category) => projects.filter(p => p.tag === tag).length;
 const websites = projects.filter(p => p.tag === 'websites');
 const WEBSITE_INTERVAL_MS = 4500;
 const hoverDescriptions: Record<string, string> = { design: 'ДИЗАЙН / 6 ПРОЕКТОВ', gallery: 'ГАЛЕРЕЯ / АВТОРСКИЕ РАБОТЫ', laptop: 'САЙТЫ / 7 ПРОЕКТОВ · AUTO 4.5S', email: 'EMAIL / CRM-КОММУНИКАЦИИ', motion: 'АНИМАЦИЯ / MOTION', about: 'ОБО МНЕ / ОПЫТ И НАВЫКИ', contact: 'КОНТАКТЫ / ОБСУДИМ ПРОЕКТ' };
-const scatterOffsets: Record<string, [number, number, number][]> = {
-  design: [[0,0,0],[-14,-13,-4],[20,10,3]], gallery:[[0,0,0],[18,13,5],[-19,-7,-4]],
-  laptop:[[0,0,0],[7,-18,-3],[-12,12,1]], email:[[0,0,0],[-9,11,4],[17,-16,-3]],
-  motion:[[0,0,0],[16,4,-2],[-17,10,4]], about:[[0,0,0],[-17,-12,4],[18,6,-2]],
-  contact:[[0,0,0],[9,12,5],[-14,-9,2]]
-};
 const art = (id: number) => `${BASE}art/${id}.webp`;
 // Only project-cover pairings identifiable in the original artwork.
 const coverById: Record<string, number> = { '07b': 2, '07': 1, '06': 3, '05': 32 };
@@ -49,25 +45,6 @@ function useSmallScreen() {
   const [small, setSmall] = useState(() => window.matchMedia('(max-width: 900px)').matches);
   useEffect(() => { const mq = window.matchMedia('(max-width: 900px)'); const update = () => setSmall(mq.matches); mq.addEventListener('change', update); return () => mq.removeEventListener('change', update); }, []);
   return small;
-}
-function Draggable({ name, children, rotation = 0, order = 0, small, onOpen, arrangement = 0 }: {
-  name: string; children: ReactNode; rotation?: number; order?: number; small: boolean; onOpen?: () => void; arrangement?: number;
-}) {
-  const lastDrag = useRef(0);
-  const [raised, setRaised] = useState(false);
-  const reduced = useReducedMotion();
-  const [dx, dy, dr] = small ? [0,0,0] : (scatterOffsets[name]?.[arrangement] ?? [0,0,0]);
-  return <motion.div className={`desk-object object-${name}`} style={{ zIndex: raised ? 35 : undefined }}
-    initial={reduced ? false : { opacity: 0, y: dy + 28, rotate: rotation - 3 }}
-    animate={{ opacity: 1, x: dx, y: dy, rotate: small ? 0 : rotation + dr }}
-    transition={{ duration: reduced ? 0 : .75, delay: order * .055, ease: [.22, 1, .36, 1] }}
-    whileHover={small || reduced ? undefined : { rotate: rotation + dr + 2, scale: 1.04 }}
-    whileDrag={{ scale: 1.075, cursor: 'grabbing' }}
-    drag={!small} dragMomentum={false} dragElastic={.06}
-    dragConstraints={{ left: -105, right: 105, top: -75, bottom: 75 }}
-    onDragStart={() => setRaised(true)} onDragEnd={() => { lastDrag.current = Date.now(); setRaised(false); }}
-    onClick={() => { if (onOpen && Date.now() - lastDrag.current > 180) onOpen(); }} data-object={name}
-  >{children}</motion.div>;
 }
 function Binder({ category, number, onOpen }: { category: Category; number: string; onOpen: () => void }) {
   const item = folders.find(f => f.id === category)!;
@@ -172,11 +149,11 @@ function Laptop({ project, onOpen, onNext, onPrevious, onSelect, onInteraction, 
             <span className="modern-screen-open-label">
               <span className="modern-open-prefix">№ {String(index + 1).padStart(2, "0")} / {project.year}</span>
               <strong>{project.title}</strong>
-              <small>OPEN PROJECT <ArrowUpRight size={12} strokeWidth={2} /></small>
+              <small>ОТКРЫТЬ <ArrowUpRight size={12} strokeWidth={2} /></small>
             </span>
           </button>
         </div>
-        <span className="modern-laptop-bezel-wordmark" aria-hidden="true">DG / OBJECTS WITH STORIES</span>
+        <span className="modern-laptop-bezel-wordmark" aria-hidden="true">DG / ПРОЕКТЫ И ИСТОРИИ</span>
       </div>
       <div className="modern-laptop-hinge" aria-hidden="true" />
       <div className="modern-laptop-deck" aria-hidden="true">
@@ -198,7 +175,7 @@ function Laptop({ project, onOpen, onNext, onPrevious, onSelect, onInteraction, 
           onClick={(event) => { event.stopPropagation(); move(-1); }}
         ><ChevronLeft size={17} strokeWidth={1.8} /></button>
         <span className="modern-page-count" aria-live="polite">
-          <b>WEB</b> {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
+          <b>САЙТЫ</b> {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
         </span>
         <button type="button" className="modern-auto-toggle" data-testid="laptop-auto-toggle"
           onClick={event => { event.stopPropagation(); onToggleAuto(); }}
@@ -213,7 +190,7 @@ function Laptop({ project, onOpen, onNext, onPrevious, onSelect, onInteraction, 
           onClick={(event) => { event.stopPropagation(); move(1); }}
         ><ChevronRight size={17} strokeWidth={1.8} /></button>
       </div>
-      <span className="modern-laptop-note" aria-hidden="true">click to explore ↗</span>
+      <span className="modern-laptop-note" aria-hidden="true">нажми и смотри ↗</span>
     </div>
   );
 }
@@ -223,7 +200,6 @@ function Studio() {
   const [galleryIndex, setGalleryIndex] = useState(0);
   const [galleryFull, setGalleryFull] = useState(false);
   const [reset, setReset] = useState(0);
-  const [arrangement, setArrangement] = useState(0);
   const [webIndex, setWebIndex] = useState(0);
   const [autoplayEnabled, setAutoplayEnabled] = useState(true);
   const [laptopHover, setLaptopHover] = useState(false);
@@ -236,6 +212,9 @@ function Studio() {
   const small = useSmallScreen();
   const reduced = useReducedMotion();
   const holder = useRef<HTMLDivElement>(null);
+  const sceneRef = useRef<HTMLDivElement>(null);
+  const layerRef = useRef(55);
+  const lift = () => ++layerRef.current;
   const [sceneScale, setSceneScale] = useState(1);
   const x = useMotionValue(0), y = useMotionValue(0);
   const sx = useSpring(x, { stiffness: 65, damping: 25 }), sy = useSpring(y, { stiffness: 65, damping: 25 });
@@ -262,8 +241,7 @@ function Studio() {
     return () => clearTimeout(timer);
   }, [slideshowPlaying, webIndex]);
   const openLaptop = () => { open('websites'); setSelected(webIndex); };
-  const resetDesk = () => { setArrangement(0); setReset(index => index + 1); };
-  const shuffleDesk = () => { setArrangement(index => (index + 1) % 3); setReset(index => index + 1); };
+  const resetDesk = () => { layerRef.current = 55; setReset(index => index + 1); };
   const navigate = (delta: number) => {
     if (view === 'gallery') setGalleryIndex(i => (i + delta + uniqueGallery.length) % uniqueGallery.length);
     else if (list.length) setSelected(i => (i + delta + list.length) % list.length);
@@ -296,7 +274,7 @@ function Studio() {
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
   }, [view]);
-  return <div className="studio-shell atelier-shell" data-arrangement={arrangement} data-theme="tech">
+  return <div className="studio-shell atelier-shell" data-theme="tech">
     <StudioCursor disabled={small || Boolean(reduced) || view !== null} />
     <svg className="noise-filter" aria-hidden="true"><filter id="paper-grain"><feTurbulence type="fractalNoise" baseFrequency=".76" numOctaves="3" stitchTiles="stitch" /></filter></svg>
     <div className="paper-grain" aria-hidden="true" />
@@ -315,7 +293,7 @@ function Studio() {
       <div ref={holder} className="scene-holder" onPointerMove={e => { if (small || reduced || view) return; const rect = e.currentTarget.getBoundingClientRect(); e.currentTarget.style.setProperty('--atelier-x', (e.clientX - rect.left) + 'px'); e.currentTarget.style.setProperty('--atelier-y', (e.clientY - rect.top) + 'px'); x.set(((e.clientX - rect.left) / rect.width - .5) * -12); y.set(((e.clientY - rect.top) / rect.height - .5) * -9); }} onPointerOver={event => { const object = event.target instanceof Element ? event.target.closest('[data-object]') : null; const name = object?.getAttribute('data-object') ?? null; setHoveredObject(current => current === name ? current : name); }} onPointerLeave={() => { x.set(0); y.set(0); setHoveredObject(null); }}>
         <div className="scene-scale" style={{ '--scene-scale': sceneScale } as CSSProperties}>
           <motion.div className={`scene-camera ${view ? 'camera-focused' : ''}`} style={{ x: small || reduced ? 0 : sx, y: small || reduced ? 0 : sy }}>
-            <div className="desk-scene" key={reset}>
+            <div className="desk-scene" ref={sceneRef} key={reset}>
               <span className="desk-handnote note-top" aria-hidden="true">a little bit of chaos.<br />a lot of design.</span>
               <svg className="desk-doodle doodle-arrow" viewBox="0 0 160 70" aria-hidden="true"><path d="M3 8 C 39 47 80 54 145 45 M128 25 L148 45 L126 57" fill="none" stroke="currentColor" strokeWidth="2" /></svg>
               <div className="loose-paper loose-one" aria-hidden="true"><img src={art(27)} alt="" /></div>

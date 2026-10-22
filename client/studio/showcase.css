@@ -1,0 +1,164 @@
+/* ATELIER / WEB SHOWCASE 2026
+   Motion is a quiet part of the object: a live red progress line, tactile
+   index tabs, and physically plausible control on the laptop deck. */
+.atelier-shell .modern-laptop {
+  --showcase-speed: 4500ms;
+}
+.atelier-shell .modern-screen-index {
+  position: absolute;
+  z-index: 8;
+  right: 7px;
+  top: 51px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 5px;
+  background: #0d141bc9;
+  border: 1px solid #ffffff27;
+  border-radius: 2px;
+  backdrop-filter: blur(7px);
+  box-shadow: 0 4px 10px #0d101936;
+}
+.atelier-shell .modern-screen-tick {
+  display: grid;
+  place-items: center;
+  width: 19px;
+  height: 14px;
+  flex: none;
+  padding: 0;
+  background: transparent;
+  color: white;
+  border: 0;
+  opacity: .8;
+  cursor: pointer;
+}
+.atelier-shell .modern-screen-tick span {
+  width: 9px;
+  height: 2px;
+  background: #cad5e181;
+  border-radius: 1px;
+  transition: width .24s cubic-bezier(.2,.8,.2,1), background .2s, height .2s;
+}
+.atelier-shell .modern-screen-tick.is-featured:not(.is-current) span { background: #fafafaad; }
+.atelier-shell .modern-screen-tick.is-current span {
+  width: 17px;
+  height: 4px;
+  background: #ff0000;
+  box-shadow: 0 0 0 1px #ffffff3c;
+}
+.atelier-shell .modern-screen-tick:hover span,
+.atelier-shell .modern-screen-tick:focus-visible span {
+  width: 17px;
+  height: 4px;
+  background: #ff0000;
+}
+.atelier-shell .modern-screen-tick:focus-visible {
+  outline: 1px solid white;
+  outline-offset: 1px;
+}
+.atelier-shell .modern-auto-meter {
+  position: absolute;
+  z-index: 7;
+  top: 42px;
+  left: 20px;
+  right: 20px;
+  height: 2px;
+  background: #fff4;
+  overflow: hidden;
+  pointer-events: none;
+}
+.atelier-shell .modern-auto-meter span {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: #ff0000;
+  box-shadow: 0 0 4px #f008;
+}
+.atelier-shell .modern-auto-meter span.meter-running {
+  animation: showcase-progress var(--showcase-speed) linear both;
+}
+@keyframes showcase-progress { from { width: 0%; } to { width: 100%; } }
+.atelier-shell .modern-screen-open-label {
+  right: 37px;
+}
+.atelier-shell .modern-screen-open-label strong {
+  font-size: clamp(17px, 2vw, 26px);
+  max-width: 285px;
+  letter-spacing: -.065em;
+}
+.atelier-shell .modern-screen-open-label small {
+  padding: 8px 8px;
+}
+.atelier-shell .modern-screen-toolbar .modern-screen-address {
+  font-size: 7px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  color: #fff9;
+}
+.atelier-shell .modern-laptop .modern-laptop-pager {
+  margin-right: 9px;
+  gap: 4px;
+}
+.atelier-shell .modern-laptop .modern-laptop-pager .modern-page-count {
+  min-width: 91px;
+}
+.atelier-shell .modern-laptop .modern-laptop-pager .modern-auto-toggle {
+  width: 28px;
+  height: 30px;
+  margin-left: 3px;
+  border-left: 1px solid #ffffff3e;
+  background: #191d23;
+  color: #fff;
+}
+.atelier-shell .modern-laptop .modern-laptop-pager .modern-auto-toggle[aria-pressed="true"] {
+  color: #ff7272;
+}
+.atelier-shell .modern-laptop .modern-laptop-pager .modern-auto-toggle:hover,
+.atelier-shell .modern-laptop .modern-laptop-pager .modern-auto-toggle:focus-visible {
+  background: #ff0000;
+  color: #fff;
+}
+/* The active indicator uses the original photo; no fake site rendering. */
+.atelier-shell .modern-laptop[data-auto-playing="true"] .modern-screen-toolbar .modern-live-dot {
+  animation: showcase-live 2s ease-in-out infinite;
+}
+@keyframes showcase-live {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 4px #ed161d2f; }
+  50% { opacity: .62; box-shadow: 0 0 0 6px #ed161d16; }
+}
+@media (max-width: 900px) {
+  .atelier-shell .modern-screen-index { top: 42px; right: 6px; gap: 3px; padding: 5px 3px; }
+  .atelier-shell .modern-screen-tick { width: 17px; height: 13px; }
+  .atelier-shell .modern-screen-tick span { width: 7px; }
+  .atelier-shell .modern-screen-tick.is-current span { width: 14px; }
+  .atelier-shell .modern-auto-meter { top: 35px; }
+  .atelier-shell .modern-screen-open-label { right: 28px; }
+  .atelier-shell .modern-screen-open-label strong { font-size: clamp(16px, 3.4vw, 26px); }
+  .atelier-shell .modern-laptop .modern-laptop-pager .modern-auto-toggle { width: 26px; height: 26px; }
+}
+@media (max-width: 480px) {
+  .atelier-shell .modern-screen-index {
+    /* The laptop is small on touch: the large arrows and swipe handle selection. */
+    display: none;
+  }
+  .atelier-shell .modern-screen-open-label { right: 10px; }
+  .atelier-shell .modern-screen-open-label strong {
+    max-width: 205px;
+    font-size: clamp(16px,4.4vw,20px);
+  }
+  .atelier-shell .modern-screen-toolbar .modern-screen-address { display: none; }
+  .atelier-shell .modern-auto-meter { top: 32px; left: 12px; right: 12px; }
+  .atelier-shell .modern-laptop .modern-laptop-pager { margin-right: 0; gap: 3px; }
+  .atelier-shell .modern-laptop .modern-laptop-pager .modern-page-count { min-width: 71px; }
+  .atelier-shell .modern-laptop .modern-laptop-pager .modern-auto-toggle {
+    width: 24px; height: 26px; margin-left: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .atelier-shell .modern-auto-meter span.meter-running,
+  .atelier-shell .modern-laptop[data-auto-playing="true"] .modern-screen-toolbar .modern-live-dot {
+    animation: none !important;
+  }
+  .atelier-shell .modern-screen-tick span { transition: none !important; }
+}

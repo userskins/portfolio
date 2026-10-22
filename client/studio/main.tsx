@@ -282,7 +282,7 @@ function Studio() {
     </aside>
     <main className="desk-area" aria-label={T.desk}>
       <div className="desk-topline"><span>ПОРТФОЛИО / ЖИВОЙ РАБОЧИЙ СТОЛ</span><span className="atelier-hover-status" aria-live="polite">{hoveredObject ? hoverDescriptions[hoveredObject] : 'ПОДВЕДИ КУРСОР ПОБЛИЖЕ'}</span><span className="tiny-cross">+</span><span>У ПРЕДМЕТОВ ЕСТЬ ИСТОРИИ</span></div>
-      <div ref={holder} className="scene-holder" onPointerOver={event => { const object = event.target instanceof Element ? event.target.closest('[data-object]') : null; const name = object?.getAttribute('data-object') ?? null; setHoveredObject(current => current === name ? current : name); }} onPointerLeave={() => setHoveredObject(null)}>
+      <div ref={holder} className="scene-holder" onPointerOver={event => { const object = event.target instanceof Element ? event.target.closest('[data-object]') : null; const name = object?.getAttribute('data-object') ?? null; setHoveredObject(current => current === name ? current : name); }} onPointerLeave={() => { setHoveredObject(null); setLaptopHover(false); }}>
         <div className="scene-scale" style={{ '--scene-scale': sceneScale } as CSSProperties}>
           <motion.div className={`scene-camera ${view ? 'camera-focused' : ''}`}>
             <div className="desk-scene">

@@ -253,158 +253,30 @@ html[data-studio-theme="tech"] .atelier-shell .design-cover .binder-front {
   transform: translateX(-50%) translateY(12px) rotate(23deg);
 }
 
-/* MOTION: a small vinyl art player. The static portfolio work becomes the center
- * art while the record spins; the playback control genuinely pauses rotation. */
-.atelier-shell .desk-scene .object-motion {
-  left: 25px;
-  top: 519px;
-  width: 246px;
-  height: 237px;
-}
-.atelier-shell .motion-player {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  isolation: isolate;
-  touch-action: pan-y;
-}
-.atelier-shell .motion-record-open {
-  position: absolute;
-  z-index: 1;
-  inset: 0;
-  display: block;
-  border: 0;
-  background: none;
-  text-align: left;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-}
-.atelier-shell .motion-record {
-  position: absolute;
-  top: 4px;
-  left: 3%;
-  width: min(87%, 207px);
-  aspect-ratio: 1;
-  border-radius: 50%;
-  box-shadow: 3px 8px 1px #0b1623a8, 9px 17px 15px #102a4940;
-  background: #070e17;
-}
-.atelier-shell .motion-record-spinning {
-  position: absolute;
-  inset: 0;
-  display: block;
-  overflow: hidden;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle,transparent 0 47%,#556778 47.3% 48%,transparent 48.5% 58%,#cad8ea23 58.3% 59%,transparent 59.5%),
-    conic-gradient(from 25deg,#06101a,#2c3a4a,#030a12,#405064,#060b14,#28384c,#06101a);
-  border: 2px solid #27384b;
-  animation: desk-record-spin 10s linear infinite;
-  animation-play-state: running;
-  will-change: transform;
-}
-.atelier-shell .motion-player.is-paused .motion-record-spinning { animation-play-state: paused; }
-.atelier-shell .motion-record-grooves {
-  position: absolute;
-  inset: 7px;
-  border-radius: 50%;
-  background: repeating-radial-gradient(circle at center,transparent 0 4px,#cad8f01e 4.4px 5px,transparent 5.4px 8px);
-  box-shadow: inset 0 0 12px #c9e6ff38;
-}
-.atelier-shell .motion-record-grooves::after {
-  content: "";
-  position: absolute;
-  inset: 10%;
-  border-radius: 50%;
-  background: conic-gradient(transparent 0 20deg,#dbefff35 25deg,transparent 60deg 175deg,#dbefff30 183deg,transparent 210deg);
-}
-.atelier-shell .motion-record-label {
-  position: absolute;
-  inset: 24%;
-  border-radius: 50%;
-  border: 4px solid #101c29;
-  background: #e9f0f7;
-  box-shadow: 0 0 0 1px #a1b4c7, 0 0 0 8px #f0f6ff13;
-  overflow: hidden;
-}
-.atelier-shell .motion-record-art { position: absolute; inset: 0; border-radius: inherit; overflow: hidden; }
-.atelier-shell .motion-record-art img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: saturate(1.3) contrast(1.16);
-}
-.atelier-shell .motion-record-label::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: linear-gradient(142deg,#f0000030,transparent 36% 65%,#d4f0ff4d);
-  pointer-events: none;
-}
-.atelier-shell .motion-record-spindle {
-  position: absolute;
-  z-index: 2;
-  left: 50%;
-  top: 50%;
-  width: 11px;
-  height: 11px;
-  transform: translate(-50%,-50%);
-  border: 2px solid #a3b8cd;
-  background: #071727;
-  border-radius: 50%;
-  box-shadow: 0 0 0 2px #e9f6ffad;
-}
-.atelier-shell .motion-record-caption {
-  position: absolute;
-  z-index: 3;
-  right: 0;
-  top: 39%;
-  padding: 7px 8px 7px 12px;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  background: #ff0000;
-  color: #fff;
-  box-shadow: 3px 5px 0 #112b41;
-  font: 800 13px/1 "JetBrains Mono",monospace;
-  letter-spacing: -.07em;
-  transform: rotate(-5deg);
-  pointer-events: none;
-}
-.atelier-shell .motion-record-index {
-  position: absolute;
-  left: 15%;
-  bottom: 4px;
-  color: #2f4661;
-  font: 700 8px "JetBrains Mono", monospace;
-  letter-spacing: .07em;
-  pointer-events: none;
-}
-.atelier-shell .motion-spin-toggle {
-  position: absolute;
-  z-index: 4;
-  right: 3px;
-  bottom: 13px;
-  width: 33px;
-  height: 33px;
-  display: grid;
-  place-items: center;
-  background: #15263a;
-  border: 1px solid #627e9c;
-  color: #fff;
-  box-shadow: 2px 3px 0 #ff0000;
-  border-radius: 50%;
-  cursor: pointer;
-  touch-action: manipulation;
-}
-.atelier-shell .motion-spin-toggle:hover,
-.atelier-shell .motion-spin-toggle:focus-visible {
-  background: #ff0000;
-  outline: 2px solid #fff;
-  outline-offset: 2px;
-}
-@keyframes desk-record-spin { to { transform: rotate(360deg); } }
+/* Motion is a compact CD in a transparent jewel case / mini-player, not a vinyl record. */
+.atelier-shell .desk-scene .object-motion { left:25px; top:519px; width:246px; height:237px; }
+.atelier-shell .motion-player { position:relative; width:100%; height:100%; isolation:isolate; }
+.atelier-shell .motion-record-open { position:absolute; inset:0; border:0; background:none; text-align:left; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+.atelier-shell .motion-cd-case { position:absolute; left:5%; top:7%; width:85%; aspect-ratio:1; display:block; border:2px solid #b4c7d9; border-radius:5px; background:linear-gradient(145deg,#dce8f4de,#91aac3d6); box-shadow:5px 9px 0 #8099af,9px 17px 19px #173b5945,inset 0 0 0 3px #ffffff8c; transform:rotate(-7deg); transition:transform .35s ease; }
+.atelier-shell .motion-record-open:hover .motion-cd-case,.atelier-shell .motion-record-open:focus-visible .motion-cd-case { transform:rotate(-3deg) translateY(-5px); }
+.atelier-shell .motion-cd-inlay { position:absolute; inset:5%; background:linear-gradient(135deg,#15283e 0 58%,#e5001b 58% 82%,#182d44 82%); overflow:hidden; }
+.atelier-shell .motion-cd-inlay-title { position:absolute; top:9px; left:12px; color:#fff; font:900 18px/1 'JetBrains Mono',monospace; letter-spacing:-1.5px; }
+.atelier-shell .motion-cd-inlay-title span { font-size:9px; color:#fca4a4; }
+.atelier-shell .motion-cd-inlay-subtitle { position:absolute; bottom:10px; left:12px; color:#dbe8f7; font:600 7px/1.5 'JetBrains Mono',monospace; letter-spacing:.5px; }
+.atelier-shell .motion-record { position:absolute; left:13%; top:13%; width:74%; aspect-ratio:1; display:block; border-radius:50%; box-shadow:3px 5px 12px #07152575; background:#aebfd1; }
+.atelier-shell .motion-record-spinning { position:absolute; inset:0; display:block; overflow:hidden; border-radius:50%; background:conic-gradient(from 10deg,#b7c3d2,#edf8ff,#90a3b9,#f6fcff,#8a9caf,#e2f1ff,#b7c3d2); border:1px solid #e9f8ff; animation:desk-record-spin 8s linear infinite; }
+.atelier-shell .motion-record-grooves { position:absolute; inset:7px; border-radius:50%; background:conic-gradient(#ffffff80,#7890ad44,#fff9,#667d9d33,#fff8); box-shadow:inset 0 0 0 3px #f8fcff8c; }
+.atelier-shell .motion-record-label { position:absolute; inset:27%; border-radius:50%; background:#e9f0f7; border:2px solid #e6f4ff; overflow:hidden; }
+.atelier-shell .motion-record-art { position:absolute; inset:0; border-radius:inherit; overflow:hidden; }
+.atelier-shell .motion-record-art img { width:100%; height:100%; object-fit:cover; filter:saturate(1.3) contrast(1.15); }
+.atelier-shell .motion-record-spindle { position:absolute; left:50%; top:50%; width:14px; height:14px; transform:translate(-50%,-50%); background:#dce9f7; border:3px solid #506982; border-radius:50%; box-shadow:0 0 0 2px #fff9; }
+.atelier-shell .motion-cd-cover { position:absolute; inset:0; border:1px solid #f7ffffb8; border-radius:4px; background:linear-gradient(112deg,#ffffff70 0 8%,transparent 8% 50%,#ffffff43 54%,transparent 62%),linear-gradient(170deg,#e5f7ff21,#c3e8ff14); box-shadow:inset 2px 2px 0 #ffffffa8,inset -3px -3px 0 #7993b477; pointer-events:none; }
+.atelier-shell .motion-cd-hinge { position:absolute; z-index:2; top:0; bottom:0; left:0; width:10px; border-right:2px solid #8199b5; background:repeating-linear-gradient(0deg,#c9dbea 0 7px,#718ba4 7px 9px,#d7e6f2 9px 17px); opacity:.83; }
+.atelier-shell .motion-cd-player-display { position:absolute; z-index:3; bottom:7px; right:9px; color:#f5fbff; background:#142d44cf; padding:3px 6px; font:700 7px 'JetBrains Mono',monospace; letter-spacing:.5px; }
+.atelier-shell .motion-cd-player-display span { color:#ff2836; }
+.atelier-shell .motion-record-caption { position:absolute; z-index:4; right:0; top:39%; padding:7px 8px 7px 12px; display:flex; align-items:center; gap:4px; background:#ff0000; color:#fff; box-shadow:3px 5px 0 #112b41; font:800 13px/1 'JetBrains Mono',monospace; letter-spacing:-.07em; transform:rotate(-5deg); pointer-events:none; }
+.atelier-shell .motion-record-index { position:absolute; left:10%; bottom:1px; color:#2f4661; font:700 8px 'JetBrains Mono',monospace; letter-spacing:.07em; pointer-events:none; }
+@keyframes desk-record-spin { to { transform:rotate(360deg); } }
 
 /* Small screens keep all three objects accessible and keep hover-only parts optional. */
 @media (max-width: 900px) {
@@ -420,10 +292,10 @@ html[data-studio-theme="tech"] .atelier-shell .design-cover .binder-front {
     align-self: center;
     justify-self: center;
   }
-  .atelier-shell .motion-record { width: 90%; left: 5%; top: 2%; }
+  .atelier-shell .motion-cd-case { width: 88%; left: 5%; top: 2%; }
+  .atelier-shell .motion-record { width:74%; left:13%; top:13%; }
   .atelier-shell .motion-record-caption { font-size: clamp(8px,2vw,12px); top: 43%; right: -6px; padding: 6px 7px; }
   .atelier-shell .motion-record-index { font-size: 6px; left: 4%; bottom: 0; }
-  .atelier-shell .motion-spin-toggle { width: 30px; height: 30px; bottom: 1px; right: 0; }
   .atelier-shell .mail-envelope-letter { padding: 12px 10px 8px; }
   .atelier-shell .mail-envelope-letter strong { font-size: clamp(13px,3.1vw,26px); }
   .atelier-shell .mail-letter-number, .atelier-shell .mail-letter-footer { font-size: 5px; }

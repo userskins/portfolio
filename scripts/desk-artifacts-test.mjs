@@ -38,17 +38,10 @@ await page.locator('.reader .back-to-desk').click();
 await page.locator('.reader[role="dialog"]').waitFor({ state: 'detached', timeout: 7000 });
 
 const record = page.getByTestId('motion-disc');
-const spinStyle = () => record.locator('.motion-record-spinning').evaluate(el => ({
-  name: getComputedStyle(el).animationName,
-  state: getComputedStyle(el).animationPlayState,
-}));
-const spinning = await spinStyle();
-assert.equal(spinning.name, 'desk-record-spin', 'record spins using CSS animation');
-assert.equal(spinning.state, 'running', 'record plays on first view');
-await page.getByTestId('motion-spin-toggle').click();
-assert.equal((await spinStyle()).state, 'paused', 'pause button genuinely pauses the record');
-await page.getByTestId('motion-spin-toggle').click();
-assert.equal((await spinStyle()).state, 'running', 'play button resumes the record');
+const discAnimation = await record.locator('.motion-record-spinning').evaluate(el => getComputedStyle(el).animationName);
+assert.equal(discAnimation, 'desk-record-spin', 'CD rotates inside its case');
+assert.equal(await record.locator('.motion-cd-case').count(), 1, 'CD has jewel case');
+assert.equal(await page.getByTestId('motion-spin-toggle').count(), 0, 'no play button');
 await page.getByTestId('open-motion').click();
 await page.locator('.reader[role="dialog"]').waitFor();
 assert.match(await page.locator('.reader-heading').innerText(), /АНИМАЦИЯ|MOTION/i, 'record opens actual animation projects');
@@ -61,14 +54,14 @@ await page.waitForTimeout(640);
 assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, 'mail and record cause no mobile overflow');
 assert.equal(await envelope.isVisible(), true, 'envelope remains visible on phones');
 assert.equal(await record.isVisible(), true, 'record remains visible on phones');
-assert.equal(await page.getByTestId('motion-spin-toggle').isVisible(), true, 'mobile record playback controls remain visible');
+assert.equal(await record.locator('.motion-cd-case').isVisible(), true, 'mobile CD case remains visible');
 assert.equal(await page.getByTestId('move-email').isVisible(), true, 'envelope is mobile draggable');
 assert.equal(await page.getByTestId('move-motion').isVisible(), true, 'record is mobile draggable');
 await page.screenshot({ path: 'desk-artifacts-review/03-new-objects-mobile.png', fullPage: true });
 assert.deepEqual(errors, [], 'no runtime errors');
 await fs.writeFile('desk-artifacts-review/results.json', JSON.stringify({ passed: true,
   checks: ['10 draggable objects', 'geometric design cover without photos', 'openable hover envelope',
-    'email project dialog', 'animated vinyl record', 'working pause and resume', 'animation project dialog',
+    'email project dialog', 'rotating CD in jewel case', 'no play button', 'animation project dialog',
     'mobile layout', 'mobile drag handles', 'no JavaScript errors'], errors }, null, 2));
 await browser.close();
 console.log('Desk art-direction and interactive material tests passed.');

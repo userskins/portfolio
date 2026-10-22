@@ -1,32 +1,20 @@
-import { useState } from 'react';
-import { ArrowUpRight, Pause, Play } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 
-/** A tactile artwork reel. The artwork is a still from the existing portfolio;
- *  the record itself moves until a real motion clip is supplied. */
+/** Compact CD jewel case with a rotating disc inside a transparent player. */
 export function MotionRecord({ previewSrc, onOpen, total }: { previewSrc: string; onOpen: () => void; total: number }) {
-  const [spinning, setSpinning] = useState(true);
-  return <div className={`motion-player ${spinning ? 'is-spinning' : 'is-paused'}`} data-folder="animation" data-testid="motion-disc">
+  return <div className="motion-player" data-folder="animation" data-testid="motion-disc">
     <button type="button" className="motion-record-open" data-testid="open-motion"
-      aria-label={`Открыть Motion — ${total} проекта`} title="Посмотреть работы в движении"
+      aria-label={`Открыть Motion — ${total} проекта`} title="Посмотреть Motion"
       onClick={event => { event.stopPropagation(); onOpen(); }}>
-      <span className="motion-record" aria-hidden="true">
-        <span className="motion-record-spinning">
-          <span className="motion-record-grooves" />
-          <span className="motion-record-label"><span className="motion-record-art"><img src={previewSrc} alt="" draggable={false} /></span></span>
-          <span className="motion-record-spindle" />
-        </span>
+      <span className="motion-cd-case" aria-hidden="true">
+        <span className="motion-cd-inlay"><span className="motion-cd-inlay-title">MOTION<span> / 03</span></span><span className="motion-cd-inlay-subtitle">VISUAL EXPERIMENTS<br />DG — SELECTED WORKS</span></span>
+        <span className="motion-record"><span className="motion-record-spinning"><span className="motion-record-grooves" /><span className="motion-record-label"><span className="motion-record-art"><img src={previewSrc} alt="" draggable={false} /></span></span><span className="motion-record-spindle" /></span></span>
+        <span className="motion-cd-hinge" /><span className="motion-cd-cover" />
+        <span className="motion-cd-player-display">DISC 03 <span>●</span> LOOP</span>
       </span>
       <span className="motion-record-caption" aria-hidden="true">MOTION <ArrowUpRight size={13} /></span>
     </button>
-    <span className="motion-record-index" aria-hidden="true">DG / 03 · VISUAL REEL</span>
-    <button type="button" className="motion-spin-toggle" data-testid="motion-spin-toggle"
-      title={spinning ? 'Остановить вращение' : 'Включить вращение'}
-      aria-label={spinning ? 'Остановить вращение диска' : 'Включить вращение диска'}
-      aria-pressed={spinning}
-      onPointerDown={event => event.stopPropagation()}
-      onClick={event => { event.stopPropagation(); setSpinning(value => !value); }}>
-      {spinning ? <Pause size={13} fill="currentColor" /> : <Play size={13} fill="currentColor" />}
-    </button>
+    <span className="motion-record-index" aria-hidden="true">CD / 03 · VISUAL REEL</span>
   </div>;
 }
 

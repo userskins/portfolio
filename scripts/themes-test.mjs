@@ -28,6 +28,7 @@ const palette = async () => page.evaluate(() => {
 const change = async (theme) => {
   await page.locator('.identity-rail').getByTestId('theme-' + theme).click();
   await page.waitForFunction(next => document.documentElement.dataset.studioTheme === next,theme);
+  await page.waitForTimeout(450); // Wait until palette transition finishes before sampling computed colors.
   assert.equal(await root.getAttribute('data-studio-theme'),theme);
   assert.equal(await page.locator('.studio-shell').getAttribute('data-theme'),theme);
   assert.equal(await page.locator('.identity-rail').getByTestId('theme-' + theme).getAttribute('aria-pressed'),'true');
@@ -65,6 +66,7 @@ const before=await palette();
 assert.equal(before.reader,'rgb(255, 255, 255)','Swiss reader uses white');
 await page.locator('.reader-top').getByTestId('theme-tech').click();
 await page.waitForFunction(() => document.documentElement.dataset.studioTheme === 'tech');
+await page.waitForTimeout(450);
 const after=await palette();
 assert.notEqual(after.reader,before.reader,'modal reader responds to palette while staying open');
 assert.equal(await page.locator('.reader[role="dialog"]').count(),1,'changing theme does not close the project');

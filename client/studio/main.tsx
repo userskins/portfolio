@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 
 import { createRoot } from 'react-dom/client';
 import { AnimatePresence, motion, useMotionValue, useReducedMotion, useSpring } from 'framer-motion';
 import * as Dialog from '@radix-ui/react-dialog';
-import { ArrowUpRight, ArrowLeft, ArrowRight, X, RotateCcw, Shuffle, HelpCircle, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowUpRight, ArrowLeft, ArrowRight, X, RotateCcw, Shuffle, HelpCircle, ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
 import { projects, galleryImages, experiences, skills, education, aboutText, type Project } from '@/lib/data';
 import nameSticker from '@assets/hero-logo.webp';
 import signature from '@assets/logo.webp';
@@ -31,6 +31,7 @@ const folders: { id: Category; name: string; label: string; }[] = [
 ];
 const count = (tag: Category) => projects.filter(p => p.tag === tag).length;
 const websites = projects.filter(p => p.tag === 'websites');
+const WEBSITE_INTERVAL_MS = 4500;
 const hoverDescriptions: Record<string, string> = { design: 'ДИЗАЙН / 6 ПРОЕКТОВ', gallery: 'ГАЛЕРЕЯ / АВТОРСКИЕ РАБОТЫ', laptop: 'САЙТЫ / ЛИСТАЙ ВНУТРИ НОУТБУКА', email: 'EMAIL / CRM-КОММУНИКАЦИИ', motion: 'АНИМАЦИЯ / MOTION', about: 'ОБО МНЕ / ОПЫТ И НАВЫКИ', contact: 'КОНТАКТЫ / ОБСУДИМ ПРОЕКТ' };
 const scatterOffsets: Record<string, [number, number, number][]> = {
   design: [[0,0,0],[-14,-13,-4],[20,10,3]], gallery:[[0,0,0],[18,13,5],[-19,-7,-4]],
@@ -90,8 +91,11 @@ function ProjectPreview({ project, className = '' }: { project: Project; classNa
     </div>}
   </div>;
 }
-function Laptop({ project, onOpen, onNext, onPrevious, index, total }: {
-  project: Project; onOpen: () => void; onNext: () => void; onPrevious: () => void; index: number; total: number;
+function Laptop({ project, onOpen, onNext, onPrevious, onSelect, onInteraction, index, total, playing, enabled, onToggleAuto, onHoverChange, onFocusChange }: {
+  project: Project; onOpen: () => void; onNext: () => void; onPrevious: () => void;
+  onSelect: (index: number) => void; onInteraction: () => void;
+  index: number; total: number; playing: boolean; enabled: boolean; onToggleAuto: () => void;
+  onHoverChange: (hovered: boolean) => void; onFocusChange: (focused: boolean) => void;
 }) {
   const reduceMotion = useReducedMotion();
   const [direction, setDirection] = useState(1);
@@ -99,12 +103,22 @@ function Laptop({ project, onOpen, onNext, onPrevious, index, total }: {
   const swipeBlockUntil = useRef(0);
 
   const move = (delta: number) => {
+    onInteraction();
     setDirection(delta);
     if (delta > 0) onNext();
     else onPrevious();
   };
   return (
-    <div className="modern-laptop" data-testid="modern-laptop" aria-label={"Интерактивный ноутбук с проектом " + project.title}>
+    <div
+      className="modern-laptop"
+      data-testid="modern-laptop"
+      data-auto-playing={playing}
+      aria-label={"Интерактивный ноутбук с проектом " + project.title}
+      onPointerEnter={event => { if (event.pointerType === 'mouse') onHoverChange(true); }}
+      onPointerLeave={event => { if (event.pointerType === 'mouse') onHoverChange(false); }}
+      onFocusCapture={() => onFocusChange(true)}
+      onBlurCapture={event => { if (!event.currentTarget.contains(event.relatedTarget)) onFocusChange(false); }}
+    >
       <div className="modern-laptop-lid">
         <span className="modern-laptop-camera" aria-hidden="true" />
         <div className="modern-laptop-screen">
@@ -121,18 +135,32 @@ function Laptop({ project, onOpen, onNext, onPrevious, index, total }: {
             </motion.div>
           </AnimatePresence>
           <div className="modern-screen-shine" aria-hidden="true" />
+          <div className="modern-auto-meter" aria-hidden="true"><span key={project.id + (playing ? '-play' : '-hold')} className={playing ? 'meter-running' : ''} /></div>
+          <div className="modern-screen-index" aria-label="Быстрый выбор проекта">
+            {websites.map((item, slide) => (
+              <button key={item.id} type="button"
+                className={'modern-screen-tick' + (slide === index ? ' is-current' : '') + (slide < 4 ? ' is-featured' : '')}
+                aria-label={String(slide + 1).padStart(2, '0') + ': ' + item.title}
+                aria-current={slide === index ? 'true' : undefined}
+                title={item.title}
+                onPointerDown={event => event.stopPropagation()}
+                onClick={event => { event.stopPropagation(); onInteraction(); setDirection(slide > index ? 1 : -1); onSelect(slide); }}
+                data-testid={'laptop-site-' + item.id}
+              ><span /></button>
+            ))}
+          </div>
           <div className="modern-screen-toolbar" aria-hidden="true">
             <span className="modern-screen-brand">
               <span className="modern-red-cross">✳</span> DG.STUDIO
             </span>
-            <span className="modern-screen-address">SELECTED / WEB</span>
+            <span className="modern-screen-address">{playing ? 'AUTO SHOWCASE / 04.5 S' : enabled ? 'PAUSED / HOVER TO EXPLORE' : 'MANUAL / WEB'}</span>
             <span className="modern-live-dot" />
           </div>
           <button
             type="button"
             className="modern-screen-open"
             data-testid="open-websites"
-            onClick={(event) => { event.stopPropagation(); if (Date.now() > swipeBlockUntil.current) onOpen(); }}
+            onClick={(event) => { event.stopPropagation(); if (Date.now() > swipeBlockUntil.current) { onInteraction(); onOpen(); } }}
             onTouchStart={(event) => { swipeStart.current = event.touches[0]?.clientX ?? null; }}
             onTouchEnd={(event) => {
               const initialX = swipeStart.current;
@@ -178,6 +206,12 @@ function Laptop({ project, onOpen, onNext, onPrevious, index, total }: {
         <span className="modern-page-count" aria-live="polite">
           <b>WEB</b> {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
         </span>
+        <button type="button" className="modern-auto-toggle" data-testid="laptop-auto-toggle"
+          onClick={event => { event.stopPropagation(); onToggleAuto(); }}
+          aria-pressed={!enabled}
+          aria-label={enabled ? 'Остановить автоматическую смену сайтов' : 'Включить автоматическую смену сайтов'}
+          title={enabled ? 'Остановить автопоказ' : 'Включить автопоказ'}
+        >{enabled ? <Pause size={13} fill="currentColor" strokeWidth={2} /> : <Play size={13} fill="currentColor" strokeWidth={2} />}</button>
         <button
           type="button"
           data-testid="laptop-next"
@@ -197,6 +231,12 @@ function Studio() {
   const [reset, setReset] = useState(0);
   const [arrangement, setArrangement] = useState(0);
   const [webIndex, setWebIndex] = useState(0);
+  const [autoplayEnabled, setAutoplayEnabled] = useState(true);
+  const [laptopHover, setLaptopHover] = useState(false);
+  const [laptopFocus, setLaptopFocus] = useState(false);
+  const [manualHold, setManualHold] = useState(false);
+  const [pageVisible, setPageVisible] = useState(() => !document.hidden);
+  const manualHoldTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [showHelp, setShowHelp] = useState(false);
   const [hoveredObject, setHoveredObject] = useState<string | null>(null);
   const small = useSmallScreen();
@@ -210,7 +250,23 @@ function Studio() {
   const active = list[Math.min(selected, Math.max(0, list.length - 1))];
   const title = view === 'all' ? 'ALL PROJECTS' : view === 'gallery' ? 'VISUAL DIARY' : view === 'about' ? 'ABOUT ME' : view === 'contact' ? 'LET\'S TALK' : folders.find(f => f.id === view)?.name ?? '';
   const firstWebsite = websites[webIndex] ?? websites[0];
+  const pauseForInteraction = () => {
+    setManualHold(true);
+    if (manualHoldTimer.current) clearTimeout(manualHoldTimer.current);
+    manualHoldTimer.current = setTimeout(() => { setManualHold(false); manualHoldTimer.current = null; }, 8000);
+  };
   const changeWebsite = (direction: number) => setWebIndex(index => (index + direction + websites.length) % websites.length);
+  const slideshowPlaying = autoplayEnabled && !laptopHover && !laptopFocus && !manualHold && !view && pageVisible && !reduced;
+  useEffect(() => {
+    const updateVisibility = () => setPageVisible(!document.hidden);
+    document.addEventListener('visibilitychange', updateVisibility);
+    return () => { document.removeEventListener('visibilitychange', updateVisibility); if (manualHoldTimer.current) clearTimeout(manualHoldTimer.current); };
+  }, []);
+  useEffect(() => {
+    if (!slideshowPlaying || websites.length < 2) return;
+    const timer = setTimeout(() => setWebIndex(index => (index + 1) % websites.length), WEBSITE_INTERVAL_MS);
+    return () => clearTimeout(timer);
+  }, [slideshowPlaying, webIndex]);
   const openLaptop = () => { open('websites'); setSelected(webIndex); };
   const resetDesk = () => { setArrangement(0); setReset(index => index + 1); };
   const shuffleDesk = () => { setArrangement(index => (index + 1) % 3); setReset(index => index + 1); };
@@ -272,7 +328,19 @@ function Studio() {
               <div className="loose-paper loose-two" aria-hidden="true"><img src={art(34)} alt="" /></div>
               <Draggable name="design" rotation={-10} order={1} small={small} arrangement={arrangement} onOpen={() => open('design')}><Binder category="design" number="01" onOpen={() => open('design')} /></Draggable>
               <Draggable name="gallery" rotation={7} order={2} small={small} arrangement={arrangement} onOpen={() => open('gallery')}><button type="button" className="print-stack" data-testid="open-gallery" aria-label={T.gallery}><span className="print-under" /><span className="print-image"><img src={art(67)} alt="" draggable={false} /></span><span className="print-caption">VISUAL DIARY <span>01 / {uniqueGallery.length}</span></span><span className="paperclip" aria-hidden="true" /><span className="hover-tag">EXPLORE THE ARCHIVE <ArrowUpRight size={12} /></span></button></Draggable>
-              <Draggable name="laptop" rotation={12} order={3} small={small} arrangement={arrangement}><Laptop project={firstWebsite} onOpen={openLaptop} onNext={() => changeWebsite(1)} onPrevious={() => changeWebsite(-1)} index={webIndex} total={websites.length} /></Draggable>
+              <Draggable name="laptop" rotation={12} order={3} small={small} arrangement={arrangement}><Laptop
+                  project={firstWebsite}
+                  onOpen={openLaptop}
+                  onNext={() => changeWebsite(1)}
+                  onPrevious={() => changeWebsite(-1)}
+                  onSelect={setWebIndex}
+                  onInteraction={pauseForInteraction}
+                  index={webIndex} total={websites.length}
+                  playing={Boolean(slideshowPlaying)} enabled={autoplayEnabled}
+                  onToggleAuto={() => setAutoplayEnabled(v => !v)}
+                  onHoverChange={setLaptopHover}
+                  onFocusChange={setLaptopFocus}
+                /></Draggable>
               <Draggable name="email" rotation={5} order={4} small={small} arrangement={arrangement} onOpen={() => open('email')}><Binder category="email" number="02" onOpen={() => open('email')} /></Draggable>
               <Draggable name="motion" rotation={-7} order={5} small={small} arrangement={arrangement} onOpen={() => open('animation')}><Binder category="animation" number="03" onOpen={() => open('animation')} /></Draggable>
               <Draggable name="about" rotation={-6} order={6} small={small} arrangement={arrangement} onOpen={() => open('about')}><button className="about-notebook" aria-label={T.about} data-testid="open-about"><span className="notebook-holes" /><span className="notebook-head">NOTES / 2020 - 2026</span><span className="notebook-title">{T.about}</span><span className="notebook-copy">VK / HSE / DESIGN<br />ART + DIGITAL + PEOPLE</span><span className="notebook-sign">Dmitriy <ArrowUpRight size={24} /></span></button></Draggable>

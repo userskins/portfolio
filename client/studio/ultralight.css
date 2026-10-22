@@ -1,0 +1,435 @@
+/* ATELIER V4 / ULTRALIGHT DEVICE
+   One concentrated redesign: less fake hardware, more work on the screen.
+   The original paper-red-black identity and the rest of the desktop stay untouched.
+*/
+.atelier-shell .object-laptop {
+  height: 440px;
+  z-index: 18;
+}
+.atelier-shell .modern-laptop {
+  position: relative;
+  width: 100%;
+  height: auto;
+  isolation: isolate;
+  perspective: 1000px;
+  transform-origin: 50% 85%;
+  transition: transform .6s cubic-bezier(.18,.75,.2,1), filter .6s;
+  filter: drop-shadow(10px 23px 14px #17151147);
+}
+.atelier-shell .modern-laptop::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 4%;
+  right: 1%;
+  top: 62%;
+  height: 84px;
+  background: radial-gradient(ellipse,#0c0b0a3d 0%,#0c0b0a12 48%,transparent 70%);
+  filter: blur(13px);
+  pointer-events: none;
+  transform: rotate(-5deg);
+}
+.atelier-shell .modern-laptop-lid {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  padding: 9px 9px 15px;
+  background: linear-gradient(130deg,#44484d,#101217 12%,#0d0f13 80%,#62676c);
+  border-radius: 14px 14px 4px 4px;
+  border: 1px solid #333840;
+  box-shadow:
+    0 4px 2px #2226,
+    inset 0 1px 0 #d2d6e04a,
+    inset 1px 0 0 #ffffff2e,
+    inset -1px 0 0 #ffffff2e,
+    0 2px 0 #0a0a0a;
+  overflow: hidden;
+  transform-origin: 50% 100%;
+  transition: transform .62s cubic-bezier(.16,.75,.2,1), box-shadow .62s;
+}
+.atelier-shell .modern-laptop-camera {
+  position: absolute;
+  top: 3px;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  transform: translateX(-50%);
+  border-radius: 100%;
+  background: #161b24;
+  box-shadow: 0 0 0 1px #6e747a8a, inset 1px 1px 1px #090b0f;
+  z-index: 8;
+}
+.atelier-shell .modern-laptop-screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  isolation: isolate;
+  background: #18191d;
+  border-radius: 6px;
+  box-shadow: inset 0 0 0 1px #c6d2ee4d;
+}
+.atelier-shell .modern-screen-content {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  isolation: isolate;
+}
+.atelier-shell .modern-screen-content .project-visual {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  border: none;
+  overflow: hidden;
+  position: relative;
+}
+.atelier-shell .modern-screen-content .project-visual > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  filter: none;
+}
+.atelier-shell .modern-screen-content .unavailable-preview {
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+  padding: 17px;
+  background: #eeeae1;
+}
+.atelier-shell .modern-screen-content .unavailable-preview>img { width: 70px; }
+.atelier-shell .modern-screen-content .unavailable-preview>span { font-size: 20px; }
+.atelier-shell .modern-screen-shine {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(118deg,#ffffff16 0%,transparent 34%,transparent 68%,#f4f4f40a 100%);
+}
+.atelier-shell .modern-screen-toolbar {
+  position: absolute;
+  z-index: 6;
+  left: 11px;
+  right: 11px;
+  top: 9px;
+  min-height: 30px;
+  padding: 0 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px;
+  pointer-events: none;
+  background: #101115eb;
+  color: #fbfaf6;
+  border: 1px solid #ffffff24;
+  border-radius: 4px;
+  box-shadow: 0 4px 11px #0002;
+  backdrop-filter: blur(9px);
+  font: 700 8px/1 "JetBrains Mono", monospace;
+  letter-spacing: .055em;
+}
+.atelier-shell .modern-screen-brand {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  font-size: 9px;
+}
+.atelier-shell .modern-red-cross {
+  color: var(--red);
+  font: 700 17px/.8 "Permanent Marker", cursive;
+}
+.atelier-shell .modern-screen-address {
+  color: #f8f7f6ad;
+  font-size: 7px;
+  white-space: nowrap;
+}
+.atelier-shell .modern-live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ff2529;
+  box-shadow: 0 0 0 4px #ed161d2f;
+  flex-shrink: 0;
+}
+.atelier-shell .modern-screen-open {
+  position: absolute;
+  z-index: 5;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  text-align: left;
+  border: 0;
+  background: transparent;
+  touch-action: pan-y;
+  -webkit-tap-highlight-color: transparent;
+}
+.atelier-shell .modern-screen-open:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: -3px;
+}
+.atelier-shell .modern-screen-open::before {
+  content: "";
+  position: absolute;
+  inset: 42% 0 0;
+  background: linear-gradient(180deg,transparent,rgba(5,5,8,.18) 22%,rgba(5,5,8,.90));
+  pointer-events: none;
+  transition: inset .4s cubic-bezier(.2,.8,.2,1), background .4s;
+}
+.atelier-shell .modern-screen-open-label {
+  position: absolute;
+  inset: auto 14px 13px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  column-gap: 10px;
+  align-items: end;
+  pointer-events: none;
+  color: #fff;
+  filter: drop-shadow(0 1px 3px #000a);
+}
+.atelier-shell .modern-open-prefix {
+  grid-column: 1 / -1;
+  margin-bottom: 8px;
+  font: 700 8px/1 "JetBrains Mono", monospace;
+  color: #fff9;
+  letter-spacing: .18em;
+}
+.atelier-shell .modern-screen-open-label strong {
+  display: block;
+  grid-column: 1;
+  max-width: 100%;
+  font: 400 clamp(17px,2.2vw,28px)/1.05 "Permanent Marker", cursive;
+  letter-spacing: -.06em;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+.atelier-shell .modern-screen-open-label small {
+  grid-column: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 9px 9px;
+  flex-shrink: 0;
+  font: 700 8px "JetBrains Mono", monospace;
+  color: white;
+  background: var(--red);
+  white-space: nowrap;
+  transition: background .22s, transform .22s;
+}
+.atelier-shell .modern-screen-open:hover .modern-screen-open-label small {
+  background: white;
+  color: #121212;
+  transform: translate(0,-3px);
+}
+.atelier-shell .modern-screen-open:hover::before { inset: 35% 0 0; }
+.atelier-shell .modern-laptop-bezel-wordmark {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 3px;
+  text-align: center;
+  color: #a1a6b0;
+  font: 600 5.5px "JetBrains Mono", monospace;
+  letter-spacing: 1.4px;
+  pointer-events: none;
+}
+.atelier-shell .modern-laptop-hinge {
+  position: relative;
+  z-index: 4;
+  margin: 0 3%;
+  width: 94%;
+  height: 4px;
+  background: linear-gradient(180deg,#22272c,#0c0e11 45%,#969ba0);
+  box-shadow: 0 1px 1px #7778;
+  border-radius: 0 0 6px 6px;
+}
+.atelier-shell .modern-laptop-deck {
+  position: relative;
+  z-index: 3;
+  height: 150px;
+  width: 102%;
+  margin-left: -1%;
+  margin-top: 0;
+  padding: 12px 27px;
+  background: linear-gradient(145deg,#e2e3e4 0%,#b9bdc1 36%,#a6aaae 70%,#e4e5e6 100%);
+  border: 1px solid #8b8d91;
+  border-top: 2px solid #33383b;
+  border-radius: 3px 3px 11px 11px;
+  box-shadow: inset 0 1px 0 #fff9, inset 0 -2px 0 #5d606381, 0 12px 18px #0d0b0b21;
+  transform: perspective(780px) rotateX(61deg);
+  transform-origin: center top;
+}
+.atelier-shell .modern-laptop-speaker {
+  position: absolute;
+  top: 18px;
+  width: 15px;
+  height: 62px;
+  opacity: .65;
+  background: radial-gradient(#666b72 0 1px,transparent 1.5px) 0 0/4px 4px;
+}
+.atelier-shell .modern-laptop-speaker-left { left: 12px; }
+.atelier-shell .modern-laptop-speaker-right { right: 12px; }
+.atelier-shell .modern-keyboard {
+  position: absolute;
+  top: 12px;
+  left: 10%;
+  right: 10%;
+  height: 67px;
+  display: grid;
+  grid-template-columns: repeat(13,minmax(0,1fr));
+  grid-template-rows: repeat(4,1fr);
+  gap: 4px;
+  padding: 4px;
+  background: #6b6f73;
+  border-radius: 7px;
+  box-shadow: 0 1px 2px #fff5, 0 0 0 1px #4f5359;
+}
+.atelier-shell .modern-key {
+  display: block;
+  border-radius: 2px;
+  background: linear-gradient(150deg,#2d3035,#13171b);
+  box-shadow: 0 1px 1px #0c0c0cac, inset 0 1px 0 #8b8f9736;
+}
+.atelier-shell .modern-trackpad {
+  position: absolute;
+  top: 89px;
+  bottom: 10px;
+  left: 37%;
+  width: 26%;
+  border: 1px solid #7c80878c;
+  border-radius: 4px;
+  background: linear-gradient(140deg,#bfc1c3,#cbd0d2);
+  box-shadow: inset 0 1px 0 #fff8;
+}
+.atelier-shell .modern-laptop-edge {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% - 99px);
+  height: 4px;
+  border-radius: 0 0 90% 90%;
+  background: linear-gradient(90deg,#aaaeb1,#edeef0 24%,#92979b 72%,#757980);
+  box-shadow: 0 4px 6px #1112;
+  pointer-events: none;
+  opacity: .65;
+}
+.atelier-shell .modern-laptop-edge span {
+  display: block;
+  margin: auto;
+  height: 3px;
+  width: 20%;
+  border-radius: 0 0 7px 7px;
+  background: #85898c;
+}
+.atelier-shell .modern-laptop .modern-laptop-pager {
+  position: relative;
+  left: auto;
+  right: auto;
+  bottom: auto;
+  top: auto;
+  margin: -94px 20px 0 auto;
+  width: max-content;
+  display: flex;
+  padding: 5px 7px;
+  gap: 6px;
+  z-index: 10;
+  transform: rotate(-3deg);
+  background: #111316;
+  border: 1px solid #33353b;
+  box-shadow: 5px 5px 0 #ed161d, 8px 11px 15px #0003;
+  color: #fff;
+  border-radius: 2px;
+}
+.atelier-shell .modern-laptop .modern-laptop-pager button {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #ffffff24;
+  background: #282b31;
+  display: grid;
+  place-items: center;
+}
+.atelier-shell .modern-laptop .modern-laptop-pager button:hover,
+.atelier-shell .modern-laptop .modern-laptop-pager button:focus-visible {
+  background: var(--red);
+}
+.atelier-shell .modern-laptop .modern-laptop-pager .modern-page-count {
+  min-width: 98px;
+  text-align: center;
+  font-size: 10px;
+  letter-spacing: .03em;
+}
+.atelier-shell .modern-laptop .modern-laptop-pager .modern-page-count b {
+  color: #ff4a52;
+  font-size: 9px;
+  font-weight: 800;
+}
+.atelier-shell .modern-laptop-note {
+  position: absolute;
+  z-index: 3;
+  left: 0;
+  bottom: 15px;
+  font: 400 24px/1 "Caveat",cursive;
+  color: #d5171c;
+  transform: rotate(-9deg);
+  pointer-events: none;
+}
+@media (min-width: 901px) and (hover:hover) {
+  .atelier-shell .object-laptop:hover .modern-laptop {
+    transform: translateY(-8px) rotateY(-3deg) scale(1.03);
+    filter: drop-shadow(16px 28px 19px #17151142);
+  }
+  .atelier-shell .object-laptop:hover .modern-laptop-lid {
+    transform: rotateX(-2deg);
+    box-shadow:
+      0 9px 8px #2226,
+      inset 0 1px 0 #e6e6ea63,
+      inset 1px 0 0 #ffffff2e,
+      inset -1px 0 0 #ffffff2e;
+  }
+}
+@media (min-width: 901px) and (max-width: 1190px) {
+  .atelier-shell .modern-laptop-note { display: none; }
+  .atelier-shell .modern-laptop .modern-laptop-pager { margin-top:-97px; }
+}
+@media (max-width: 900px) {
+  .atelier-shell .object-laptop { height: auto; }
+  .atelier-shell .modern-laptop { max-width: 470px; margin: 0 auto; filter: drop-shadow(7px 17px 12px #1715113d); }
+  .atelier-shell .modern-laptop-lid { border-radius: 12px 12px 3px 3px; padding: 7px 7px 12px; }
+  .atelier-shell .modern-laptop-deck { height: 132px; padding: 8px 22px; }
+  .atelier-shell .modern-keyboard { top: 9px; height: 61px; gap: 3px; }
+  .atelier-shell .modern-trackpad { top: 80px; bottom: 8px; }
+  .atelier-shell .modern-laptop-speaker { top: 13px; height: 55px; width: 11px; }
+  .atelier-shell .modern-laptop .modern-laptop-pager { margin: -83px 10px 0 auto; }
+  .atelier-shell .modern-screen-open-label strong { font-size: clamp(16px,4vw,27px); }
+  .atelier-shell .modern-laptop-note { display: none; }
+}
+@media (max-width: 420px) {
+  .atelier-shell .modern-laptop-lid { padding: 6px 6px 9px; border-radius: 9px 9px 3px 3px; }
+  .atelier-shell .modern-laptop-camera { top: 2px; width: 4px; height: 4px; }
+  .atelier-shell .modern-screen-toolbar { top: 6px; left: 7px; right: 7px; padding: 0 8px; min-height: 25px; }
+  .atelier-shell .modern-screen-address { display: none; }
+  .atelier-shell .modern-screen-open-label { inset: auto 10px 10px; }
+  .atelier-shell .modern-screen-open-label strong { font-size: 17px; }
+  .atelier-shell .modern-open-prefix { margin-bottom: 4px; font-size: 7px; }
+  .atelier-shell .modern-screen-open-label small { padding: 8px 7px; font-size: 7px; }
+  .atelier-shell .modern-screen-brand { font-size: 8px; }
+  .atelier-shell .modern-laptop-deck { height: 106px; }
+  .atelier-shell .modern-keyboard { height: 48px; top: 8px; }
+  .atelier-shell .modern-key { border-radius: 1px; }
+  .atelier-shell .modern-trackpad { top: 63px; bottom: 6px; }
+  .atelier-shell .modern-laptop-speaker { height: 42px; }
+  .atelier-shell .modern-laptop .modern-laptop-pager { margin: -70px 7px 0 auto; gap: 3px; padding: 3px; }
+  .atelier-shell .modern-laptop .modern-laptop-pager button { width: 26px; height: 26px; }
+  .atelier-shell .modern-laptop .modern-laptop-pager .modern-page-count { min-width: 77px; font-size: 8px; }
+  .atelier-shell .modern-laptop .modern-laptop-pager .modern-page-count b { font-size: 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .atelier-shell .modern-laptop,
+  .atelier-shell .modern-laptop-lid,
+  .atelier-shell .modern-screen-open::before { transition: none !important; }
+}

@@ -10,7 +10,7 @@ permissions:
   actions: read
 
 concurrency:
-  group: atelier-v8-free-desk-qa
+  group: atelier-v9-fixed-desk-qa
   cancel-in-progress: true
 
 jobs:

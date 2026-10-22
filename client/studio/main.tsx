@@ -225,6 +225,16 @@ function Studio() {
   };
   const changeWebsite = (direction: number) => setWebIndex(index => (index + direction + websites.length) % websites.length);
   const slideshowPlaying = autoplayEnabled && !laptopHover && !laptopFocus && !manualHold && !view && pageVisible && !reduced;
+  // Release pointer-based hover pause whenever the pointer moves outside the laptop.
+  // Browser scene scaling and fast pointer exits can miss the nested leave event.
+  useEffect(() => {
+    const releaseHover = (event: PointerEvent) => {
+      const target = event.target;
+      if (!(target instanceof Element) || !target.closest('.modern-laptop')) setLaptopHover(false);
+    };
+    window.addEventListener('pointermove', releaseHover, { passive: true });
+    return () => window.removeEventListener('pointermove', releaseHover);
+  }, []);
   useEffect(() => {
     const updateVisibility = () => setPageVisible(!document.hidden);
     document.addEventListener('visibilitychange', updateVisibility);

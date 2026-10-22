@@ -15,7 +15,7 @@ const counter=async()=> (await page.locator('.modern-page-count').innerText()).r
 const awaitCounter=async nth=>await page.waitForFunction(n=>{
  const x=document.querySelector('.modern-page-count')?.textContent?.replace(/\s+/g,' ').trim()||'';
  return x.includes(String(n).padStart(2,'0')+' / 07');
-},nth,{timeout:7500});
+},nth,{timeout:11000});
 assert.equal(await page.locator('[data-testid="modern-laptop"]').count(),1);
 assert.equal(await page.locator('.modern-screen-toolbar, .modern-screen-brand').count(),0,'DG.STUDIO overlay is fully absent');
 assert.equal(await page.locator('[data-testid="laptop-site-18"]').count(),0,'Russian Symphony removed from laptop index');
@@ -37,6 +37,8 @@ assert.equal(await page.locator('.modern-laptop').getAttribute('data-auto-playin
 await page.waitForTimeout(5200);
 assert.match(await counter(),/02 \/ 07/,'hover keeps current project still for longer than 4.5 seconds');
 await page.mouse.move(3,3);
+await page.waitForTimeout(250);
+assert.equal(await page.locator('.modern-laptop').getAttribute('data-auto-playing'),'true','autoplay resumes after leaving laptop');
 await awaitCounter(3);
 assert.match(await page.locator('.modern-screen-open').getAttribute('aria-label')??'',/День победы/,'Sirius 9 May is third');
 

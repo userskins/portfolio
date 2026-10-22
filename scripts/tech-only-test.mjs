@@ -65,12 +65,10 @@ await page.locator('.reader[role="dialog"]').waitFor({state:'detached',timeout:7
 await page.locator('[data-testid="laptop-next"]').click();
 await page.waitForTimeout(350);
 assert.match(await page.locator('.modern-page-count').innerText(),/02\s*\/\s*07/,'websites still scroll inside modern laptop');
-await page.locator('[data-testid="atelier-shuffle"]').click();
-await page.waitForTimeout(350);
-assert.equal(await page.locator('.atelier-shell').getAttribute('data-arrangement'),'1','object shuffle still works');
+assert.equal(await page.locator('[data-testid="atelier-shuffle"]').count(),0,'shuffle button stays removed');
 await page.getByRole('button',{name:'Собрать стол'}).click();
 await page.waitForTimeout(500);
-assert.equal(await page.locator('.atelier-shell').getAttribute('data-arrangement'),'0','desk reset still works');
+assert.equal(await page.locator('.desk-rotate-handle').count(),10,'all ten interactive objects return on reset');
 
 for (const width of [768,390]) {
   await page.setViewportSize({width,height:844});
@@ -88,7 +86,7 @@ await fs.writeFile('tech-review/results.json',JSON.stringify({
  passed:true,
  checks:['fixed single Tech theme','pure red accents','silver-blue desk','no switch controls',
   'old stored Cold/Swiss ignored','Tech project viewer','modern laptop carousel',
-  'desk shuffle/reset','768px and 390px responsive layouts','no runtime errors'],
+  'freely movable desk reset without shuffle','768px and 390px responsive layouts','no runtime errors'],
  errors
 },null,2));
 await browser.close();

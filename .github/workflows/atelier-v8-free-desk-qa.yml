@@ -30,6 +30,10 @@ jobs:
       - name: Install packages
         run: npm ci
 
+      - name: Validate test script syntax before expensive build
+        run: |
+          for script in scripts/*-test.mjs; do node --check "$script"; done
+
       - name: Download existing verified genuine artworks and public-site previews
         uses: actions/download-artifact@v4
         with:

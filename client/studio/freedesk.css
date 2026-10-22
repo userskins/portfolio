@@ -1,0 +1,229 @@
+/* USERSKINS / FREE DESK
+   Every object can be picked up, moved freely and spun by its own handle.
+   Left click/drag on desktop; separate large move and rotate handles on touch.
+*/
+.atelier-shell .desk-item {
+  user-select: none;
+  -webkit-user-select: none;
+  isolation: isolate;
+  will-change: transform;
+  touch-action: none;
+  --handle-bg: #121e2c;
+}
+.atelier-shell .desk-item[data-dragging="true"],
+.atelier-shell .desk-item[data-rotating="true"] {
+  filter: drop-shadow(9px 17px 13px #24364c4d);
+}
+.atelier-shell .desk-item > .desk-rotate-handle,
+.atelier-shell .desk-item > .desk-move-handle {
+  position: absolute;
+  z-index: 95;
+  inset: auto;
+  top: -18px;
+  width: 35px;
+  height: 35px;
+  min-width: 35px;
+  min-height: 35px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #0d1625;
+  border-radius: 50%;
+  outline-offset: 4px;
+  box-shadow: 2px 3px 0 #080d1750, 4px 8px 12px #131a2424;
+  opacity: 0;
+  scale: .8;
+  transition: opacity .2s ease, scale .2s ease, box-shadow .22s ease, background .2s ease;
+  pointer-events: none;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+  cursor: crosshair;
+}
+.atelier-shell .desk-item > .desk-rotate-handle {
+  right: -17px;
+  background: #ff0000;
+  color: white;
+}
+.atelier-shell .desk-item > .desk-move-handle {
+  left: -16px;
+  background: #151e2d;
+  color: white;
+  cursor: grab;
+}
+.atelier-shell .desk-item > .desk-rotate-handle svg,
+.atelier-shell .desk-item > .desk-move-handle svg {
+  pointer-events: none;
+  flex: none;
+}
+.atelier-shell .desk-item:hover > .desk-rotate-handle,
+.atelier-shell .desk-item:focus-within > .desk-rotate-handle,
+.atelier-shell .desk-item[data-rotating="true"] > .desk-rotate-handle,
+.atelier-shell .desk-item:hover > .desk-move-handle,
+.atelier-shell .desk-item:focus-within > .desk-move-handle {
+  opacity: 1;
+  scale: 1;
+  pointer-events: auto;
+}
+.atelier-shell .desk-item > .desk-rotate-handle:hover,
+.atelier-shell .desk-item > .desk-rotate-handle:focus-visible,
+.atelier-shell .desk-item[data-rotating="true"] > .desk-rotate-handle {
+  background: #101820;
+  border-color: #ff0000;
+  box-shadow: 0 0 0 3px #ff000032,3px 4px 0 #ff0000;
+}
+.atelier-shell .desk-item > .desk-move-handle:hover,
+.atelier-shell .desk-item > .desk-move-handle:focus-visible {
+  background: #ff0000;
+  border-color: #111b27;
+}
+.atelier-shell .desk-item .desk-rotate-handle:focus-visible,
+.atelier-shell .desk-item .desk-move-handle:focus-visible {
+  opacity: 1;
+  scale: 1;
+  pointer-events: auto;
+  outline: 2px solid #ff0000;
+}
+.atelier-shell .desk-item.loose-paper {
+  pointer-events: auto;
+  overflow: visible;
+  cursor: grab;
+}
+.atelier-shell .desk-item.loose-paper > img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  filter: grayscale(1);
+  opacity: .92;
+  pointer-events: none;
+}
+.atelier-shell .desk-item.pencil {
+  pointer-events: auto;
+  cursor: grab;
+  overflow: visible;
+  border-radius: 3px;
+}
+.atelier-shell .desk-item.pencil > .desk-rotate-handle {
+  top: -14px;
+  right: -37px;
+}
+.atelier-shell .desk-item.pencil > .desk-move-handle {
+  top: -14px;
+  left: -33px;
+}
+.atelier-shell .desk-item.loose-paper > .desk-rotate-handle {
+  right: -14px;
+  top: -14px;
+}
+.atelier-shell .desk-item.loose-paper:after {
+  content: "↻";
+  position: absolute;
+  right: -17px;
+  top: -18px;
+  display: none;
+}
+.atelier-shell .desk-bottomline .atelier-desk-actions button:last-child {
+  color: #101824;
+  font-weight: 800;
+}
+/* A small instruction on how to rotate works even without mouse hover. */
+.atelier-shell .desk-help-hand {
+  position: absolute;
+  top: 54px;
+  right: 24px;
+  z-index: 38;
+  max-width: 270px;
+  color: #344e69;
+  font: 700 9px/1.4 "JetBrains Mono", monospace;
+  letter-spacing: .035em;
+  pointer-events: none;
+}
+.atelier-shell .desk-help-hand b { color: #ff0000; }
+@media (hover: hover) and (pointer: fine) {
+  .atelier-shell .desk-item:hover { cursor: grab; }
+  .atelier-shell .desk-item[data-dragging="true"] { cursor: grabbing; }
+}
+@media (max-width: 900px) {
+  .atelier-shell .desk-item { touch-action: pan-y; }
+  .atelier-shell .desk-item > .desk-rotate-handle,
+  .atelier-shell .desk-item > .desk-move-handle {
+    opacity: 1;
+    scale: 1;
+    pointer-events: auto;
+    width: 33px;
+    height: 33px;
+    min-width: 33px;
+    min-height: 33px;
+    top: -13px;
+  }
+  .atelier-shell .desk-item > .desk-rotate-handle { right: -10px; }
+  .atelier-shell .desk-item > .desk-move-handle { left: -10px; }
+  .atelier-shell .desk-scene .object-loose-one,
+  .atelier-shell .desk-scene .object-loose-two {
+    display: block;
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 85%;
+    max-width: 190px;
+    height: auto;
+    padding: 9px;
+    align-self: center;
+    justify-self: center;
+    margin: 5px 0 7px;
+  }
+  .atelier-shell .desk-scene .object-loose-one {
+    grid-column: 1;
+    grid-row: 5;
+    aspect-ratio: .69;
+  }
+  .atelier-shell .desk-scene .object-loose-two {
+    grid-column: 2;
+    grid-row: 5;
+    aspect-ratio: .89;
+  }
+  .atelier-shell .desk-scene .object-pencil {
+    grid-column: 1 / -1;
+    grid-row: 6;
+    display: block;
+    position: relative;
+    left: auto;
+    top: auto;
+    width: min(220px,67%);
+    height: 10px;
+    margin: 18px auto 28px;
+    justify-self: center;
+    align-self: center;
+    touch-action: pan-y;
+  }
+  .atelier-shell .desk-item.pencil > .desk-rotate-handle { right: -37px; }
+  .atelier-shell .desk-item.pencil > .desk-move-handle { left: -35px; }
+  .atelier-shell .desk-help-hand {
+    position: static;
+    max-width: none;
+    order: 1;
+    padding: 4px 8px 13px;
+    font-size: 8px;
+  }
+  .atelier-shell .desk-bottomline { padding-top: 14px; }
+}
+@media (max-width: 420px) {
+  .atelier-shell .desk-scene .object-loose-one,
+  .atelier-shell .desk-scene .object-loose-two { width: 89%; }
+  .atelier-shell .desk-item.loose-paper > .desk-rotate-handle { right: -10px; }
+  .atelier-shell .desk-item > .desk-rotate-handle,
+  .atelier-shell .desk-item > .desk-move-handle {
+    width: 31px; height: 31px; min-width: 31px; min-height: 31px;
+  }
+  .atelier-shell .desk-bottomline .atelier-desk-actions {
+    justify-content: space-between;
+    width: 100%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .atelier-shell .desk-item > .desk-rotate-handle,
+  .atelier-shell .desk-item > .desk-move-handle {
+    transition: none !important;
+  }
+}

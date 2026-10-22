@@ -32,6 +32,7 @@ await page.waitForTimeout(660);
 const closed = await y();
 await envelope.hover();
 await page.waitForTimeout(780);
+assert.equal(await page.locator('.atelier-cursor').getAttribute('data-label'),'КУРСОР','envelope keeps a small unobtrusive cursor');
 const opened = await y();
 assert.ok(opened < closed - 40, `hover visibly opens mail letter: ${closed} -> ${opened}`);
 const layers = await page.evaluate(() => ({ email: Number(getComputedStyle(document.querySelector('.object-email')).zIndex), laptop: Number(getComputedStyle(document.querySelector('.object-laptop')).zIndex) }));
@@ -49,6 +50,8 @@ const discAnimation = await record.locator('.motion-record-spinning').evaluate(e
 assert.equal(discAnimation, 'desk-record-spin', 'CD rotates inside its case');
 assert.equal(await record.locator('.motion-cd-case').count(), 1, 'CD has jewel case');
 assert.equal(await page.getByTestId('motion-spin-toggle').count(), 0, 'no play button');
+await record.hover();
+assert.equal(await page.locator('.atelier-cursor').getAttribute('data-label'),'КУРСОР','record remains visible under the cursor');
 await page.getByTestId('open-motion').click();
 await page.locator('.reader[role="dialog"]').waitFor();
 assert.match(await page.locator('.reader-heading').innerText(), /АНИМАЦИЯ|MOTION/i, 'record opens actual animation projects');

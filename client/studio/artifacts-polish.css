@@ -198,3 +198,19 @@ html[data-studio-theme="tech"] .atelier-shell .design-cover .binder-title .hand-
   .atelier-shell .mail-envelope-flap,
   .atelier-shell .mail-envelope-seal { transition: none !important; }
 }
+
+/* A lighter pointer is easier on artwork than the previous 89px red badge. */
+.atelier-cursor-ring {
+  width: 63px;
+  height: 63px;
+  box-shadow: 3px 4px 0 #19181722, inset 0 0 0 1px #fff5;
+}
+.atelier-cursor-ring span {
+  font-size: 8px;
+  letter-spacing: 0;
+}
+.atelier-cursor[data-label="КУРСОР"] .atelier-cursor-ring {
+  width: 29px;
+  height: 29px;
+  background: #f6fafdec;
+}

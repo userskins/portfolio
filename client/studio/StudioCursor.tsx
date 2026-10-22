@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 
-type CursorKind = 'КУРСОР' | 'ОТКРЫТЬ' | 'ЛИСТАТЬ' | 'СМОТРЕТЬ' | 'ДВИГАТЬ' | 'ВРАЩАТЬ';
+type CursorKind = 'КУРСОР' | 'ОТКРЫТЬ' | 'ЛИСТАТЬ' | 'СМОТРЕТЬ';
 
 export function StudioCursor({ disabled }: { disabled: boolean }) {
   const x = useMotionValue(-100);
@@ -27,17 +27,18 @@ export function StudioCursor({ disabled }: { disabled: boolean }) {
       setVisible((current) => current === inScene ? current : inScene);
       if (!inScene) return;
       let next: CursorKind = 'КУРСОР';
-      if (target?.closest('.desk-rotate-handle')) next = 'ВРАЩАТЬ';
-      else if (target?.closest('.desk-move-handle')) next = 'ДВИГАТЬ';
-      else if (target?.closest('.atelier-laptop-pager')) next = 'ЛИСТАТЬ';
+      if (target?.closest('.atelier-laptop-pager')) next = 'ЛИСТАТЬ';
       else if (target?.closest('.print-stack')) next = 'СМОТРЕТЬ';
-      else if (target?.closest('[data-object]')) next = pressed ? 'ДВИГАТЬ' : 'ОТКРЫТЬ';
+      // The record and envelope should be visible, not hidden by a giant cursor badge.
+      else if (target?.closest('[data-object="email"],[data-object="motion"]')) next = 'КУРСОР';
+      else if (target?.closest('[data-object]')) next = 'ОТКРЫТЬ';
       setLabel((current) => current === next ? current : next);
     };
     const down = (event: PointerEvent) => {
       if (!(event.target instanceof Element && event.target.closest('.scene-holder'))) return;
       setPressed(true);
-      setLabel(event.target instanceof Element && event.target.closest('.desk-rotate-handle') ? 'ВРАЩАТЬ' : 'ДВИГАТЬ');
+      const target = event.target instanceof Element ? event.target : null;
+      setLabel(target?.closest('[data-object="email"],[data-object="motion"]') ? 'КУРСОР' : 'ОТКРЫТЬ');
     };
     const up = () => { setPressed(false); };
     const leave = () => setVisible(false);

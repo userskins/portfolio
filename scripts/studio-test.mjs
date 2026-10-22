@@ -8,6 +8,10 @@ const page=await browser.newPage({viewport:{width:1440,height:950},deviceScaleFa
 page.on('pageerror',e=>errors.push(e.message));
 await page.goto('http://127.0.0.1:4173/studio/',{waitUntil:'networkidle',timeout:30000});
 await page.evaluate(()=>document.fonts.ready);
+// Older interaction tests exercise specific slides. Pause the new automatic showcase to keep their fixtures deterministic.
+await page.locator('[data-testid="laptop-auto-toggle"]').click();
+await page.evaluate(() => { if(document.activeElement instanceof HTMLElement) document.activeElement.blur(); });
+await page.mouse.move(2,2);
 await page.waitForTimeout(1500);
 assert.equal(await page.locator('[data-object]').count(),7);
 await page.screenshot({path:'studio-review/01-desktop.png',fullPage:true});

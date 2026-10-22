@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 
-type CursorKind = 'MOVE' | 'ОТКРЫТЬ' | 'ЛИСТАТЬ' | 'СМОТРЕТЬ' | 'ДВИГАТЬ';
+type CursorKind = 'КУРСОР' | 'ОТКРЫТЬ' | 'ЛИСТАТЬ' | 'СМОТРЕТЬ' | 'ДВИГАТЬ' | 'ВРАЩАТЬ';
 
 export function StudioCursor({ disabled }: { disabled: boolean }) {
   const x = useMotionValue(-100);
@@ -9,7 +9,7 @@ export function StudioCursor({ disabled }: { disabled: boolean }) {
   const slowX = useSpring(x, { stiffness: 380, damping: 31, mass: .65 });
   const slowY = useSpring(y, { stiffness: 380, damping: 31, mass: .65 });
   const [visible, setVisible] = useState(false);
-  const [label, setLabel] = useState<CursorKind>('MOVE');
+  const [label, setLabel] = useState<CursorKind>('КУРСОР');
   const [pressed, setPressed] = useState(false);
 
   useEffect(() => {
@@ -26,8 +26,10 @@ export function StudioCursor({ disabled }: { disabled: boolean }) {
       const inScene = Boolean(target?.closest('.scene-holder'));
       setVisible((current) => current === inScene ? current : inScene);
       if (!inScene) return;
-      let next: CursorKind = 'MOVE';
-      if (target?.closest('.atelier-laptop-pager')) next = 'ЛИСТАТЬ';
+      let next: CursorKind = 'КУРСОР';
+      if (target?.closest('.desk-rotate-handle')) next = 'ВРАЩАТЬ';
+      else if (target?.closest('.desk-move-handle')) next = 'ДВИГАТЬ';
+      else if (target?.closest('.atelier-laptop-pager')) next = 'ЛИСТАТЬ';
       else if (target?.closest('.print-stack')) next = 'СМОТРЕТЬ';
       else if (target?.closest('[data-object]')) next = pressed ? 'ДВИГАТЬ' : 'ОТКРЫТЬ';
       setLabel((current) => current === next ? current : next);
@@ -35,7 +37,7 @@ export function StudioCursor({ disabled }: { disabled: boolean }) {
     const down = (event: PointerEvent) => {
       if (!(event.target instanceof Element && event.target.closest('.scene-holder'))) return;
       setPressed(true);
-      setLabel('ДВИГАТЬ');
+      setLabel(event.target instanceof Element && event.target.closest('.desk-rotate-handle') ? 'ВРАЩАТЬ' : 'ДВИГАТЬ');
     };
     const up = () => { setPressed(false); };
     const leave = () => setVisible(false);

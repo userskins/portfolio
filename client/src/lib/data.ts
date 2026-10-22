@@ -307,9 +307,23 @@ export const projects: Project[] = [
 export interface GalleryImage {
   id: number;
   src: string;
+  title?: string;
 }
 
+// Newly added original posters are featured first in the existing gallery.
 export const galleryImages: GalleryImage[] = [
+  { id: 70, src: `${import.meta.env.BASE_URL}gallery/ptitsey-stat.webp`, title: "Птицей стать" },
+  { id: 71, src: `${import.meta.env.BASE_URL}gallery/staya-ptits.webp`, title: "Стая птиц" },
+  { id: 72, src: `${import.meta.env.BASE_URL}gallery/redecorate.webp`, title: "Redecorate" },
+  { id: 73, src: `${import.meta.env.BASE_URL}gallery/tishe-vdrug-uslyshat.webp`, title: "Тише — вдруг услышат" },
+  { id: 74, src: `${import.meta.env.BASE_URL}gallery/bolshe-chem-tvorchestvo.webp`, title: "Больше чем творчество" },
+  { id: 75, src: `${import.meta.env.BASE_URL}gallery/glaza-la-vtornik.webp`, title: "Глаза / Ла Вторник" },
+  { id: 76, src: `${import.meta.env.BASE_URL}gallery/ne-poteryay-svoey-dushi.webp`, title: "Не потеряй своей души" },
+  { id: 77, src: `${import.meta.env.BASE_URL}gallery/isle-of-flightless-birds.webp`, title: "Isle of Flightless Birds" },
+  { id: 78, src: `${import.meta.env.BASE_URL}gallery/kayus.webp`, title: "Каюсь" },
+  { id: 79, src: `${import.meta.env.BASE_URL}gallery/ne-dumay-o-takom.webp`, title: "Не думай о таком" },
+  { id: 80, src: `${import.meta.env.BASE_URL}gallery/kap-kap-kap-kap.webp`, title: "Кап-кап-кап-кап" },
+  { id: 81, src: `${import.meta.env.BASE_URL}gallery/vesna.webp`, title: "Весна" },
   { id: 1, src: gallery1 },
   { id: 2, src: gallery2 },
   { id: 3, src: gallery3 },

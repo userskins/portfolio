@@ -214,3 +214,29 @@ html[data-studio-theme="tech"] .atelier-shell .design-cover .binder-title .hand-
   height: 29px;
   background: #f6fafdec;
 }
+
+/* Fine layout corrections from browser screenshots (2026-10-23). */
+/* The closed insert must end INSIDE the envelope, never peek out below it. */
+.atelier-shell .mail-envelope-letter {
+  top: 13%;
+  height: 59%;
+  transform: translateY(27px);
+}
+.atelier-shell .mail-envelope:is(:hover,:focus-visible) .mail-envelope-letter,
+.atelier-shell .object-email:focus-within .mail-envelope-letter {
+  transform: translateY(-35px);
+}
+/* Keep the red pencil stroke between the title and the notebook's metadata. */
+.atelier-shell .about-notebook .notebook-title::after {
+  bottom: 1px;
+  left: 9px;
+  width: 118px;
+}
+.atelier-shell .about-notebook .notebook-copy {
+  margin-top: 18px;
+  line-height: 1.45;
+}
+@media (max-width: 900px) {
+  .atelier-shell .about-notebook .notebook-title::after { bottom: 1px; }
+  .atelier-shell .about-notebook .notebook-copy { margin-top: 15px; }
+}

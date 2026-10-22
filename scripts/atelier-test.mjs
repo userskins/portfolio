@@ -9,6 +9,10 @@ const page = await browser.newPage({ viewport:{width:1440,height:950}, deviceSca
 page.on('pageerror', error => errors.push(error.message));
 await page.goto('http://127.0.0.1:4173/studio/',{waitUntil:'networkidle',timeout:45000});
 await page.evaluate(()=>document.fonts.ready);
+// Older interaction tests exercise specific slides. Pause the new automatic showcase to keep their fixtures deterministic.
+await page.locator('[data-testid="laptop-auto-toggle"]').click();
+await page.evaluate(() => { if(document.activeElement instanceof HTMLElement) document.activeElement.blur(); });
+await page.mouse.move(2,2);
 await page.waitForTimeout(1000);
 assert.equal(await page.locator('[data-object]').count(),7,'7 physical desk objects');
 assert.equal(await page.locator('[data-testid="laptop-next"]').count(),1,'laptop pagination is visible');

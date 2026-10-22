@@ -1,10 +1,10 @@
-name: Publish Atelier Tech HTTPS
+name: Publish Featured Website Showcase HTTPS
 
 on:
   workflow_run:
-    workflows: ["Atelier V6 - Tech-only QA"]
+    workflows: ["Atelier V7 - Featured websites QA"]
     types: [completed]
-    branches: [design/atelier-v6-tech-only]
+    branches: [feature/featured-websites-autoplay]
 
 permissions:
   contents: read
@@ -13,7 +13,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages-interactive-atelier-tech
+  group: pages-featured-websites-tech
   cancel-in-progress: true
 
 jobs:
@@ -38,7 +38,7 @@ jobs:
       - name: Get verified project screenshots and artwork
         uses: actions/download-artifact@v4
         with:
-          name: atelier-v6-tech-dist
+          name: atelier-v7-featured-dist
           run-id: ${{ github.event.workflow_run.id }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path: verified-dist
@@ -88,7 +88,7 @@ jobs:
           url="https://userskins.github.io/portfolio/"
           for n in 1 2 3 4 5 6; do
             if curl --fail --silent --show-error --location --max-time 20 "$url" -o /tmp/atelier-public.html; then
-              if grep -q "/portfolio/assets/" /tmp/atelier-public.html && grep -q 'data-studio-theme="tech"' /tmp/atelier-public.html; then
+              if grep -q "/portfolio/assets/" /tmp/atelier-public.html && grep -q 'data-studio-theme="tech"' /tmp/atelier-public.html && curl -fIsS --max-time 12 "https://userskins.github.io/portfolio/previews/itmm.jpg" >/dev/null && curl -fIsS --max-time 12 "https://userskins.github.io/portfolio/previews/learnio.jpg" >/dev/null; then
                 echo "HTTPS_ATELIER_READY $url"
                 exit 0
               fi

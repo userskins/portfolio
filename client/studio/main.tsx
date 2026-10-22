@@ -33,7 +33,7 @@ const folders: { id: Category; name: string; label: string; }[] = [
 const count = (tag: Category) => projects.filter(p => p.tag === tag).length;
 const websites = projects.filter(p => p.tag === 'websites');
 const WEBSITE_INTERVAL_MS = 4500;
-const hoverDescriptions: Record<string, string> = { design: 'ДИЗАЙН / 6 ПРОЕКТОВ', gallery: 'ГАЛЕРЕЯ / АВТОРСКИЕ РАБОТЫ', laptop: 'САЙТЫ / 8 ПРОЕКТОВ · AUTO 4.5S', email: 'EMAIL / CRM-КОММУНИКАЦИИ', motion: 'АНИМАЦИЯ / MOTION', about: 'ОБО МНЕ / ОПЫТ И НАВЫКИ', contact: 'КОНТАКТЫ / ОБСУДИМ ПРОЕКТ' };
+const hoverDescriptions: Record<string, string> = { design: 'ДИЗАЙН / 6 ПРОЕКТОВ', gallery: 'ГАЛЕРЕЯ / АВТОРСКИЕ РАБОТЫ', laptop: 'САЙТЫ / 7 ПРОЕКТОВ · AUTO 4.5S', email: 'EMAIL / CRM-КОММУНИКАЦИИ', motion: 'АНИМАЦИЯ / MOTION', about: 'ОБО МНЕ / ОПЫТ И НАВЫКИ', contact: 'КОНТАКТЫ / ОБСУДИМ ПРОЕКТ' };
 const scatterOffsets: Record<string, [number, number, number][]> = {
   design: [[0,0,0],[-14,-13,-4],[20,10,3]], gallery:[[0,0,0],[18,13,5],[-19,-7,-4]],
   laptop:[[0,0,0],[7,-18,-3],[-12,12,1]], email:[[0,0,0],[-9,11,4],[17,-16,-3]],
@@ -149,13 +149,6 @@ function Laptop({ project, onOpen, onNext, onPrevious, onSelect, onInteraction, 
                 data-testid={'laptop-site-' + item.id}
               ><span /></button>
             ))}
-          </div>
-          <div className="modern-screen-toolbar" aria-hidden="true">
-            <span className="modern-screen-brand">
-              <span className="modern-red-cross">✳</span> DG.STUDIO
-            </span>
-            <span className="modern-screen-address">{playing ? 'AUTO SHOWCASE / 04.5 S' : enabled ? 'PAUSED / HOVER TO EXPLORE' : 'MANUAL / WEB'}</span>
-            <span className="modern-live-dot" />
           </div>
           <button
             type="button"

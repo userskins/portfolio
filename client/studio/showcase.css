@@ -8,7 +8,7 @@
   position: absolute;
   z-index: 8;
   right: 7px;
-  top: 51px;
+  top: 14px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -60,8 +60,8 @@
 .atelier-shell .modern-auto-meter {
   position: absolute;
   z-index: 7;
-  top: 42px;
-  left: 20px;
+  top: 7px;
+  left: 12px;
   right: 20px;
   height: 2px;
   background: #fff4;
@@ -90,12 +90,6 @@
 .atelier-shell .modern-screen-open-label small {
   padding: 8px 8px;
 }
-.atelier-shell .modern-screen-toolbar .modern-screen-address {
-  font-size: 7px;
-  font-weight: 600;
-  letter-spacing: .06em;
-  color: #fff9;
-}
 .atelier-shell .modern-laptop .modern-laptop-pager {
   margin-right: 9px;
   gap: 4px;
@@ -119,20 +113,14 @@
   background: #ff0000;
   color: #fff;
 }
-/* The active indicator uses the original photo; no fake site rendering. */
-.atelier-shell .modern-laptop[data-auto-playing="true"] .modern-screen-toolbar .modern-live-dot {
-  animation: showcase-live 2s ease-in-out infinite;
-}
-@keyframes showcase-live {
-  0%, 100% { opacity: 1; box-shadow: 0 0 0 4px #ed161d2f; }
   50% { opacity: .62; box-shadow: 0 0 0 6px #ed161d16; }
 }
 @media (max-width: 900px) {
-  .atelier-shell .modern-screen-index { top: 42px; right: 6px; gap: 3px; padding: 5px 3px; }
+  .atelier-shell .modern-screen-index { top: 13px; right: 6px; gap: 3px; padding: 5px 3px; }
   .atelier-shell .modern-screen-tick { width: 17px; height: 13px; }
   .atelier-shell .modern-screen-tick span { width: 7px; }
   .atelier-shell .modern-screen-tick.is-current span { width: 14px; }
-  .atelier-shell .modern-auto-meter { top: 35px; }
+  .atelier-shell .modern-auto-meter { top: 6px; }
   .atelier-shell .modern-screen-open-label { right: 28px; }
   .atelier-shell .modern-screen-open-label strong { font-size: clamp(16px, 3.4vw, 26px); }
   .atelier-shell .modern-laptop .modern-laptop-pager .modern-auto-toggle { width: 26px; height: 26px; }
@@ -147,8 +135,7 @@
     max-width: 205px;
     font-size: clamp(16px,4.4vw,20px);
   }
-  .atelier-shell .modern-screen-toolbar .modern-screen-address { display: none; }
-  .atelier-shell .modern-auto-meter { top: 32px; left: 12px; right: 12px; }
+    .atelier-shell .modern-auto-meter { top: 5px; left: 9px; right: 9px; }
   .atelier-shell .modern-laptop .modern-laptop-pager { margin-right: 0; gap: 3px; }
   .atelier-shell .modern-laptop .modern-laptop-pager .modern-page-count { min-width: 71px; }
   .atelier-shell .modern-laptop .modern-laptop-pager .modern-auto-toggle {
@@ -156,9 +143,5 @@
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .atelier-shell .modern-auto-meter span.meter-running,
-  .atelier-shell .modern-laptop[data-auto-playing="true"] .modern-screen-toolbar .modern-live-dot {
-    animation: none !important;
-  }
-  .atelier-shell .modern-screen-tick span { transition: none !important; }
+  .atelier-shell .modern-auto-meter span.meter-running,  .atelier-shell .modern-screen-tick span { transition: none !important; }
 }

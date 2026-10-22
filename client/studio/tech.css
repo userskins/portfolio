@@ -1,0 +1,215 @@
+/* ATELIER V6 — WHITE TECH EDITORIAL ONLY.
+   Permanent silver-blue desk, graphite objects, original artworks & pure-red accents.
+   No alternative skins, local preferences, or palette controls. */
+
+/* THE PALETTE / WHITE TECH EDITORIAL — silver, cool metal, clear grids. */
+html[data-studio-theme="tech"] {
+  --paper: #edf2f7;
+  --ink: #101824;
+  --red: #ff0000;
+  --desk-field: radial-gradient(ellipse at 79% 25%, #fcfdff 0%, #e8eff6 52%, #cedbe7 100%);
+  --surface: #edf3fa;
+  --surface-raised: #f9fcff;
+  --paper-canvas: #e5edf6;
+  --paper-edge: #c1cedc;
+  --paper-note: #edf4fb;
+  --loose-sheet: #f8fbff;
+  --soft: #cfdbe7;
+  --soft-deep: #aebdce;
+  --rule: #8fa1b7;
+  --muted: #53667f;
+  --muted-strong: #2d415a;
+  --folder: #162232;
+  --folder-text: #f6fbff;
+  --mail-sheet: #d9e5f1;
+  --reader-sheet: #e8eff7;
+  --shadow: #112f5138;
+  --shadow-deep: #102f5247;
+  --tape-fill: #bdcad8b4;
+  --line-note: #91a3b761;
+  --notebook-text: #101c2b;
+  --red-surface: #ff0000;
+  --grain-opacity: .009;
+  --desktop-grid: linear-gradient(90deg,#7189a210 1px,transparent 1px),linear-gradient(#7189a210 1px,transparent 1px);
+  --control-shadow: 5px 6px 0 #344d6b22;
+  --metal-tone: #adbcca;
+}
+html[data-studio-theme] body {
+  background: var(--paper);
+  color: var(--ink);
+}
+html[data-studio-theme] ::selection {
+  color: #fff;
+  background: #ff0000;
+}
+html[data-studio-theme] .paper-grain { opacity: var(--grain-opacity); }
+html[data-studio-theme] .atelier-shell {
+  color: var(--ink);
+  background: var(--desk-field);
+  transition: background .32s ease, color .32s ease;
+}
+html[data-studio-theme] .atelier-shell .scene-holder::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: .52;
+  background: var(--desktop-grid);
+  background-size: 32px 32px;
+  z-index: 0;
+}
+html[data-studio-theme] .atelier-shell .eyebrow,
+html[data-studio-theme] .atelier-shell .desk-topline,
+html[data-studio-theme] .atelier-shell .desk-bottomline {
+  color: var(--muted);
+}
+html[data-studio-theme] .atelier-shell .rail-nav button>span,
+html[data-studio-theme] .atelier-shell .intro-line span,
+html[data-studio-theme] .atelier-shell .desk-handnote { color: var(--muted-strong); }
+html[data-studio-theme] .atelier-shell .red-underline { background: var(--red); }
+html[data-studio-theme] .atelier-shell .desk-bottomline { border-color: var(--rule); }
+html[data-studio-theme] .atelier-shell .loose-paper {
+  background: var(--loose-sheet);
+  box-shadow: 1px 2px 1px var(--soft-deep),3px 9px 17px var(--shadow);
+}
+html[data-studio-theme] .atelier-shell .binder-leaf {
+  background: var(--paper-canvas);
+  box-shadow: 1px 2px 1px var(--soft-deep),3px 7px 10px var(--shadow);
+}
+html[data-studio-theme] .atelier-shell .binder-front {
+  background: var(--folder);
+  color: var(--folder-text);
+  box-shadow: 1px 1px 1px var(--rule),1px 4px 1px var(--folder),4px 12px 18px var(--shadow-deep),inset 0 0 0 1px #fff3;
+}
+html[data-studio-theme] .atelier-shell .binder-meta { border-color: #ffffff42; }
+html[data-studio-theme] .atelier-shell .mail-cover .binder-front {
+  background: var(--mail-sheet);
+  color: var(--ink);
+  box-shadow: 1px 2px 1px var(--rule),1px 4px 1px var(--soft-deep),4px 11px 17px var(--shadow);
+}
+html[data-studio-theme] .atelier-shell .mail-cover .binder-meta { border-color: var(--rule); }
+html[data-studio-theme] .atelier-shell .mail-cover .binder-title .hand-star { color: var(--ink); }
+html[data-studio-theme] .atelier-shell .motion-cover .binder-front {
+  background: var(--red-surface);
+  color: #ffffff;
+  box-shadow: 2px 2px 1px #93000050,4px 12px 17px var(--shadow-deep);
+}
+html[data-studio-theme] .atelier-shell .cover-overprint { background: var(--red); }
+html[data-studio-theme] .atelier-shell .motion-cover .cover-overprint { background: #0c0c0c; }
+html[data-studio-theme] .atelier-shell .print-stack {
+  background: var(--surface-raised);
+  box-shadow: 1px 2px var(--rule),3px 5px var(--soft-deep),4px 13px 18px var(--shadow);
+}
+html[data-studio-theme] .atelier-shell .print-under {
+  background: var(--paper-edge);
+  box-shadow: 1px 4px 7px var(--shadow);
+}
+html[data-studio-theme] .atelier-shell .print-caption>span { color: var(--muted); }
+html[data-studio-theme] .atelier-shell .tape {
+  background: var(--tape-fill);
+  box-shadow: 0 1px 2px var(--shadow);
+}
+html[data-studio-theme] .atelier-shell .about-notebook {
+  background: repeating-linear-gradient(0deg,transparent 0 20px,var(--line-note) 20px 21px),
+    repeating-linear-gradient(90deg,var(--paper-note) 0 20px,var(--line-note) 20px 21px);
+  color: var(--notebook-text);
+  box-shadow: 1px 1px var(--paper-edge),3px 4px var(--soft-deep),4px 12px 18px var(--shadow);
+}
+html[data-studio-theme] .atelier-shell .notebook-holes {
+  background: radial-gradient(ellipse,#485466 0 2px,var(--soft-deep) 3px,transparent 4px) 0 0/8px 22px;
+}
+html[data-studio-theme] .atelier-shell .contact-card {
+  background: var(--red-surface);
+  color: #ffffff;
+  box-shadow: 2px 2px #a00000,4px 12px 14px var(--shadow);
+}
+html[data-studio-theme] .atelier-shell .contact-card strong { color: #111111; }
+html[data-studio-theme] .atelier-shell .pencil:before { border-right-color: var(--metal-tone); }
+html[data-studio-theme] .atelier-shell .atelier-help-sheet {
+  color: var(--ink);
+  background: var(--surface-raised);
+  border-color: var(--ink);
+  box-shadow: 12px 14px 0 var(--red),16px 20px 24px var(--shadow);
+}
+html[data-studio-theme] .atelier-shell .atelier-help-sheet h2 { color: var(--ink); }
+html[data-studio-theme] .atelier-shell .atelier-help-sheet::after { background: var(--tape-fill); }
+html[data-studio-theme] .atelier-shell .atelier-help-top { border-color: var(--ink); }
+html[data-studio-theme] .atelier-shell .atelier-help-top button { color: var(--ink); }
+html[data-studio-theme] .atelier-shell .atelier-shortcuts span { background: var(--ink); }
+html[data-studio-theme] .atelier-shell .atelier-desk-actions button { color: var(--muted-strong); }
+html[data-studio-theme] .atelier-shell .atelier-desk-actions button:hover { color: var(--red); }
+html[data-studio-theme] .atelier-shell .modern-screen-content .unavailable-preview {
+  background: var(--paper-canvas);
+}
+
+/* Reader is a React Portal — it is themed from html, not the desk ancestor. */
+html[data-studio-theme] .reader {
+  color: var(--ink);
+  background: var(--reader-sheet);
+  box-shadow: 0 28px 75px var(--shadow-deep);
+  transition: background .32s ease, color .32s ease;
+}
+html[data-studio-theme] .reader .reader-top,
+html[data-studio-theme] .reader .reader-footer { border-color: var(--rule); }
+html[data-studio-theme] .reader .reader-top>span,
+html[data-studio-theme] .reader .reader-heading p,
+html[data-studio-theme] .reader .case-files small,
+html[data-studio-theme] .reader .proof-meta,
+html[data-studio-theme] .reader .proof-bottom,
+html[data-studio-theme] .reader .reader-footer,
+html[data-studio-theme] .reader .experience-sheet ul,
+html[data-studio-theme] .reader .contact-options>a span { color: var(--muted); }
+html[data-studio-theme] .reader .case-proof {
+  background: var(--surface-raised);
+  box-shadow: 1px 2px var(--rule),3px 15px 28px var(--shadow);
+}
+html[data-studio-theme] .reader .project-visual,
+html[data-studio-theme] .reader .project-visual.design,
+html[data-studio-theme] .reader .project-visual.animation,
+html[data-studio-theme] .reader .unavailable-preview {
+  background: var(--soft);
+}
+html[data-studio-theme] .reader .case-files>button,
+html[data-studio-theme] .reader .experience-sheet article { border-color: var(--rule); }
+html[data-studio-theme] .reader .case-files>button>span:first-child { color: var(--muted); }
+html[data-studio-theme] .reader .case-files>button[aria-pressed=true]>span:first-child { color: var(--red); }
+html[data-studio-theme] .reader .gallery-wall button {
+  background: var(--surface-raised);
+  box-shadow: 1px 3px 8px var(--shadow);
+}
+html[data-studio-theme] .reader .bio-sheet,
+html[data-studio-theme] .reader .experience-sheet { color: var(--ink); }
+html[data-studio-theme] .reader .contact-options>a { border-color: var(--rule); }
+html[data-studio-theme] .reader .original-link { background: var(--red); }
+
+html[data-studio-theme="tech"] .atelier-shell .identity-rail { border-right: 1px solid #91a3b23a; }
+html[data-studio-theme="tech"] .atelier-shell .binder-front {
+  background: linear-gradient(145deg,#263447 0%,#101b28 100%);
+}
+html[data-studio-theme="tech"] .atelier-shell .mail-cover .binder-front {
+  background: linear-gradient(130deg,#e5eef8,#c9d9e9);
+}
+html[data-studio-theme="tech"] .atelier-shell .print-stack,
+html[data-studio-theme="tech"] .atelier-shell .loose-paper,
+html[data-studio-theme="tech"] .atelier-shell .case-proof {
+  border: 1px solid #9bacc1a6;
+}
+html[data-studio-theme="tech"] .atelier-shell .binder-meta { letter-spacing: 1.7px; }
+html[data-studio-theme="tech"] .atelier-shell .about-notebook {
+  box-shadow: 1px 1px #b9c7d6,3px 4px #a3b6c8,4px 13px 21px #132d4f2c;
+}
+html[data-studio-theme="tech"] .atelier-shell .modern-laptop {
+  filter: drop-shadow(12px 24px 16px #14365652);
+}
+html[data-studio-theme="tech"] .reader { border: 1px solid #8ea2b8; }
+
+@media (max-width: 480px) {
+  html[data-studio-theme="tech"] .atelier-shell .identity-rail {
+    border-right: 0;
+    border-bottom: 1px solid #94a8bc;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html[data-studio-theme] .atelier-shell,
+  html[data-studio-theme] .reader { transition-duration: .01ms !important; }
+}

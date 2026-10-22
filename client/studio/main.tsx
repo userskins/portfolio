@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { createRoot } from 'react-dom/client';
-import { AnimatePresence, motion, useMotionValue, useReducedMotion, useSpring } from 'framer-motion';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import * as Dialog from '@radix-ui/react-dialog';
-import { ArrowUpRight, ArrowLeft, ArrowRight, X, RotateCcw, HelpCircle, ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
+import { ArrowUpRight, ArrowLeft, ArrowRight, X, ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
 import { projects, galleryImages, experiences, skills, education, aboutText, type Project } from '@/lib/data';
 import nameSticker from '@assets/hero-logo.webp';
 import signature from '@assets/logo.webp';
@@ -11,7 +11,7 @@ import './atelier.css';
 import './ultralight.css';
 import './tech.css';
 import './showcase.css';
-import './freedesk.css';
+import './static-desk.css';
 import { DeskItem } from './DeskItem';
 import { MotionRecord, MailEnvelope } from './DeskArtifacts';
 import './desk-artifacts.css';
@@ -22,9 +22,9 @@ type View = Category | 'all' | 'gallery' | 'about' | 'contact' | null;
 const BASE = import.meta.env.BASE_URL;
 const T = {
   desk: 'Рабочий стол', work: 'Проекты', gallery: 'Галерея', about: 'Обо мне', contact: 'Контакты',
-  back: 'На стол', original: 'Открыть проект', prev: 'Предыдущий', next: 'Следующий', reset: 'Собрать стол',
-  intro: 'Дизайн. Сайты. CRM.', hint: 'Свободно двигай предметы. Вращай за ↻. Нажимай, чтобы открыть.',
-  tapHint: 'Нажми для открытия. ↔ — переместить, ↻ — вращать.', preview: 'Предпросмотр сайта',
+  back: 'На стол', original: 'Открыть проект', prev: 'Предыдущий', next: 'Следующий', 
+  intro: 'Дизайн. Сайты. CRM.', hint: 'Нажми на предмет, чтобы открыть раздел.',
+  tapHint: 'Нажми на предмет, чтобы открыть раздел.', preview: 'Предпросмотр сайта',
   noPreview: 'Превью недоступно. Оригинал — по ссылке.', idea: 'Есть идея?', letsTalk: 'Давай обсудим.',
   realWork: 'Проекты и работы из моего архива.',
 };
@@ -37,7 +37,7 @@ const folders: { id: Category; name: string; label: string; }[] = [
 const count = (tag: Category) => projects.filter(p => p.tag === tag).length;
 const websites = projects.filter(p => p.tag === 'websites');
 const WEBSITE_INTERVAL_MS = 4500;
-const hoverDescriptions: Record<string, string> = { design: 'ДИЗАЙН / МАКЕТЫ И АЙДЕНТИКА', gallery: 'ГАЛЕРЕЯ / АВТОРСКИЕ РАБОТЫ', laptop: 'САЙТЫ / 7 ПРОЕКТОВ · АВТОПОКАЗ', email: 'РАССЫЛКИ / CRM-КОММУНИКАЦИИ', motion: 'АНИМАЦИЯ / ДВИЖЕНИЕ', about: 'ОБО МНЕ / ОПЫТ И НАВЫКИ', contact: 'КОНТАКТЫ / ОБСУДИМ ПРОЕКТ', 'loose-one': 'ФОТОГРАФИЯ / МОЖНО ДВИГАТЬ И ВРАЩАТЬ', 'loose-two': 'АРХИВНОЕ ФОТО / МОЖНО ВРАЩАТЬ', pencil: 'КАРАНДАШ / РАСКРУТИ МЕНЯ ↻' };
+const hoverDescriptions: Record<string, string> = { design: 'ДИЗАЙН / МАКЕТЫ И АЙДЕНТИКА', gallery: 'ГАЛЕРЕЯ / АВТОРСКИЕ РАБОТЫ', laptop: 'САЙТЫ / 7 ПРОЕКТОВ · АВТОПОКАЗ', email: 'РАССЫЛКИ / CRM-КОММУНИКАЦИИ', motion: 'АНИМАЦИЯ / ДВИЖЕНИЕ', about: 'ОБО МНЕ / ОПЫТ И НАВЫКИ', contact: 'КОНТАКТЫ / ОБСУДИМ ПРОЕКТ', pencil: 'КАРАНДАШ / ЭСКИЗ' };
 const art = (id: number) => `${BASE}art/${id}.webp`;
 // Only project-cover pairings identifiable in the original artwork.
 const coverById: Record<string, number> = { '07b': 2, '07': 1, '06': 3, '05': 32 };
@@ -201,7 +201,6 @@ function Studio() {
   const [selected, setSelected] = useState(0);
   const [galleryIndex, setGalleryIndex] = useState(0);
   const [galleryFull, setGalleryFull] = useState(false);
-  const [reset, setReset] = useState(0);
   const [webIndex, setWebIndex] = useState(0);
   const [autoplayEnabled, setAutoplayEnabled] = useState(true);
   const [laptopHover, setLaptopHover] = useState(false);
@@ -209,17 +208,11 @@ function Studio() {
   const [manualHold, setManualHold] = useState(false);
   const [pageVisible, setPageVisible] = useState(() => !document.hidden);
   const manualHoldTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const [showHelp, setShowHelp] = useState(false);
   const [hoveredObject, setHoveredObject] = useState<string | null>(null);
   const small = useSmallScreen();
   const reduced = useReducedMotion();
   const holder = useRef<HTMLDivElement>(null);
-  const sceneRef = useRef<HTMLDivElement>(null);
-  const layerRef = useRef(55);
-  const lift = () => ++layerRef.current;
   const [sceneScale, setSceneScale] = useState(1);
-  const x = useMotionValue(0), y = useMotionValue(0);
-  const sx = useSpring(x, { stiffness: 65, damping: 25 }), sy = useSpring(y, { stiffness: 65, damping: 25 });
   const open = (next: View) => { setSelected(0); setGalleryFull(false); setView(next); };
   const list = view === 'all' ? projects : projects.filter(p => p.tag === view);
   const active = list[Math.min(selected, Math.max(0, list.length - 1))];
@@ -243,7 +236,6 @@ function Studio() {
     return () => clearTimeout(timer);
   }, [slideshowPlaying, webIndex]);
   const openLaptop = () => { open('websites'); setSelected(webIndex); };
-  const resetDesk = () => { layerRef.current = 55; setReset(index => index + 1); };
   const navigate = (delta: number) => {
     if (view === 'gallery') setGalleryIndex(i => (i + delta + uniqueGallery.length) % uniqueGallery.length);
     else if (list.length) setSelected(i => (i + delta + list.length) % list.length);
@@ -264,12 +256,9 @@ function Studio() {
       if (view || event.altKey || event.ctrlKey || event.metaKey || event.repeat) return;
       const element = event.target;
       if (element instanceof HTMLElement && (element.isContentEditable || ['INPUT','TEXTAREA','SELECT'].includes(element.tagName))) return;
-      if (event.key === '?' || event.key.toLowerCase() === 'h') { setShowHelp(current => !current); return; }
-      if (event.key === 'Escape') { setShowHelp(false); return; }
       const shortcut: Record<string, View> = {'1':'design','2':'websites','3':'email','4':'animation','5':'gallery','6':'about','7':'contact'};
       if (Object.prototype.hasOwnProperty.call(shortcut, event.key)) {
         event.preventDefault();
-        setShowHelp(false);
         open(shortcut[event.key]);
       }
     };
@@ -288,21 +277,19 @@ function Studio() {
       <nav id="studio-navigation" className="rail-nav" aria-label="Portfolio navigation">
         {([{ title: T.desk, value: null }, { title: T.work, value: 'all' }, { title: T.gallery, value: 'gallery' }, { title: T.about, value: 'about' }, { title: T.contact, value: 'contact' }] as { title: string; value: View }[]).map((item, i) => <button key={i} onClick={() => open(item.value)} aria-current={view === item.value ? 'page' : undefined}><span>{String(i + 1).padStart(2, '0')}</span>{item.title}<ArrowUpRight size={14} /></button>)}
       </nav>
-      <div className="rail-bottom"><p className="rail-note">Идеи не<br />сидят на месте.<span>*</span></p><div className="social-links"><a href="https://t.me/userskins" target="_blank" rel="noopener noreferrer">TG <ArrowUpRight size={11} /></a><a href="https://vk.com/userskins" target="_blank" rel="noopener noreferrer">VK <ArrowUpRight size={11} /></a><a href="mailto:userskins@gmail.com">MAIL <ArrowUpRight size={11} /></a></div></div>
+      <div className="rail-bottom"><p className="rail-note"><span className="rail-note-first">Идеи не сидят</span><span className="rail-note-second">на месте.</span><span className="rail-note-star" aria-hidden="true">*</span></p><div className="social-links"><a href="https://t.me/userskins" target="_blank" rel="noopener noreferrer">TG <ArrowUpRight size={11} /></a><a href="https://vk.com/userskins" target="_blank" rel="noopener noreferrer">VK <ArrowUpRight size={11} /></a><a href="mailto:userskins@gmail.com">MAIL <ArrowUpRight size={11} /></a></div></div>
     </aside>
     <main className="desk-area" aria-label={T.desk}>
       <div className="desk-topline"><span>ПОРТФОЛИО / ЖИВОЙ РАБОЧИЙ СТОЛ</span><span className="atelier-hover-status" aria-live="polite">{hoveredObject ? hoverDescriptions[hoveredObject] : 'КУРСОР — ТВОЙ ИНСТРУМЕНТ'}</span><span className="tiny-cross">+</span><span>У ПРЕДМЕТОВ ЕСТЬ ИСТОРИИ</span></div>
-      <div ref={holder} className="scene-holder" onPointerMove={e => { if (small || reduced || view) return; const rect = e.currentTarget.getBoundingClientRect(); e.currentTarget.style.setProperty('--atelier-x', (e.clientX - rect.left) + 'px'); e.currentTarget.style.setProperty('--atelier-y', (e.clientY - rect.top) + 'px'); x.set(((e.clientX - rect.left) / rect.width - .5) * -12); y.set(((e.clientY - rect.top) / rect.height - .5) * -9); }} onPointerOver={event => { const object = event.target instanceof Element ? event.target.closest('[data-object]') : null; const name = object?.getAttribute('data-object') ?? null; setHoveredObject(current => current === name ? current : name); }} onPointerLeave={() => { x.set(0); y.set(0); setHoveredObject(null); }}>
+      <div ref={holder} className="scene-holder" onPointerOver={event => { const object = event.target instanceof Element ? event.target.closest('[data-object]') : null; const name = object?.getAttribute('data-object') ?? null; setHoveredObject(current => current === name ? current : name); }} onPointerLeave={() => setHoveredObject(null)}>
         <div className="scene-scale" style={{ '--scene-scale': sceneScale } as CSSProperties}>
-          <motion.div className={`scene-camera ${view ? 'camera-focused' : ''}`} style={{ x: small || reduced ? 0 : sx, y: small || reduced ? 0 : sy }}>
-            <div className="desk-scene" ref={sceneRef} key={reset}>
+          <motion.div className={`scene-camera ${view ? 'camera-focused' : ''}`}>
+            <div className="desk-scene">
               <span className="desk-handnote note-top" aria-hidden="true">чуть-чуть хаоса.<br />много дизайна.</span>
               <svg className="desk-doodle doodle-arrow" viewBox="0 0 160 70" aria-hidden="true"><path d="M3 8 C 39 47 80 54 145 45 M128 25 L148 45 L126 57" fill="none" stroke="currentColor" strokeWidth="2" /></svg>
-              <DeskItem name="loose-one" label="Верхнее фото" extraClass="loose-paper loose-one" rotation={13} order={1} small={small} areaRef={sceneRef} onRaise={lift}><img src={art(27)} alt="Фото из творческого архива" draggable={false} /></DeskItem>
-              <DeskItem name="loose-two" label="Нижнее фото" extraClass="loose-paper loose-two" rotation={5} order={1} small={small} areaRef={sceneRef} onRaise={lift}><img src={art(34)} alt="Ещё одна фотография из архива" draggable={false} /></DeskItem>
-              <DeskItem name="design" label="Папка «Дизайн»" areaRef={sceneRef} onRaise={lift} rotation={-10} order={1} small={small} onOpen={() => open('design')}><Binder category="design" number="01" onOpen={() => open('design')} /></DeskItem>
-              <DeskItem name="gallery" label="Галерея работ" areaRef={sceneRef} onRaise={lift} rotation={7} order={2} small={small} onOpen={() => open('gallery')}><button type="button" className="print-stack" data-testid="open-gallery" aria-label={T.gallery}><span className="print-under" /><span className="print-image"><img src={art(67)} alt="" draggable={false} /></span><span className="print-caption">ГАЛЕРЕЯ РАБОТ <span>01 / {uniqueGallery.length}</span></span><span className="paperclip" aria-hidden="true" /><span className="hover-tag">СМОТРЕТЬ ГАЛЕРЕЮ <ArrowUpRight size={12} /></span></button></DeskItem>
-              <DeskItem name="laptop" label="Ноутбук с сайтами" areaRef={sceneRef} onRaise={lift} rotation={12} order={3} small={small}><Laptop
+              <DeskItem name="design" label="Папка «Дизайн»" rotation={-10} order={1} small={small} onOpen={() => open('design')}><Binder category="design" number="01" onOpen={() => open('design')} /></DeskItem>
+              <DeskItem name="gallery" label="Галерея работ" rotation={7} order={2} small={small} onOpen={() => open('gallery')}><button type="button" className="print-stack" data-testid="open-gallery" aria-label={T.gallery}><span className="print-under" /><span className="print-image"><img src={art(67)} alt="" draggable={false} /></span><span className="print-caption">ГАЛЕРЕЯ РАБОТ <span>01 / {uniqueGallery.length}</span></span><span className="paperclip" aria-hidden="true" /><span className="hover-tag">СМОТРЕТЬ ГАЛЕРЕЮ <ArrowUpRight size={12} /></span></button></DeskItem>
+              <DeskItem name="laptop" label="Ноутбук с сайтами" rotation={12} order={3} small={small}><Laptop
                   project={firstWebsite}
                   onOpen={openLaptop}
                   onNext={() => changeWebsite(1)}
@@ -315,39 +302,16 @@ function Studio() {
                   onHoverChange={setLaptopHover}
                   onFocusChange={setLaptopFocus}
                 /></DeskItem>
-              <DeskItem name="email" label="Конверт Email + CRM" areaRef={sceneRef} onRaise={lift} rotation={5} order={4} small={small} onOpen={() => open('email')}><MailEnvelope total={count('email')} onOpen={() => open('email')} /></DeskItem>
-              <DeskItem name="motion" label="Диск Motion" areaRef={sceneRef} onRaise={lift} rotation={-7} order={5} small={small} onOpen={() => open('animation')}><MotionRecord previewSrc={art(27)} total={count('animation')} onOpen={() => open('animation')} /></DeskItem>
-              <DeskItem name="about" label="Блокнот" areaRef={sceneRef} onRaise={lift} rotation={-6} order={6} small={small} onOpen={() => open('about')}><button className="about-notebook" aria-label={T.about} data-testid="open-about"><span className="notebook-holes" /><span className="notebook-head">ЗАМЕТКИ / 2020–2026</span><span className="notebook-title">{T.about}</span><span className="notebook-copy">VK / ВШЭ / ИТММ<br />ДИЗАЙН + ЛЮДИ + ИДЕИ</span><span className="notebook-sign">Dmitriy <ArrowUpRight size={24} /></span></button></DeskItem>
-              <DeskItem name="contact" label="Карточка контактов" areaRef={sceneRef} onRaise={lift} rotation={-12} order={7} small={small} onOpen={() => open('contact')}><button className="contact-card" aria-label={T.contact} data-testid="open-contact"><span>LET'S MAKE</span><strong>SOMETHING<br />MATTER.</strong><span>WRITE ME <ArrowUpRight size={20} /></span></button></DeskItem>
-              <DeskItem name="pencil" label="Карандаш" extraClass="pencil" rotation={30} order={5} small={small} areaRef={sceneRef} onRaise={lift}><span /></DeskItem><span className="desk-handnote note-bottom" aria-hidden="true">делаю<br /><u>со смыслом</u>.</span><span className="desk-star" aria-hidden="true">*</span>
+              <DeskItem name="email" label="Конверт Email + CRM" rotation={5} order={4} small={small} onOpen={() => open('email')}><MailEnvelope total={count('email')} onOpen={() => open('email')} /></DeskItem>
+              <DeskItem name="motion" label="Диск Motion" rotation={-7} order={5} small={small} onOpen={() => open('animation')}><MotionRecord previewSrc={art(27)} total={count('animation')} onOpen={() => open('animation')} /></DeskItem>
+              <DeskItem name="about" label="Блокнот" rotation={-6} order={6} small={small} onOpen={() => open('about')}><button className="about-notebook" aria-label={T.about} data-testid="open-about"><span className="notebook-holes" /><span className="notebook-head">ЗАМЕТКИ / 2020–2026</span><span className="notebook-title">{T.about}</span><span className="notebook-copy">VK / ВШЭ / ИТММ<br />ДИЗАЙН + ЛЮДИ + ИДЕИ</span><span className="notebook-sign">Dmitriy <ArrowUpRight size={24} /></span></button></DeskItem>
+              <DeskItem name="contact" label="Карточка контактов" rotation={-12} order={7} small={small} onOpen={() => open('contact')}><button className="contact-card" aria-label={T.contact} data-testid="open-contact"><span>LET'S MAKE</span><strong>SOMETHING<br />MATTER.</strong><span>WRITE ME <ArrowUpRight size={20} /></span></button></DeskItem>
+              <DeskItem name="pencil" label="Карандаш" extraClass="pencil" rotation={30} order={5} small={small}><span /></DeskItem><span className="desk-handnote note-bottom" aria-hidden="true">делаю<br /><u>со смыслом</u>.</span><span className="desk-star" aria-hidden="true">*</span>
             </div>
           </motion.div>
         </div>
       </div>
-      <div className="desk-help-hand" aria-hidden="true">ХВАТАЙ И ДВИГАЙ · <b>↻</b> ВРАЩАЙ</div>
-      <div className="desk-bottomline">
-        <span><span className="small-red-dot" />{small ? T.tapHint : T.hint}</span>
-        <div className="atelier-desk-actions">
-          <button type="button" onClick={() => setShowHelp(true)} data-testid="atelier-help"><HelpCircle size={14} /> Как пользоваться</button>
-          
-          <button type="button" onClick={resetDesk} aria-label={T.reset}><RotateCcw size={13} />{T.reset}</button>
-        </div>
-      </div>
-      <AnimatePresence>
-        {showHelp && !view && <motion.aside
-          className="atelier-help-sheet"
-          role="dialog" aria-modal="false" aria-label="Как взаимодействовать с рабочим столом"
-          initial={reduced ? false : { opacity: 0, y: 23, rotate: -3 }} animate={{ opacity: 1, y: 0, rotate: -2 }}
-          exit={{ opacity: 0, y: 15 }} transition={{ duration: .24 }}
-        >
-          <div className="atelier-help-top"><span>USERSKINS / КАК ИССЛЕДОВАТЬ</span><button onClick={() => setShowHelp(false)} aria-label="Закрыть подсказку"><X size={21}/></button></div>
-          <h2>ЭТО НЕ<br/>ПРОСТО САЙТ<span>*</span></h2>
-          <p>Больше ничего не прикреплено! Перетаскивай любой предмет по столу. Чтобы вращать, тяни красную ручку ↻ вокруг центра — можно сделать полный оборот.</p>
-          <p>На телефоне двигай предмет за ручку ↔. На компьютере поворачивай за ↻ или стрелками ← →, когда ручка выбрана. Двойной клик по ↻ — полный оборот.</p><p>«Собрать стол» вернёт всё на свои места, включая фотографии и карандаш. Стрелки ноутбука листают сайты.</p>
-          <div className="atelier-shortcuts"><span>1–4</span> ПАПКИ <span>5</span> ГАЛЕРЕЯ <span>6</span> ОБО МНЕ <span>7</span> КОНТАКТЫ</div>
-          <button className="atelier-help-action" onClick={() => setShowHelp(false)}>ПОЕХАЛИ <ArrowUpRight size={16}/></button>
-        </motion.aside>}
-      </AnimatePresence>
+      <div className="desk-bottomline"><span><span className="small-red-dot" />{small ? T.tapHint : T.hint}</span></div>
     </main>
     <Dialog.Root open={view !== null} onOpenChange={value => { if (!value) setView(null); }}>
       <AnimatePresence>

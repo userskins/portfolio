@@ -1,0 +1,44 @@
+/* Fixed editorial desk: clickable objects without dragging/rotation gestures. */
+.atelier-shell .desk-scene .desk-item {
+  isolation: isolate;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: pan-y;
+}
+.atelier-shell .desk-item > button,
+.atelier-shell .desk-item button { cursor: pointer; }
+.atelier-shell .desk-item.pencil { pointer-events: none; }
+@media (min-width: 901px) and (hover: hover) {
+  .atelier-shell .object-laptop:hover .modern-laptop,
+  .atelier-shell .object-laptop:hover .modern-laptop-lid { transform: none; }
+}
+/* Explicit two-line slogan, with the star outside the text. */
+.atelier-shell .rail-note {
+  position: relative;
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  padding-right: 34px;
+  font-size: 29px;
+  line-height: 1.02;
+}
+.atelier-shell .rail-note .rail-note-first,
+.atelier-shell .rail-note .rail-note-second {
+  position: static;
+  display: block;
+  white-space: nowrap;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+}
+.atelier-shell .rail-note .rail-note-star {
+  left: auto;
+  right: 0;
+  top: 22px;
+  font-size: 42px;
+  line-height: 1;
+  transform: rotate(8deg);
+  pointer-events: none;
+}
+/* Move the underline in the About notebook a little closer to the title. */
+.atelier-shell .about-notebook .notebook-title::after { bottom: 7px; }

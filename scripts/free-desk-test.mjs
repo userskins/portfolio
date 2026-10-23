@@ -25,9 +25,7 @@ assert.equal(await page.locator('.desk-scene').evaluate(el=>getComputedStyle(el)
 const note=page.locator('.rail-note');
 assert.equal(await note.locator('.rail-note-first').innerText(),'Идеи не сидят','slogan first line');
 assert.equal(await note.locator('.rail-note-second').innerText(),'на месте.','slogan second line');
-const box1=await note.locator('.rail-note-second').boundingBox();
-const star=await note.locator('.rail-note-star').boundingBox();
-assert.ok(star.x >= box1.x+box1.width-3,'red asterisk does not cover second line');
+assert.equal(await note.locator('.rail-note-star').count(),0,'unnecessary red asterisk removed');
 assert.equal(await page.locator('.notebook-title').evaluate(el=>getComputedStyle(el,'::after').bottom),'1px','About underline positioned below the raised title');
 assert.equal(await item('design').getAttribute('data-hover-travel'),'7','a small 7px hover-follow allowance');
 assert.equal(await item('laptop').getAttribute('data-hover-travel'),'1.5','laptop moves only 1.5px for reliable arrows');

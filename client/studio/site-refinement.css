@@ -1,0 +1,334 @@
+/* Portfolio refinement: material depth and calm editorial navigation. */
+
+/* No floating ornaments: one restrained hint above the objects. */
+.atelier-shell .desk-topline {
+  justify-content: flex-end;
+  left: 32px;
+  right: 40px;
+  top: 29px;
+  pointer-events: none;
+}
+.atelier-shell .desk-topline .atelier-hover-status {
+  font-size: 8px;
+  letter-spacing: .075em;
+  color: #6a7b90;
+}
+.atelier-shell .desk-topline .atelier-hover-status::before {
+  width: 3px;
+  height: 3px;
+  opacity: .6;
+  background: #a0aec0;
+}
+.atelier-shell .rail-note { padding-right: 0; margin-bottom: 24px; }
+
+/* The desk objects share one cool light source, restrained highlights and
+   contact shadows. Keep DOM controls interactive: never flatten into pictures. */
+html[data-studio-theme="tech"] .atelier-shell .design-cover .binder-front {
+  background:
+    linear-gradient(118deg,#eff9ff1b 0%,transparent 28%,transparent 68%,#030a1833 100%),
+    linear-gradient(145deg,#293b52 0%,#102035 67%,#0b1827 100%);
+  border: 1px solid #6d82984d;
+  box-shadow: inset 0 1px 0 #f2f9ff57, inset -2px 0 0 #05152260,
+    1px 3px 0 #344960, 4px 9px 0 #0b23354f, 11px 17px 19px #0a1e3435;
+}
+.atelier-shell .design-cover .binder-leaf {
+  border: 1px solid #bdcbd7;
+  box-shadow: inset 0 1px 0 #fff,3px 4px 3px #12293a24;
+}
+.atelier-shell .design-cover .binder-spine {
+  background: linear-gradient(90deg,#040c15a8,#9eb2c58c 38%,#203148d6 58%,#0b1824ba);
+  border-right: 1px solid #a5bfd35c;
+}
+
+.atelier-shell .mail-envelope {
+  filter: drop-shadow(5px 10px 8px #2639502a);
+  transform-style: preserve-3d;
+}
+.atelier-shell .mail-envelope-back {
+  background: linear-gradient(139deg,#f8fbff 0%,#dce7ef 47%,#afc4d7 100%);
+  border-color: #819aaf;
+  box-shadow: inset 0 1px 0 #fff, inset -2px -3px 5px #6d93b22b,
+    2px 4px 1px #a1b4c3,5px 11px 16px #122a4336;
+}
+.atelier-shell .mail-envelope-letter {
+  background:
+    repeating-linear-gradient(0deg,transparent 0 27px,#c7d6e425 28px 29px),
+    linear-gradient(140deg,#fffefa 0%,#f5f8fa 100%);
+  box-shadow: inset 0 1px 0 #fff, 1px 5px 9px #1a344325;
+  border-color: #bfccd7;
+}
+.atelier-shell .mail-envelope-flap {
+  background: linear-gradient(170deg,#fcfeff 0%,#ebf3f8 29%,#b7cdde 96%);
+  filter: drop-shadow(0 2px 2px #273b4b27);
+  transform-origin: center top;
+}
+.atelier-shell .mail-envelope-pocket {
+  background:
+    linear-gradient(150deg,#e0edf7 0 49%,transparent 50%) left bottom / 51% 100% no-repeat,
+    linear-gradient(210deg,#c4d9e7 0 49%,transparent 50%) right bottom / 51% 100% no-repeat,
+    linear-gradient(180deg,#f8fbfd 0%,#b5cada 98%);
+  filter: drop-shadow(0 1px 1px #334d6230);
+}
+.atelier-shell .mail-envelope:is(:hover,:focus-visible) .mail-envelope-flap,
+.atelier-shell .object-email:focus-within .mail-envelope-flap {
+  transform: perspective(700px) rotateX(168deg);
+}
+.atelier-shell .mail-envelope:is(:hover,:focus-visible) .mail-envelope-letter,
+.atelier-shell .object-email:focus-within .mail-envelope-letter {
+  transform: translateY(-45px);
+}
+.atelier-shell .mail-envelope-seal {
+  background: radial-gradient(circle at 35% 25%,#f54d53,#d3112a 60%,#a1091e);
+  box-shadow: inset -2px -2px 2px #7c041d4d,1px 3px 4px #1d344b38;
+}
+.atelier-shell .motion-cd-case {
+  background: linear-gradient(118deg,#fcffffba,#acbfcedc 24%,#dceaf5ca 75%,#8598acdf);
+  border: 2px solid #d9e8f3;
+  border-radius: 4px;
+  box-shadow: inset 1px 1px 0 #fff, inset -2px -2px 0 #6b809f8a,
+    1px 2px 1px #c0d0de, 3px 5px 0 #71889c, 8px 15px 15px #132b443b;
+}
+.atelier-shell .motion-cd-cover {
+  background:
+    linear-gradient(115deg,#fff9 0 3%,transparent 10% 34%,#ffffff26 41%,transparent 49%),
+    linear-gradient(165deg,#e9f7ff25,#7897b327 90%);
+  box-shadow: inset 1px 1px 1px #fff, inset -2px -3px 1px #7a96aa65;
+}
+.atelier-shell .motion-cd-hinge {
+  border-right: 1px solid #6d8ba2;
+  box-shadow: inset 2px 0 1px #fff8, 2px 0 1px #45627b38;
+}
+.atelier-shell .motion-record-spinning {
+  background: conic-gradient(from 12deg,#94a9bd,#e7f1fd,#99b6d2,#f5fcff,#86a4bc,#e9f2fa,#7898b5,#e5f2ff,#94a9bd);
+  box-shadow: inset 0 0 0 2px #f5faffba,0 0 0 1px #516b88;
+}
+.atelier-shell .motion-record-grooves {
+  background: conic-gradient(#ffffffb0,#98b3c152,#fff9,#88a4be8f,#fff8);
+}
+.atelier-shell .print-stack {
+  background:
+    linear-gradient(150deg,#fff,#f0f5f9 83%,#d5e0e9);
+  box-shadow: 1px 2px 0 #a3b4c4,3px 5px 0 #c9d6e0,5px 15px 20px #142e482e;
+}
+.atelier-shell .print-under {
+  background: #e9f1f7;
+  box-shadow: 1px 2px 0 #c1ccd9,3px 7px 14px #132a3d29;
+}
+.atelier-shell .about-notebook {
+  background: repeating-linear-gradient(0deg,transparent 0 19px,#9fb1c52e 19px 20px),
+    linear-gradient(155deg,#fdfefe,#e8f1fa 84%);
+  border: 1px solid #a6bace;
+  box-shadow: inset 0 1px 0 #fff,1px 2px 0 #b8c9d9,3px 5px 0 #d1dce6,7px 13px 19px #1b36512c;
+}
+.atelier-shell .contact-card {
+  background: linear-gradient(155deg,#fa1823,#ef0614 55%,#c50011);
+  border: 1px solid #e96d72;
+  box-shadow: inset 1px 1px 0 #ffb9bc8f,2px 3px 0 #ab0916,5px 12px 18px #4a132f42;
+}
+.atelier-shell .modern-laptop-lid {
+  background: linear-gradient(125deg,#a2aeb9,#222934 5%,#111821 16%,#0a1018 82%,#737e88 98%,#c8d2da);
+  box-shadow: inset 1px 1px 0 #eef5fb50,inset -1px 0 1px #ffffff2f,
+    0 3px 0 #414c55,0 8px 11px #0d1c2d39;
+}
+.atelier-shell .modern-laptop-deck {
+  background: linear-gradient(138deg,#ebf0f4 0%,#bac6ce 27%,#a6b4bc 63%,#e1e8ec 100%);
+  border-color: #7e8f9a;
+  box-shadow: inset 0 1px 0 #fff, inset 0 -2px 0 #61748299,0 12px 19px #203c512c;
+}
+.atelier-shell .modern-key {
+  background: linear-gradient(140deg,#343c47,#111821 90%);
+  box-shadow: 0 1px 1px #070a0eab,inset 0 1px 0 #b6c4d044;
+}
+
+/* Project categories: always visible and distinguishable from project rows. */
+html[data-studio-theme] .reader .project-filter-bar {
+  display: grid;
+  grid-template-columns: auto minmax(0,1fr);
+  align-items: center;
+  gap: 14px 23px;
+  margin: 0 0 26px;
+  padding: 16px 0;
+  border-block: 1px solid var(--rule);
+}
+.reader .filter-bar-caption {
+  white-space: nowrap;
+  color: #4f647b;
+  font: 700 9px/1.4 "JetBrains Mono",monospace;
+  letter-spacing: .1em;
+}
+.reader .project-filter-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-width: 0;
+}
+.reader .project-filter-options button {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 39px;
+  padding: 9px 13px;
+  color: #24384d;
+  background: #f8fbff;
+  border: 1px solid #a2b3c5;
+  font: 800 10px/1.2 "JetBrains Mono",monospace;
+  letter-spacing: .025em;
+  cursor: pointer;
+  transition: background .2s, color .2s, border-color .2s;
+}
+.reader .project-filter-options button span {
+  opacity: .72;
+  font-size: 9px;
+}
+.reader .project-filter-options button[aria-pressed="true"] {
+  color: #fff;
+  background: #14263b;
+  border-color: #14263b;
+  box-shadow: inset 0 -2px #ff0000;
+}
+.reader .project-filter-options button:hover,
+.reader .project-filter-options button:focus-visible {
+  border-color: #f00;
+  outline: 2px solid transparent;
+  box-shadow: 0 0 0 2px #ff000035;
+}
+
+/* The preview always has a stable visual region; tall websites scroll in
+   "detail" mode, whole works fit uncut in "fit" mode. */
+html[data-studio-theme] .reader .case-proof {
+  padding: 10px 12px 9px;
+  border: 1px solid #b1c4d8;
+}
+html[data-studio-theme] .reader .case-preview-column .project-visual {
+  height: clamp(270px,44vh,470px);
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #dae4ee;
+}
+.reader .case-preview-column .project-visual.preview-fit > img {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center center;
+}
+.reader .case-preview-column .project-visual.preview-detail {
+  overflow: auto;
+  display: block;
+  scrollbar-width: thin;
+  scrollbar-color: #93a6bc #e2eaf2;
+}
+.reader .case-preview-column .project-visual.preview-detail > img {
+  display: block;
+  max-width: none;
+  width: 100%;
+  height: auto;
+  object-fit: initial;
+}
+.reader .case-preview-column .project-visual > iframe {
+  width: 100%;
+  height: 100%;
+  min-height: 270px;
+  border: 0;
+}
+.reader .case-preview-column .project-empty-preview {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 100%;
+  padding: 20px;
+}
+.reader .case-preview-column .project-empty-preview > img {
+  display: block;
+  height: auto;
+  max-height: 80px;
+  max-width: 90px;
+  width: auto;
+  object-fit: contain;
+}
+.reader .case-preview-column .project-empty-preview > span:not(.empty-preview-eyebrow) {
+  font: 700 clamp(17px,2.2vw,29px)/1.12 "JetBrains Mono",monospace;
+  color: #14253b;
+}
+.reader .case-preview-column .project-empty-preview > small {
+  max-width: 320px;
+  font-size: 10px;
+  line-height: 1.65;
+}
+.reader .case-preview-column .empty-preview-eyebrow {
+  font: 700 9px "JetBrains Mono",monospace;
+  color: #657b95;
+}
+.reader .preview-embed-button {
+  padding: 12px 16px;
+  border: 1px solid #11243b;
+  background: #f8fbff;
+  color: #14263b;
+  font: 700 10px "JetBrains Mono",monospace;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+}
+.reader .preview-embed-button:hover { border-color: #f00; }
+.reader .preview-view-modes {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 7px;
+  flex-wrap: wrap;
+  padding: 9px 0 2px;
+}
+.reader .preview-view-modes button {
+  padding: 8px 11px;
+  border: 1px solid #b2c2d2;
+  background: #e9f0f6;
+  color: #344b62;
+  font: 700 9px/1.3 "JetBrains Mono",monospace;
+}
+.reader .preview-view-modes button[aria-pressed="true"] {
+  background: #193149;
+  border-color: #193149;
+  color: #fff;
+}
+.reader .case-index .case-files { max-height: clamp(260px,52vh,580px); }
+.reader .case-files>button { padding: 13px 9px 14px 2px; }
+.reader .case-files strong { font-size: clamp(12px,1vw,15px); }
+.reader .case-files small { font-size: 9px; }
+@media (max-width: 1250px) {
+  html[data-studio-theme] .reader .project-filter-bar {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}
+@media (max-width: 900px) {
+  .atelier-shell .desk-topline { position: relative; inset: auto; justify-content: center; padding: 2px 5px 13px; }
+  .atelier-shell .desk-topline .atelier-hover-status { font-size: 7px; letter-spacing: .015em; }
+  .reader .project-filter-options button { min-height: 39px; padding: 8px 11px; font-size: 9px; }
+  html[data-studio-theme] .reader .project-filter-bar { margin: 0 0 17px; padding: 11px 0 15px; }
+  .reader .case-preview-column .project-visual { height: min(48vh,390px); }
+  .reader .case-files strong { font-size: 13px; }
+}
+@media (max-width: 420px) {
+  .reader .filter-bar-caption { font-size: 8px; }
+  .reader .project-filter-options { gap: 6px; }
+  .reader .project-filter-options button { padding: 8px 9px; font-size: 8.5px; }
+  .reader .case-preview-column .project-visual { height: 320px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .atelier-shell .motion-cd-case,
+  .atelier-shell .mail-envelope-flap,
+  .atelier-shell .mail-envelope-letter { transition: none !important; }
+  .reader .project-filter-options button { transition: none; }
+}

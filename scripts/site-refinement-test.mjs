@@ -25,9 +25,9 @@ assert.equal(await page.locator('.project-filter-options button').count(),5,'all
 assert.equal(await page.getByTestId('projects-filter-all').getAttribute('aria-pressed'),'true','All is active initially');
 assert.equal(await page.locator('.case-files > button').count(),21,'all projects visible');
 assert.equal(await page.getByTestId('preview-fit').getAttribute('aria-pressed'),'true','fitted preview is default');
-assert.equal(await page.getByTestId('project-preview').getAttribute('data-preview-mode'),'fit');
+assert.equal(await page.locator('.reader[role="dialog"]').getByTestId('project-preview').getAttribute('data-preview-mode'),'fit');
 await page.getByTestId('preview-detail').click();
-assert.equal(await page.getByTestId('project-preview').getAttribute('data-preview-mode'),'detail','detail can scroll');
+assert.equal(await page.locator('.reader[role="dialog"]').getByTestId('project-preview').getAttribute('data-preview-mode'),'detail','detail can scroll');
 await page.getByTestId('projects-filter-email').click();
 assert.equal(await page.getByTestId('projects-filter-email').getAttribute('aria-pressed'),'true','email filter active');
 assert.equal(await page.locator('.case-files > button').count(),5,'five email projects');

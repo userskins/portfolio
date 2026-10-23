@@ -1,0 +1,97 @@
+/* USERSKINS / Mobile desk composition, October 2026.
+ * Give About and Contact separate grid tracks instead of placing a wide notebook
+ * under the red card. Lift Contact slightly without covering the signature. */
+@media (max-width: 900px) {
+  .atelier-shell .desk-scene .object-about {
+    grid-column: 1;
+    grid-row: 4;
+    width: calc(100% + 10px);
+    height: 180px;
+    justify-self: start;
+    align-self: center;
+    margin: 0;
+    transform: none !important;
+    z-index: 14;
+  }
+  .atelier-shell .desk-scene .object-contact {
+    grid-column: 2;
+    grid-row: 4;
+    width: calc(100% - 9px);
+    height: 130px;
+    justify-self: end;
+    align-self: start;
+    margin: -18px 0 0 9px;
+    transform: none !important;
+    z-index: 15;
+  }
+  .atelier-shell .object-about > .about-notebook {
+    padding: 14px 10px 12px 29px !important;
+  }
+  .atelier-shell .object-about .notebook-holes { left: 7px; }
+  .atelier-shell .object-about .notebook-title {
+    white-space: nowrap;
+    font-size: clamp(29px, 4.7vw, 39px);
+    line-height: 1.08;
+  }
+  .atelier-shell .object-about .notebook-copy {
+    font-size: 7px;
+    letter-spacing: .35px;
+    line-height: 1.4;
+  }
+  .atelier-shell .object-about .notebook-sign {
+    right: 9px;
+    bottom: 10px;
+    width: 83px;
+    font-size: 18px;
+  }
+  .atelier-shell .object-contact > .contact-card {
+    overflow: hidden;
+    padding: 12px 10px !important;
+  }
+  .atelier-shell .object-contact .contact-card strong {
+    font-size: clamp(15px, 3.6vw, 20px);
+    letter-spacing: -1px;
+    line-height: 1.12;
+    overflow-wrap: anywhere;
+  }
+}
+/* Compact phones must preserve both names, not just avoid scroll overflow. */
+@media (max-width: 420px) {
+  .atelier-shell .desk-scene .object-about { width: calc(100% + 8px); height: 167px; }
+  .atelier-shell .desk-scene .object-contact {
+    width: calc(100% - 8px);
+    height: 119px;
+    margin: -12px 0 0 8px;
+  }
+  .atelier-shell .object-about .notebook-head {
+    font-size: 6px;
+    letter-spacing: .3px;
+    white-space: nowrap;
+  }
+  .atelier-shell .object-about .notebook-title { font-size: clamp(28px, 7.8vw, 33px); }
+  .atelier-shell .object-about .notebook-title::after { width: min(110px, 100%); }
+  .atelier-shell .object-about .notebook-copy { font-size: 6px; letter-spacing: .1px; }
+  .atelier-shell .object-contact .contact-card strong { font-size: clamp(13px, 4vw, 17px); }
+}
+.atelier-shell .print-image {
+  position: relative;
+  display: block;
+  height: 100%;
+  overflow: hidden;
+}
+.atelier-shell .print-image > .gallery-desk-cover-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: gallery-print-appear .65s ease-out both;
+}
+@keyframes gallery-print-appear {
+  from { opacity: .4; transform: scale(1.035); }
+  to { opacity: 1; transform: scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .atelier-shell .print-image > .gallery-desk-cover-image {
+    animation: none;
+  }
+}

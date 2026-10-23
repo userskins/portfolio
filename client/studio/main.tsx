@@ -16,6 +16,7 @@ import { DeskItem } from './DeskItem';
 import { MotionRecord, MailEnvelope } from './DeskArtifacts';
 import './desk-artifacts.css';
 import './artifacts-polish.css';
+import './mobile-layout-polish.css';
 import { StudioCursor } from './StudioCursor';
 
 type Category = Project['tag'];
@@ -43,6 +44,9 @@ const art = (id: number) => `${BASE}art/${id}.webp`;
 // Only project-cover pairings identifiable in the original artwork.
 const coverById: Record<string, number> = { '07b': 2, '07': 1, '06': 3, '05': 32 };
 const uniqueGallery = galleryImages.filter((g, i, a) => a.findIndex(v => v.src === g.src) === i);
+const GALLERY_COVER_INTERVAL_MS = 5200;
+const randomOtherIndex = (current: number, total: number) =>
+  total < 2 ? current : (current + 1 + Math.floor(Math.random() * (total - 1))) % total;
 const cropClasses: Record<Category, string> = { design: 'design-cover', websites: 'web-cover', email: 'mail-cover', animation: 'motion-cover' };
 function useSmallScreen() {
   const [small, setSmall] = useState(() => window.matchMedia('(max-width: 900px)').matches);
@@ -62,6 +66,23 @@ function Binder({ category, number, onOpen }: { category: Category; number: stri
       <span className="binder-foot"><span>{item.label}</span><ArrowUpRight size={25} strokeWidth={1.4} /></span><span className="binder-spine" />
     </span><span className="tape binder-tape" aria-hidden="true" /><span className="hover-tag">ОТКРЫТЬ {item.label} <ArrowUpRight size={12} /></span>
   </button>;
+}
+/** One changing print on the desk, not another carousel.
+ *  A random real gallery image appears on each visit and fades to a different one every few seconds. */
+function GalleryDeskCover({ active }: { active: boolean }) {
+  const [index, setIndex] = useState(() => Math.floor(Math.random() * uniqueGallery.length));
+  const preview = uniqueGallery[index] ?? uniqueGallery[0];
+
+  useEffect(() => {
+    if (!active || uniqueGallery.length < 2) return;
+    const timer = window.setInterval(() => setIndex(current => randomOtherIndex(current, uniqueGallery.length)), GALLERY_COVER_INTERVAL_MS);
+    return () => window.clearInterval(timer);
+  }, [active]);
+
+  const src = preview.id > 69 ? preview.src : art(preview.id === 41 ? 42 : preview.id);
+  return <span className="print-image" data-testid="gallery-desk-cover" data-gallery-image-id={preview.id}>
+    <img key={preview.id} className="gallery-desk-cover-image" src={src} alt={preview.title ?? `Работа №${preview.id}`} draggable={false} />
+  </span>;
 }
 function ProjectPreview({ project, className = '' }: { project: Project; className?: string }) {
   const [failedSrc, setFailedSrc] = useState<string | null>(null);
@@ -298,7 +319,7 @@ function Studio() {
               <span className="desk-handnote note-top" aria-hidden="true">чуть-чуть хаоса.<br />много дизайна.</span>
               <svg className="desk-doodle doodle-arrow" viewBox="0 0 160 70" aria-hidden="true"><path d="M3 8 C 39 47 80 54 145 45 M128 25 L148 45 L126 57" fill="none" stroke="currentColor" strokeWidth="2" /></svg>
               <DeskItem name="design" label="Папка «Дизайн»" rotation={-10} order={1} small={small} onOpen={() => open('design')}><Binder category="design" number="01" onOpen={() => open('design')} /></DeskItem>
-              <DeskItem name="gallery" label="Галерея работ" rotation={7} order={2} small={small} onOpen={() => open('gallery')}><button type="button" className="print-stack" data-testid="open-gallery" aria-label={T.gallery}><span className="print-under" /><span className="print-image"><img src={galleryImages[0].src} alt="Птицей стать" draggable={false} /></span><span className="print-caption">ГАЛЕРЕЯ РАБОТ <span>01 / {uniqueGallery.length}</span></span><span className="paperclip" aria-hidden="true" /><span className="hover-tag">СМОТРЕТЬ ГАЛЕРЕЮ <ArrowUpRight size={12} /></span></button></DeskItem>
+              <DeskItem name="gallery" label="Галерея работ" rotation={7} order={2} small={small} onOpen={() => open('gallery')}><button type="button" className="print-stack" data-testid="open-gallery" aria-label={T.gallery}><span className="print-under" /><GalleryDeskCover active={view === null && pageVisible} /><span className="print-caption">ГАЛЕРЕЯ РАБОТ <span>01 / {uniqueGallery.length}</span></span><span className="paperclip" aria-hidden="true" /><span className="hover-tag">СМОТРЕТЬ ГАЛЕРЕЮ <ArrowUpRight size={12} /></span></button></DeskItem>
               <DeskItem name="laptop" label="Ноутбук с сайтами" rotation={12} order={3} small={small}><Laptop
                   project={firstWebsite}
                   onOpen={openLaptop}

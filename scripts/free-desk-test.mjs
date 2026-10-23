@@ -70,7 +70,36 @@ await page.waitForTimeout(600);
 for(const name of names.slice(0,7))assert.equal(await item(name).isVisible(),true,'mobile item stays clickable: '+name);
 assert.equal(await page.locator('.desk-rotate-handle,.desk-move-handle').count(),0,'touch drag handles absent');
 assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,'mobile has no horizontal overflow');
+const mobileCards=await page.evaluate(() => {
+  const about=document.querySelector('[data-testid="desk-item-about"]')?.getBoundingClientRect();
+  const contact=document.querySelector('[data-testid="desk-item-contact"]')?.getBoundingClientRect();
+  const name=document.querySelector('.notebook-sign')?.getBoundingClientRect();
+  if(!about||!contact||!name) return null;
+  const overlap=(a,b)=>Math.max(0,Math.min(a.right,b.right)-Math.max(a.left,b.left))
+    *Math.max(0,Math.min(a.bottom,b.bottom)-Math.max(a.top,b.top));
+  return {overlap:overlap(about,contact),nameCovered:overlap(name,contact),
+    contactAboveNotebookCenter:contact.top<about.top+about.height/2,
+    about:{x:about.x,y:about.y,width:about.width,height:about.height},
+    contact:{x:contact.x,y:contact.y,width:contact.width,height:contact.height}};
+});
+assert.ok(mobileCards,'mobile layout has both cards');
+assert.equal(mobileCards.overlap,0,'About notebook and red Contact card do not overlap on 390px screens');
+assert.equal(mobileCards.nameCovered,0,'red Contact card never covers Dmitriy signature');
+assert.equal(mobileCards.contactAboveNotebookCenter,true,'red Contact card sits slightly higher');
 await page.screenshot({path:'free-desk-review/02-fixed-mobile.png',fullPage:true});
+for(const width of [360,420,768]) {
+ await page.setViewportSize({width,height:844});
+ await page.waitForTimeout(190);
+ const intersection=await page.evaluate(() => {
+   const a=document.querySelector('[data-testid="desk-item-about"]').getBoundingClientRect();
+   const b=document.querySelector('[data-testid="desk-item-contact"]').getBoundingClientRect();
+   return Math.max(0,Math.min(a.right,b.right)-Math.max(a.left,b.left))
+     *Math.max(0,Math.min(a.bottom,b.bottom)-Math.max(a.top,b.top));
+ });
+ assert.equal(intersection,0,'no About/Contact overlap at '+width+'px');
+ assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,'no horizontal overflow at '+width+'px');
+}
+await page.setViewportSize({width:390,height:844});
 assert.deepEqual(errors,[],'no runtime JS errors');
 await fs.writeFile('free-desk-review/results.json',JSON.stringify({
  passed:true,

@@ -23,7 +23,7 @@ await page.getByRole('button',{name:'Проекты'}).first().click();
 await page.locator('.reader[role="dialog"]').waitFor();
 assert.equal(await page.locator('.project-filter-options button').count(),5,'all five category chips visible');
 assert.equal(await page.getByTestId('projects-filter-all').getAttribute('aria-pressed'),'true','All is active initially');
-assert.equal(await page.locator('.case-files > button').count(),20,'all projects visible');
+assert.equal(await page.locator('.case-files > button').count(),21,'all projects visible');
 assert.equal(await page.getByTestId('preview-fit').getAttribute('aria-pressed'),'true','fitted preview is default');
 assert.equal(await page.getByTestId('project-preview').getAttribute('data-preview-mode'),'fit');
 await page.getByTestId('preview-detail').click();
@@ -36,7 +36,7 @@ assert.equal(await page.locator('.case-files > button').count(),7,'websites sele
 const selected=await page.locator('.case-files > button').first().getAttribute('data-case');
 assert.equal(selected,'itmm','original first website preserved');
 await page.getByTestId('projects-filter-all').click();
-assert.equal(await page.locator('.case-files > button').count(),20,'return to all projects works');
+assert.equal(await page.locator('.case-files > button').count(),21,'return to all projects works');
 await page.screenshot({path:'site-refinement-review/02-filters.png',fullPage:true});
 await page.locator('.reader .back-to-desk').click();
 await page.locator('.reader[role="dialog"]').waitFor({state:'detached',timeout:7000});
@@ -59,7 +59,7 @@ for(const width of [360,390,768]) {
   await page.getByTestId('projects-filter-design').click();
   assert.equal(await page.locator('.case-files > button').count(),6,'mobile category works '+width);
   await page.getByTestId('projects-filter-all').click();
-  assert.equal(await page.locator('.case-files > button').count(),20,'mobile All works '+width);
+  assert.equal(await page.locator('.case-files > button').count(),21,'mobile All works '+width);
   if(width===390)await page.screenshot({path:'site-refinement-review/03-mobile-projects.png',fullPage:true});
   await page.locator('.reader .back-to-desk').click();
   await page.locator('.reader[role="dialog"]').waitFor({state:'detached',timeout:7000});

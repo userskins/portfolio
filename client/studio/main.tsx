@@ -17,6 +17,7 @@ import { MotionRecord, MailEnvelope } from './DeskArtifacts';
 import './desk-artifacts.css';
 import './artifacts-polish.css';
 import './mobile-layout-polish.css';
+import './site-refinement.css';
 import { StudioCursor } from './StudioCursor';
 
 type Category = Project['tag'];
@@ -43,6 +44,12 @@ const hoverDescriptions: Record<string, string> = { design: 'ДИЗАЙН / МА
 const art = (id: number) => `${BASE}art/${id}.webp`;
 // Only project-cover pairings identifiable in the original artwork.
 const coverById: Record<string, number> = { '07b': 2, '07': 1, '06': 3, '05': 32 };
+type PreviewMode = 'fit' | 'detail';
+const previewSrcFor = (project: Project) => coverById[project.id]
+  ? art(coverById[project.id])
+  : ['websites', 'email'].includes(project.tag) ? `${BASE}previews/${project.id}.jpg` : null;
+const figmaEmbedFor = (project: Project) => project.url?.startsWith('https://www.figma.com/proto/')
+  ? `https://www.figma.com/embed?embed_host=share&url=${encodeURIComponent(project.url)}` : null;
 const uniqueGallery = galleryImages.filter((g, i, a) => a.findIndex(v => v.src === g.src) === i);
 const GALLERY_COVER_INTERVAL_MS = 5200;
 const randomOtherIndex = (current: number, total: number) =>
@@ -84,13 +91,28 @@ function GalleryDeskCover({ active }: { active: boolean }) {
     <img key={preview.id} className="gallery-desk-cover-image" src={src} alt={preview.title ?? `Работа №${preview.id}`} draggable={false} />
   </span>;
 }
-function ProjectPreview({ project, className = '' }: { project: Project; className?: string }) {
+function ProjectPreview({ project, className = '', mode = 'fit' }: { project: Project; className?: string; mode?: PreviewMode }) {
   const [failedSrc, setFailedSrc] = useState<string | null>(null);
-  const src = coverById[project.id] ? art(coverById[project.id]) : ['websites', 'email'].includes(project.tag) ? `${BASE}previews/${project.id}.jpg` : null;
-  return <div className={`project-visual ${className} ${project.tag}`}>
-    {src && failedSrc !== src ? <img key={src} src={src} alt={`${project.title} - preview`} onError={() => setFailedSrc(src)} draggable={false} /> : <div className="unavailable-preview">
-      <img src={signature} alt="" /><span>{project.title}</span><small>{project.tag === 'websites' || project.tag === 'email' ? T.noPreview : project.category}</small>
-    </div>}
+  const [showEmbed, setShowEmbed] = useState(false);
+  const src = previewSrcFor(project);
+  const embed = figmaEmbedFor(project);
+  const isVisible = Boolean(src && failedSrc !== src);
+  return <div className={`project-visual ${className} ${project.tag} preview-${mode}`}
+    data-testid="project-preview" data-preview-mode={mode} data-has-image={isVisible}>
+    {isVisible ? <img key={src} src={src!} alt={`Превью работы: ${project.title}`}
+      onError={() => setFailedSrc(src!)} draggable={false} /> :
+      showEmbed && embed ? <iframe title={`Прототип: ${project.title}`} src={embed}
+        loading="lazy" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen /> :
+      <div className="unavailable-preview project-empty-preview">
+        <span className="empty-preview-eyebrow">DG / {project.year} · {project.tag.toUpperCase()}</span>
+        <img src={signature} alt="" draggable={false} />
+        <span>{project.title}</span>
+        <small>Для этой работы нет отдельного изображения для предпросмотра.<br />Оригинал доступен по ссылке ниже.</small>
+        {embed && <button type="button" className="preview-embed-button" data-testid="preview-load-figma"
+          onClick={event => {event.stopPropagation(); setShowEmbed(true);}}>
+          ПОКАЗАТЬ ПРОТОТИП В ОКНЕ <ArrowUpRight size={15} />
+        </button>}
+      </div>}
   </div>;
 }
 function Laptop({ project, onOpen, onNext, onPrevious, onSelect, onInteraction, index, total, playing, enabled, onToggleAuto, onHoverChange, onFocusChange }: {
@@ -222,6 +244,7 @@ function Studio() {
   const [selected, setSelected] = useState(0);
   const [galleryIndex, setGalleryIndex] = useState(0);
   const [galleryFull, setGalleryFull] = useState(false);
+  const [previewMode, setPreviewMode] = useState<PreviewMode>('fit');
   const [webIndex, setWebIndex] = useState(0);
   const [autoplayEnabled, setAutoplayEnabled] = useState(true);
   const [laptopHover, setLaptopHover] = useState(false);
@@ -234,7 +257,7 @@ function Studio() {
   const reduced = useReducedMotion();
   const holder = useRef<HTMLDivElement>(null);
   const [sceneScale, setSceneScale] = useState(1);
-  const open = (next: View) => { setSelected(0); setGalleryFull(false); setView(next); };
+  const open = (next: View) => { setSelected(0); setGalleryFull(false); setPreviewMode('fit'); setView(next); };
   const list = view === 'all' ? projects : projects.filter(p => p.tag === view);
   const active = list[Math.min(selected, Math.max(0, list.length - 1))];
   const title = view === 'all' ? 'ВСЕ ПРОЕКТЫ' : view === 'gallery' ? 'ГАЛЕРЕЯ РАБОТ' : view === 'about' ? 'ОБО МНЕ' : view === 'contact' ? 'НА СВЯЗИ' : folders.find(f => f.id === view)?.label.toUpperCase() ?? '';
@@ -308,10 +331,10 @@ function Studio() {
       <nav id="studio-navigation" className="rail-nav" aria-label="Portfolio navigation">
         {([{ title: T.desk, value: null }, { title: T.work, value: 'all' }, { title: T.gallery, value: 'gallery' }, { title: T.about, value: 'about' }, { title: T.contact, value: 'contact' }] as { title: string; value: View }[]).map((item, i) => <button key={i} onClick={() => open(item.value)} aria-current={view === item.value ? 'page' : undefined}><span>{String(i + 1).padStart(2, '0')}</span>{item.title}<ArrowUpRight size={14} /></button>)}
       </nav>
-      <div className="rail-bottom"><p className="rail-note"><span className="rail-note-first">Идеи не сидят</span><span className="rail-note-second">на месте.</span><span className="rail-note-star" aria-hidden="true">*</span></p><div className="social-links"><a href="https://t.me/userskins" target="_blank" rel="noopener noreferrer">TG <ArrowUpRight size={11} /></a><a href="https://vk.com/userskins" target="_blank" rel="noopener noreferrer">VK <ArrowUpRight size={11} /></a><a href="mailto:userskins@gmail.com">MAIL <ArrowUpRight size={11} /></a></div></div>
+      <div className="rail-bottom"><p className="rail-note"><span className="rail-note-first">Идеи не сидят</span><span className="rail-note-second">на месте.</span></p><div className="social-links"><a href="https://t.me/userskins" target="_blank" rel="noopener noreferrer">TG <ArrowUpRight size={11} /></a><a href="https://vk.com/userskins" target="_blank" rel="noopener noreferrer">VK <ArrowUpRight size={11} /></a><a href="mailto:userskins@gmail.com">MAIL <ArrowUpRight size={11} /></a></div></div>
     </aside>
     <main className="desk-area" aria-label={T.desk}>
-      <div className="desk-topline"><span>ПОРТФОЛИО / ЖИВОЙ РАБОЧИЙ СТОЛ</span><span className="atelier-hover-status" aria-live="polite">{hoveredObject ? hoverDescriptions[hoveredObject] : 'ПОДВЕДИ КУРСОР ПОБЛИЖЕ'}</span><span className="tiny-cross">+</span><span>У ПРЕДМЕТОВ ЕСТЬ ИСТОРИИ</span></div>
+      <div className="desk-topline"><span className="atelier-hover-status" aria-live="polite">{hoveredObject ? hoverDescriptions[hoveredObject] : 'ИЗУЧАЙ ПРЕДМЕТЫ НА СТОЛЕ'}</span></div>
       <div ref={holder} className="scene-holder" onPointerOver={event => { const object = event.target instanceof Element ? event.target.closest('[data-object]') : null; const name = object?.getAttribute('data-object') ?? null; setHoveredObject(current => current === name ? current : name); }} onPointerLeave={() => { setHoveredObject(null); setLaptopHover(false); }}>
         <div className="scene-scale" style={{ '--scene-scale': sceneScale } as CSSProperties}>
           <motion.div className={`scene-camera ${view ? 'camera-focused' : ''}`}>
@@ -352,14 +375,28 @@ function Studio() {
             <motion.section className={`reader reader-${view}`} initial={reduced ? false : { opacity: 0, y: 110, rotate: -2 }} animate={{ opacity: 1, y: 0, rotate: 0 }} exit={{ opacity: 0, y: 85, rotate: 1 }} transition={{ duration: reduced ? 0 : .48, ease: [.22, 1, .36, 1] }}>
               <div className="reader-top"><Dialog.Close className="back-to-desk"><ArrowLeft size={17} />{T.back}</Dialog.Close><span>НАСТОЯЩИЕ РАБОТЫ / НИКАКИХ ШАБЛОНОВ</span><Dialog.Close className="close-reader" aria-label={T.back}><X size={25} /></Dialog.Close></div>
               <div className="reader-heading"><Dialog.Title>{title}<span className="hand-star">*</span></Dialog.Title><Dialog.Description id="reader-description">{T.realWork}</Dialog.Description></div>
+              {active && <div className="project-filter-bar" aria-label="Фильтры проектов">
+                <span className="filter-bar-caption">НАПРАВЛЕНИЯ / ВЫБЕРИ КАТЕГОРИЮ</span>
+                <div className="project-filter-options" role="group" aria-label="Категории проектов">
+                  <button type="button" data-testid="projects-filter-all" aria-pressed={view === 'all'}
+                    onClick={() => open('all')}>ВСЕ <span>{projects.length}</span></button>
+                  {folders.map(folder => <button type="button" key={folder.id}
+                    data-testid={`projects-filter-${folder.id}`} aria-pressed={view === folder.id}
+                    onClick={() => open(folder.id)}>{folder.name}<span>{count(folder.id)}</span></button>)}
+                </div>
+              </div>}
               {active && <div className="case-layout">
                 <div className="case-preview-column"><AnimatePresence mode="wait"><motion.div key={active.id} initial={reduced ? false : { opacity: 0, x: 28, rotate: 1 }} animate={{ opacity: 1, x: 0, rotate: 0 }} exit={{ opacity: 0, x: -25 }} transition={{ duration: .28 }} className="case-proof">
-                  <div className="proof-meta"><span>РАБОТА {String(selected + 1).padStart(2, '0')}</span><span>{active.year} / {active.tag.toUpperCase()}</span></div><ProjectPreview project={active} />
+                  <div className="proof-meta"><span>РАБОТА {String(selected + 1).padStart(2, '0')}</span><span>{active.year} / {active.tag.toUpperCase()}</span></div><ProjectPreview project={active} mode={previewMode} />
+                  {previewSrcFor(active) && <div className="preview-view-modes" role="group" aria-label="Способ просмотра">
+                     <button type="button" data-testid="preview-fit" aria-pressed={previewMode === 'fit'} onClick={() => setPreviewMode('fit')}>ЦЕЛИКОМ</button>
+                     <button type="button" data-testid="preview-detail" aria-pressed={previewMode === 'detail'} onClick={() => setPreviewMode('detail')}>ПОБЛИЖЕ / ПРОКРУТКА</button>
+                   </div>}
                   <div className="proof-bottom"><span>{active.title}</span><span>DG / {active.id}</span></div>
                 </motion.div></AnimatePresence>
                   <div className="case-controls"><button onClick={() => navigate(-1)} aria-label={T.prev}><ArrowLeft size={22} /></button><span aria-live="polite">{String(selected + 1).padStart(2, '0')} / {String(list.length).padStart(2, '0')}</span><button onClick={() => navigate(1)} aria-label={T.next}><ArrowRight size={22} /></button><a href={active.url} target="_blank" rel="noopener noreferrer" className="original-link">{T.original}<ArrowUpRight size={18} /></a></div>
                 </div>
-                <div className="case-index"><div className="index-label">СОДЕРЖАНИЕ / {list.length} ПРОЕКТОВ</div>{view === 'all' && <div className="category-shortcuts">{folders.map(f => <button key={f.id} onClick={() => open(f.id)}>{f.name}</button>)}</div>}<div className="case-files">{list.map((p, i) => <button key={p.id} data-case={p.id} aria-pressed={i === selected} onClick={() => setSelected(i)}><span>{String(i + 1).padStart(2, '0')}</span><span><strong>{p.title}</strong><small>{p.category} / {p.year}</small></span><ArrowUpRight size={16} /></button>)}</div><p className="index-handnote">ideas into<br />real things.</p></div>
+                <div className="case-index"><div className="index-label">СОДЕРЖАНИЕ / {list.length} ПРОЕКТОВ</div><div className="case-files">{list.map((p, i) => <button key={p.id} data-case={p.id} aria-pressed={i === selected} onClick={() => setSelected(i)}><span>{String(i + 1).padStart(2, '0')}</span><span><strong>{p.title}</strong><small>{p.category} / {p.year}</small></span><ArrowUpRight size={16} /></button>)}</div><p className="index-handnote">ideas into<br />real things.</p></div>
               </div>}
               {view === 'gallery' && <div className="gallery-reader">{galleryFull ? <><button className="gallery-grid-back" onClick={() => setGalleryFull(false)}><ArrowLeft size={15} />ALL IMAGES</button><div className="gallery-lightbox"><button aria-label={T.prev} onClick={() => navigate(-1)}><ArrowLeft size={28} /></button><img data-testid="gallery-lightbox-image" src={uniqueGallery[galleryIndex].src} alt={uniqueGallery[galleryIndex].title ?? `Работа ${uniqueGallery[galleryIndex].id}`} /><button aria-label={T.next} onClick={() => navigate(1)}><ArrowRight size={28} /></button></div><div className="gallery-counter">{galleryIndex + 1} / {uniqueGallery.length}</div></> : <div className="gallery-wall">{uniqueGallery.map((g, i) => <button key={g.id} data-testid={`gallery-item-${g.id}`} onClick={() => { setGalleryIndex(i); setGalleryFull(true); }} aria-label={`Открыть: ${g.title ?? `Работа ${g.id}`}`} style={{ '--r': `${(i % 5 - 2) * 1.5}deg` } as CSSProperties}><img src={g.id > 69 ? g.src : art(g.id === 41 ? 42 : g.id)} alt={g.title ?? `Работа ${g.id}`} loading="lazy" /><span>{String(i + 1).padStart(2, '0')}<ArrowUpRight size={14} /></span></button>)}</div>}</div>}
               {view === 'about' && <div className="about-reader"><div className="bio-sheet"><img className="bio-sticker" src={nameSticker} alt="Dmitriy Gusev" /><p>{aboutText}</p><h3>TOOLS &amp; THINKING</h3><div className="skill-labels">{[...skills.advanced, ...skills.intermediate].map(s => <span key={s}>{s}</span>)}</div></div><div className="experience-sheet"><h3>EXPERIENCE</h3>{experiences.map((exp, i) => <article key={i}><span>{exp.period}</span><h4>{exp.company}</h4><p>{exp.role}</p><ul>{exp.description.map(s => <li key={s}>{s}</li>)}</ul></article>)}<h3>EDUCATION</h3>{education.map(edu => <article key={edu.university}><span>{edu.year}</span><h4>{edu.university}</h4><p>{edu.degree}</p></article>)}</div></div>}

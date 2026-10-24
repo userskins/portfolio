@@ -9,7 +9,7 @@ page.on('pageerror',e=>errors.push(e.message));
 await page.goto('http://127.0.0.1:4173/studio/',{waitUntil:'networkidle',timeout:30000});
 await page.evaluate(()=>document.fonts.ready);
 const topNote=page.locator('.desk-handnote.note-top');
-assert.equal(await topNote.innerText(),'креатив.\\na потом все удивляются'.replace('a потом','а потом'),'two exact handwritten lines');
+assert.deepEqual((await topNote.innerText()).split(/\r?\n/),['креатив.','а потом все удивляются'],'two exact handwritten lines');
 assert.equal(await topNote.locator('br').count(),1,'exactly two lines with one line break');
 assert.equal(await topNote.evaluate(el=>getComputedStyle(el).textAlign),'left','handwriting has left alignment');
 

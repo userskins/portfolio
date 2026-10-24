@@ -332,3 +332,16 @@ html[data-studio-theme] .reader .case-preview-column .project-visual {
   .atelier-shell .mail-envelope-letter { transition: none !important; }
   .reader .project-filter-options button { transition: none; }
 }
+
+/* Original handwritten type: two exact lines, sharing one left edge. */
+.atelier-shell .desk-handnote.note-top {
+  display: block;
+  width: max-content;
+  max-width: none;
+  font-family: var(--hand);
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 1.03;
+  text-align: left;
+  white-space: nowrap;
+}

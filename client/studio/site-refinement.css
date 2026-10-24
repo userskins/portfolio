@@ -382,15 +382,42 @@ html[data-studio-theme] .reader .case-preview-column .project-visual {
   .atelier-shell .contact-card strong { font-size: 16px; }
 }
 
-/* The wax seal belongs at the geometric center of the closed envelope.
-   Its body spans 68% of the button height, anchored 10% above the bottom:
-   midpoint = 100% - 10% - (68% / 2) = 56%. */
+/* Seal the V-shaped junction where the upper envelope folds meet.
+   In the finished envelope, the pocket occupies the bottom 68% with bottom:10%.
+   Its white V tip is 66% down that pocket: 22% + 68% * .66 = 66.88%.
+   Keep the stamp centered on this joint, NOT at the envelope body's midpoint. */
 .atelier-shell .mail-envelope .mail-envelope-seal {
   left: 50%;
-  top: 56%;
+  top: 66.88%;
   transform: translate(-50%, -50%) rotate(14deg);
 }
 .atelier-shell .mail-envelope:is(:hover,:focus-visible) .mail-envelope-seal,
 .atelier-shell .object-email:focus-within .mail-envelope-seal {
   transform: translate(-50%, -50%) translateY(9px) rotate(12deg);
+}
+
+/* Bottom-right desktop composition: keep the handwritten phrase as a quiet
+   annotation between the notebook and contact card, not behind the red card. */
+@media (min-width: 901px) {
+  .atelier-shell .desk-handnote.note-bottom {
+    left: 663px;
+    top: 675px;
+    font-size: 24px;
+    line-height: .98;
+    letter-spacing: -.01em;
+    transform: rotate(-7deg);
+  }
+  .atelier-shell .about-notebook .notebook-title {
+    font-size: 38px;
+    line-height: 1.03;
+  }
+  .atelier-shell .about-notebook .notebook-sign { font-size: 18px; }
+  .atelier-shell .desk-scene .object-contact {
+    left: 875px;
+    top: 623px;
+  }
+  .atelier-shell .contact-card strong {
+    font-size: 20px;
+    line-height: 1.03;
+  }
 }

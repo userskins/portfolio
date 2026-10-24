@@ -15,25 +15,35 @@ assert.equal(await topNote.evaluate(el=>getComputedStyle(el).textAlign),'left','
 
 const deskLettering = await page.evaluate(() => {
   const size = selector => parseFloat(getComputedStyle(document.querySelector(selector)).fontSize);
-  const back = document.querySelector('.mail-envelope-back').getBoundingClientRect();
-  const seal = document.querySelector('.mail-envelope-seal').getBoundingClientRect();
+  // Element offset coordinates are unrotated, making this precise even when
+  // the whole paper envelope is tilted as a desktop object.
+  const pocket = document.querySelector('.mail-envelope-pocket');
+  const seal = document.querySelector('.mail-envelope-seal');
+  const bottomNote = document.querySelector('.desk-handnote.note-bottom').getBoundingClientRect();
+  const contactCard = document.querySelector('.object-contact').getBoundingClientRect();
+  const overlapWidth = Math.max(0, Math.min(bottomNote.right, contactCard.right) - Math.max(bottomNote.left, contactCard.left));
+  const overlapHeight = Math.max(0, Math.min(bottomNote.bottom, contactCard.bottom) - Math.max(bottomNote.top, contactCard.top));
   return {
     intro: size('.intro-line'), idea: size('.rail-note'),
     top: size('.desk-handnote.note-top'), bottom: size('.desk-handnote.note-bottom'),
     notebook: size('.notebook-title'), design: size('.design-cover .binder-title'),
     motion: size('.motion-record-caption'), contact: size('.contact-card strong'),
-    sealOffsetX: (seal.left + seal.width / 2) - (back.left + back.width / 2),
-    sealOffsetY: (seal.top + seal.height / 2) - (back.top + back.height / 2)
+    sealOffsetX: seal.offsetLeft - (pocket.offsetLeft + pocket.offsetWidth * .5),
+    sealOffsetY: seal.offsetTop - (pocket.offsetTop + pocket.offsetHeight * .66),
+    noteCardOverlapArea: overlapWidth * overlapHeight,
+    noteCardGap: contactCard.left - bottomNote.right
   };
 });
 assert.ok(deskLettering.intro <= 22 && deskLettering.idea <= 24
-  && deskLettering.top <= 22 && deskLettering.bottom <= 30
-  && deskLettering.notebook <= 39 && deskLettering.design <= 44
+  && deskLettering.top <= 22 && deskLettering.bottom <= 24
+  && deskLettering.notebook <= 38 && deskLettering.design <= 44
   && deskLettering.motion <= 23 && deskLettering.contact <= 20,
-  'all primary desk lettering uses the original compact scale: ' + JSON.stringify(deskLettering));
+  'all primary desk lettering uses compact proportions: ' + JSON.stringify(deskLettering));
 assert.ok(Math.abs(deskLettering.sealOffsetX) < 2
   && Math.abs(deskLettering.sealOffsetY) < 2,
-  'wax seal is precisely centered on the closed envelope body: ' + JSON.stringify(deskLettering));
+  'wax seal is aligned with V-shaped pocket tip: ' + JSON.stringify(deskLettering));
+assert.equal(deskLettering.noteCardOverlapArea, 0,
+  'bottom handwritten annotation must not overlap the red contact card: ' + JSON.stringify(deskLettering));
 
 assert.ok(await topNote.evaluate(el=>parseFloat(getComputedStyle(el).fontSize)<=24),
   'handwriting is compact and does not dominate the desk');

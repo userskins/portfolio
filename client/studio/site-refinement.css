@@ -349,3 +349,48 @@ html[data-studio-theme] .reader .case-preview-column .project-visual {
   white-space: nowrap;
   transform: rotate(-7deg);
 }
+
+
+/* Restore the small editorial lettering proportions across the whole desk,
+   not only the two-line heading. Mono navigation remains legible. */
+@media (min-width: 901px) {
+  .atelier-shell .identity-rail .intro-line { font-size: 22px; }
+  .atelier-shell .identity-rail .intro-line span { font-size: 18px; }
+  .atelier-shell .rail-note { font-size: 24px; }
+  .atelier-shell .desk-handnote.note-top { font-size: 22px; }
+  .atelier-shell .desk-handnote.note-bottom { font-size: 30px; }
+  .atelier-shell .about-notebook .notebook-title { font-size: 39px; }
+  .atelier-shell .about-notebook .notebook-sign { font-size: 19px; }
+  .atelier-shell .design-cover .binder-title { font-size: 44px; }
+  .atelier-shell .contact-card strong { font-size: 20px; }
+  .atelier-shell .mail-envelope-letter strong { font-size: 31px; }
+  .atelier-shell .mail-envelope-caption { font-size: 19px; }
+  .atelier-shell .motion-record-caption { font-size: 23px; }
+}
+@media (max-width: 900px) {
+  .atelier-shell .identity-rail .intro-line { font-size: 22px; }
+  .atelier-shell .identity-rail .intro-line span { font-size: 17px; }
+  .atelier-shell .about-notebook .notebook-title { font-size: clamp(28px, 4.5vw, 35px); }
+  .atelier-shell .mail-envelope-letter strong { font-size: clamp(20px, 4vw, 27px); }
+  .atelier-shell .mail-envelope-caption { font-size: 16px; }
+  .atelier-shell .motion-record-caption { font-size: clamp(16px, 3.1vw, 20px); }
+}
+@media (max-width: 420px) {
+  .atelier-shell .identity-rail .intro-line { font-size: 20px; }
+  .atelier-shell .identity-rail .intro-line span { font-size: 15px; }
+  .atelier-shell .about-notebook .notebook-title { font-size: 31px; }
+  .atelier-shell .contact-card strong { font-size: 16px; }
+}
+
+/* The wax seal belongs at the geometric center of the closed envelope.
+   Its body spans 68% of the button height, anchored 10% above the bottom:
+   midpoint = 100% - 10% - (68% / 2) = 56%. */
+.atelier-shell .mail-envelope .mail-envelope-seal {
+  left: 50%;
+  top: 56%;
+  transform: translate(-50%, -50%) rotate(14deg);
+}
+.atelier-shell .mail-envelope:is(:hover,:focus-visible) .mail-envelope-seal,
+.atelier-shell .object-email:focus-within .mail-envelope-seal {
+  transform: translate(-50%, -50%) translateY(9px) rotate(12deg);
+}

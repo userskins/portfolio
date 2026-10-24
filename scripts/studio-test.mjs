@@ -12,6 +12,29 @@ const topNote=page.locator('.desk-handnote.note-top');
 assert.deepEqual((await topNote.innerText()).split(/\r?\n/),['креатив.','а потом все удивляются'],'two exact handwritten lines');
 assert.equal(await topNote.locator('br').count(),1,'exactly two lines with one line break');
 assert.equal(await topNote.evaluate(el=>getComputedStyle(el).textAlign),'left','handwriting has left alignment');
+
+const deskLettering = await page.evaluate(() => {
+  const size = selector => parseFloat(getComputedStyle(document.querySelector(selector)).fontSize);
+  const back = document.querySelector('.mail-envelope-back').getBoundingClientRect();
+  const seal = document.querySelector('.mail-envelope-seal').getBoundingClientRect();
+  return {
+    intro: size('.intro-line'), idea: size('.rail-note'),
+    top: size('.desk-handnote.note-top'), bottom: size('.desk-handnote.note-bottom'),
+    notebook: size('.notebook-title'), design: size('.design-cover .binder-title'),
+    motion: size('.motion-record-caption'), contact: size('.contact-card strong'),
+    sealOffsetX: (seal.left + seal.width / 2) - (back.left + back.width / 2),
+    sealOffsetY: (seal.top + seal.height / 2) - (back.top + back.height / 2)
+  };
+});
+assert.ok(deskLettering.intro <= 22 && deskLettering.idea <= 24
+  && deskLettering.top <= 22 && deskLettering.bottom <= 30
+  && deskLettering.notebook <= 39 && deskLettering.design <= 44
+  && deskLettering.motion <= 23 && deskLettering.contact <= 20,
+  'all primary desk lettering uses the original compact scale: ' + JSON.stringify(deskLettering));
+assert.ok(Math.abs(deskLettering.sealOffsetX) < 2
+  && Math.abs(deskLettering.sealOffsetY) < 2,
+  'wax seal is precisely centered on the closed envelope body: ' + JSON.stringify(deskLettering));
+
 assert.ok(await topNote.evaluate(el=>parseFloat(getComputedStyle(el).fontSize)<=24),
   'handwriting is compact and does not dominate the desk');
 assert.ok(await topNote.evaluate(el=>el.getBoundingClientRect().width < 360),

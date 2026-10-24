@@ -22,7 +22,7 @@ assert.equal(await page.locator('.modern-screen-content .project-visual').count(
 const topDownDisplay = await page.locator('.modern-laptop-lid').evaluate(element => {
   const rect=element.getBoundingClientRect();
   const img=document.querySelector('[data-testid="real-laptop-image"]').getBoundingClientRect();
-  return {screenRatio:rect.width/rect.height,screenWithinPhoto:rect.x>=img.x && rect.y>=img.y && rect.right<=img.right && rect.bottom<=img.bottom};
+  return {screenRatio:element.offsetWidth/element.offsetHeight,screenWithinPhoto:rect.x>=img.x && rect.y>=img.y && rect.right<=img.right && rect.bottom<=img.bottom};
 });
 assert.ok(topDownDisplay.screenRatio>1.8 && topDownDisplay.screenRatio<2.3,'overhead live screen matches generated widescreen opening');
 assert.equal(topDownDisplay.screenWithinPhoto,true,'live screen is positioned over realistic laptop, not outside it');

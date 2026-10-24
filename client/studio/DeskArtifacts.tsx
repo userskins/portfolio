@@ -7,7 +7,7 @@ export function MotionRecord({ previewSrc, onOpen, total }: { previewSrc: string
       aria-label={`Открыть Motion — ${total} проекта`} title="Смотреть анимацию"
       onClick={event => { event.stopPropagation(); onOpen(); }}>
       <span className="motion-cd-case" aria-hidden="true">
-        <span className="motion-cd-inlay" />
+        <span className="motion-cd-inlay" /><img className="real-cd-image" data-testid="real-cd-image" src={`${import.meta.env.BASE_URL}real/cd-case.webp`} alt="" draggable={false} /><span className="real-cd-spin-glint" />
         <span className="motion-record"><span className="motion-record-spinning"><span className="motion-record-grooves" /><span className="motion-record-label"><span className="motion-record-art"><img src={previewSrc} alt="" draggable={false} /></span></span><span className="motion-record-spindle" /></span></span>
         <span className="motion-cd-hinge" /><span className="motion-cd-cover" />
       </span>
@@ -20,6 +20,9 @@ export function MailEnvelope({ total, onOpen }: { total: number; onOpen: () => v
   return <button type="button" className="mail-envelope" data-folder="email" data-testid="mail-envelope"
     aria-label={`Открыть Email и CRM — ${total} проектов`} title="Рассылки и CRM"
     onClick={event => { event.stopPropagation(); onOpen(); }}>
+    <img className="real-envelope-image real-envelope-closed" data-testid="real-envelope-closed" src={`${import.meta.env.BASE_URL}real/envelope-closed.webp`} alt="" draggable={false} />
+    <img className="real-envelope-image real-envelope-open" data-testid="real-envelope-open" src={`${import.meta.env.BASE_URL}real/envelope-open.webp`} alt="" draggable={false} />
+    <span className="real-envelope-letter-title" aria-hidden="true">email<br /><em>+ crm</em></span>
     <span className="mail-envelope-shadow" aria-hidden="true" />
     <span className="mail-envelope-back" aria-hidden="true" />
     <span className="mail-envelope-letter" aria-hidden="true">

@@ -428,3 +428,9 @@ html[data-studio-theme] .reader .case-preview-column .project-visual {
   display: none !important;
   content: none !important;
 }
+
+/* On phones, the handwritten desk note sits behind the gallery; hide it. */
+@media (max-width: 900px) {
+  .atelier-shell .desk-handnote.note-top,
+  .atelier-shell .desk-handnote.note-bottom { display: none !important; }
+}

@@ -388,7 +388,7 @@ html[data-studio-theme] .reader .case-preview-column .project-visual {
    Keep the stamp centered on this joint, NOT at the envelope body's midpoint. */
 .atelier-shell .mail-envelope .mail-envelope-seal {
   left: 50%;
-  top: 63.5%;
+  top: 59.5%;
   transform: translate(-50%, -50%) rotate(14deg);
 }
 .atelier-shell .mail-envelope:is(:hover,:focus-visible) .mail-envelope-seal,
@@ -400,7 +400,7 @@ html[data-studio-theme] .reader .case-preview-column .project-visual {
    annotation between the notebook and contact card, not behind the red card. */
 @media (min-width: 901px) {
   .atelier-shell .desk-handnote.note-bottom {
-    left: 679px;
+    left: 699px;
     top: 675px;
     font-size: 24px;
     line-height: .98;
@@ -422,8 +422,9 @@ html[data-studio-theme] .reader .case-preview-column .project-visual {
   }
 }
 
-/* Keep the About title clean: no red strike-through or underline on any screen. */
-.atelier-shell .about-notebook .notebook-title::after {
+/* Clean notebook heading: no red accent or margin rule beside «Обо мне». */
+.atelier-shell .about-notebook .notebook-title::after,
+.atelier-shell .about-notebook::after {
   display: none !important;
   content: none !important;
 }

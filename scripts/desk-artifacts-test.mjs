@@ -17,15 +17,6 @@ assert.equal(await page.locator('[data-folder="design"] img').count(), 0, 'desig
 assert.equal(await page.locator('[data-folder="design"] .hand-star').evaluate(el=>getComputedStyle(el).color),'rgb(18, 36, 56)','Design star contrasts against bright-red block');
 assert.equal(await page.locator('.notebook-title').evaluate(el=>getComputedStyle(el,'::after').bottom),'1px','About underline stays above notebook metadata');
 assert.equal(await page.getByTestId('mail-envelope').count(), 1, 'email is a physical envelope');
-assert.equal(await page.getByTestId('real-envelope-closed').count(),1,'closed photographic envelope is present');
-assert.equal(await page.getByTestId('real-envelope-open').count(),1,'opened photographic envelope is present');
-assert.equal(await page.getByTestId('real-laptop-image').count(),1,'top-down laptop body asset is present');
-assert.equal(await page.getByTestId('real-cd-image').count(),1,'top-down physical CD asset is present');
-assert.equal(await page.locator('.real-paper-asset').count(),1,'gallery uses the real stack of paper');
-const realisticImages = await page.locator('.real-envelope-image,.real-cd-image,.real-laptop-image,.real-paper-asset').evaluateAll(
-  images => images.map(image => ({ src:image.getAttribute('src'), loaded:image.complete && image.naturalWidth>0 }))
-);
-assert.ok(realisticImages.every(v=>v.loaded),'all orthographic material images load: '+JSON.stringify(realisticImages));
 assert.equal(await page.locator('.modern-laptop-note').count(),0,'redundant laptop handwriting removed');
 assert.equal(await page.locator('.desk-star').count(),0,'stray red star removed');
 assert.equal(await page.getByTestId('motion-disc').count(), 1, 'motion uses an animated physical record');
@@ -49,8 +40,6 @@ const closedBounds=await envelope.evaluate(node=>{
 assert.ok(closedBounds.letterBottom < closedBounds.backBottom-2,'letter stays fully within closed envelope; no white strips');
 await envelope.hover();
 await page.waitForTimeout(780);
-const openAssetOpacity=await envelope.locator('.real-envelope-open').evaluate(el=>getComputedStyle(el).opacity);
-assert.ok(Number(openAssetOpacity)>0.97,'generated open envelope fades in on hover');
 assert.equal(await page.locator('.atelier-cursor').getAttribute('data-label'),'КУРСОР','envelope keeps a small unobtrusive cursor');
 const opened = await y();
 assert.ok(opened < closed - 40, `hover visibly opens mail letter: ${closed} -> ${opened}`);
@@ -68,7 +57,6 @@ const record = page.getByTestId('motion-disc');
 const discAnimation = await record.locator('.motion-record-spinning').evaluate(el => getComputedStyle(el).animationName);
 assert.equal(discAnimation, 'desk-record-spin', 'CD rotates inside its case');
 assert.equal(await record.locator('.motion-cd-case').count(), 1, 'CD has jewel case');
-assert.equal(await record.locator('.real-cd-image').count(), 1, 'real jewel case is rendered');
 assert.equal(await page.getByTestId('motion-spin-toggle').count(), 0, 'no play button');
 await record.hover();
 assert.equal(await page.locator('.atelier-cursor').getAttribute('data-label'),'КУРСОР','record remains visible under the cursor');

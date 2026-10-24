@@ -15,17 +15,13 @@ await page.mouse.move(2,2);
 await page.waitForTimeout(900);
 
 assert.equal(await page.locator('[data-testid="modern-laptop"]').count(), 1, 'modern laptop is present');
-assert.equal(await page.getByTestId('real-laptop-image').count(),1,'generated overhead laptop body is present');
-assert.ok(await page.getByTestId('real-laptop-image').evaluate(img => img instanceof HTMLImageElement && img.complete && img.naturalWidth>0),'the real photographic laptop loaded');
-assert.equal(await page.locator('.modern-laptop-deck').isVisible(),false,'old CSS keyboard is replaced by real laptop photography');
+assert.equal(await page.locator('.modern-key').count(), 49, 'subtle keyboard hardware exists');
 assert.equal(await page.locator('.modern-screen-content .project-visual').count(), 1);
-const topDownDisplay = await page.locator('.modern-laptop-lid').evaluate(element => {
-  const rect=element.getBoundingClientRect();
-  const img=document.querySelector('[data-testid="real-laptop-image"]').getBoundingClientRect();
-  return {screenRatio:element.offsetWidth/element.offsetHeight,screenWithinPhoto:rect.x>=img.x && rect.y>=img.y && rect.right<=img.right && rect.bottom<=img.bottom};
+const aspect = await page.locator('.modern-laptop-lid').evaluate(element => {
+  const css = getComputedStyle(element);
+  return css.aspectRatio;
 });
-assert.ok(topDownDisplay.screenRatio>1.8 && topDownDisplay.screenRatio<2.3,'overhead live screen matches generated widescreen opening');
-assert.equal(topDownDisplay.screenWithinPhoto,true,'live screen is positioned over realistic laptop, not outside it');
+assert.match(aspect, /16\s*\/\s*10/, 'modern thin-bezel display is 16:10');
 assert.ok(await page.locator('.modern-laptop-screen img').first().evaluate(img => img instanceof HTMLImageElement && img.complete && img.naturalWidth > 0), 'the portfolio image really loaded');
 await page.screenshot({ path:'ultralight-review/01-ultralight-desktop.png', fullPage:true });
 
@@ -65,7 +61,7 @@ assert.deepEqual(errors,[],'no runtime JavaScript errors');
 await fs.writeFile('ultralight-review/results.json',JSON.stringify({
   passed:true,
   checks:[
-    'real overhead photographic laptop with embedded widescreen','real preview image loaded','no fake keyboard',
+    'modern 16:10 screen','real preview image loaded','minimal 49-key hardware',
     'carousel navigation','selected website opens correctly',
     'mobile viewport no overflow','mobile swipe advances project',
     'prevent click after swipe','no browser errors'

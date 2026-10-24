@@ -12,6 +12,10 @@ const topNote=page.locator('.desk-handnote.note-top');
 assert.deepEqual((await topNote.innerText()).split(/\r?\n/),['креатив.','а потом все удивляются'],'two exact handwritten lines');
 assert.equal(await topNote.locator('br').count(),1,'exactly two lines with one line break');
 assert.equal(await topNote.evaluate(el=>getComputedStyle(el).textAlign),'left','handwriting has left alignment');
+assert.ok(await topNote.evaluate(el=>parseFloat(getComputedStyle(el).fontSize)<=24),
+  'handwriting is compact and does not dominate the desk');
+assert.ok(await topNote.evaluate(el=>el.getBoundingClientRect().width < 360),
+  'long second line fits compact top area');
 
 // Older interaction tests exercise specific slides. Pause the new automatic showcase to keep their fixtures deterministic.
 await page.locator('[data-testid="laptop-auto-toggle"]').click();

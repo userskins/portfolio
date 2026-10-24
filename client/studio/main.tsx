@@ -341,7 +341,7 @@ function Studio() {
         <div className="scene-scale" style={{ '--scene-scale': sceneScale } as CSSProperties}>
           <motion.div className={`scene-camera ${view ? 'camera-focused' : ''}`}>
             <div className="desk-scene">
-              <span className="desk-handnote note-top" aria-hidden="true">чуть-чуть хаоса.<br />много дизайна.</span>
+              <span className="desk-handnote note-top" aria-hidden="true">креатив.<br />а потом все удивляются</span>
               <svg className="desk-doodle doodle-arrow" viewBox="0 0 160 70" aria-hidden="true"><path d="M3 8 C 39 47 80 54 145 45 M128 25 L148 45 L126 57" fill="none" stroke="currentColor" strokeWidth="2" /></svg>
               <DeskItem name="design" label="Папка «Дизайн»" rotation={-10} order={1} small={small} onOpen={() => open('design')}><Binder category="design" number="01" onOpen={() => open('design')} /></DeskItem>
               <DeskItem name="gallery" label="Галерея работ" rotation={7} order={2} small={small} onOpen={() => open('gallery')}><button type="button" className="print-stack" data-testid="open-gallery" aria-label={T.gallery}><span className="print-under" /><img className="real-paper-asset" src={`${BASE}real/paper.webp`} alt="" aria-hidden="true" draggable={false} /><GalleryDeskCover active={view === null && pageVisible} /><span className="print-caption">ГАЛЕРЕЯ РАБОТ <span>01 / {uniqueGallery.length}</span></span><span className="paperclip" aria-hidden="true" /><span className="hover-tag">СМОТРЕТЬ ГАЛЕРЕЮ <ArrowUpRight size={12} /></span></button></DeskItem>

@@ -290,3 +290,13 @@
   .atelier-shell .motion-cd-case { transition: none !important; }
   .atelier-shell .motion-cd-case .real-cd-spin-glint { animation: none !important; }
 }
+
+/* Handwritten top note: exactly two lines sharing one left edge. */
+.atelier-shell .desk-handnote.note-top {
+  display: block;
+  width: max-content;
+  max-width: none;
+  text-align: left;
+  white-space: nowrap;
+  line-height: 1.03;
+}

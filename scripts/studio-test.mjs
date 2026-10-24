@@ -8,6 +8,11 @@ const page=await browser.newPage({viewport:{width:1440,height:950},deviceScaleFa
 page.on('pageerror',e=>errors.push(e.message));
 await page.goto('http://127.0.0.1:4173/studio/',{waitUntil:'networkidle',timeout:30000});
 await page.evaluate(()=>document.fonts.ready);
+const topNote=page.locator('.desk-handnote.note-top');
+assert.equal(await topNote.innerText(),'креатив.\\na потом все удивляются'.replace('a потом','а потом'),'two exact handwritten lines');
+assert.equal(await topNote.locator('br').count(),1,'exactly two lines with one line break');
+assert.equal(await topNote.evaluate(el=>getComputedStyle(el).textAlign),'left','handwriting has left alignment');
+
 // Older interaction tests exercise specific slides. Pause the new automatic showcase to keep their fixtures deterministic.
 await page.locator('[data-testid="laptop-auto-toggle"]').click();
 await page.evaluate(() => { if(document.activeElement instanceof HTMLElement) document.activeElement.blur(); });

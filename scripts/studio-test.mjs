@@ -29,7 +29,7 @@ const deskLettering = await page.evaluate(() => {
     notebook: size('.notebook-title'), design: size('.design-cover .binder-title'),
     motion: size('.motion-record-caption'), contact: size('.contact-card strong'),
     sealOffsetX: seal.offsetLeft - (pocket.offsetLeft + pocket.offsetWidth * .5),
-    sealOffsetY: seal.offsetTop - (pocket.offsetTop + pocket.offsetHeight * .66 - pocket.parentElement.clientHeight * .0338),
+    sealOffsetY: seal.offsetTop - (pocket.offsetTop + pocket.offsetHeight * .66 - pocket.parentElement.clientHeight * .0738),
     noteCardOverlapArea: overlapWidth * overlapHeight,
     noteCardGap: contactCard.left - bottomNote.right
   };

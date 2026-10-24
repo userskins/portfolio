@@ -26,7 +26,7 @@ const note=page.locator('.rail-note');
 assert.equal(await note.locator('.rail-note-first').innerText(),'Идеи не сидят','slogan first line');
 assert.equal(await note.locator('.rail-note-second').innerText(),'на месте.','slogan second line');
 assert.equal(await note.locator('.rail-note-star').count(),0,'unnecessary red asterisk removed');
-assert.equal(await page.locator('.notebook-title').evaluate(el=>getComputedStyle(el,'::after').bottom),'1px','About underline positioned below the raised title');
+assert.equal(await page.locator('.notebook-title').evaluate(el=>getComputedStyle(el,'::after').display),'none','About heading stays clean without a red underline');
 assert.equal(await item('design').getAttribute('data-hover-travel'),'7','a small 7px hover-follow allowance');
 assert.equal(await item('laptop').getAttribute('data-hover-travel'),'1.5','laptop moves only 1.5px for reliable arrows');
 await page.screenshot({path:'free-desk-review/01-fixed-desktop.png',fullPage:true});

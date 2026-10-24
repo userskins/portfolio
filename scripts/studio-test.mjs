@@ -29,7 +29,7 @@ const deskLettering = await page.evaluate(() => {
     notebook: size('.notebook-title'), design: size('.design-cover .binder-title'),
     motion: size('.motion-record-caption'), contact: size('.contact-card strong'),
     sealOffsetX: seal.offsetLeft - (pocket.offsetLeft + pocket.offsetWidth * .5),
-    sealOffsetY: seal.offsetTop - (pocket.offsetTop + pocket.offsetHeight * .66),
+    sealOffsetY: seal.offsetTop - (pocket.offsetTop + pocket.offsetHeight * .66 - pocket.parentElement.clientHeight * .0338),
     noteCardOverlapArea: overlapWidth * overlapHeight,
     noteCardGap: contactCard.left - bottomNote.right
   };
@@ -41,7 +41,9 @@ assert.ok(deskLettering.intro <= 22 && deskLettering.idea <= 24
   'all primary desk lettering uses compact proportions: ' + JSON.stringify(deskLettering));
 assert.ok(Math.abs(deskLettering.sealOffsetX) < 2
   && Math.abs(deskLettering.sealOffsetY) < 2,
-  'wax seal is aligned with V-shaped pocket tip: ' + JSON.stringify(deskLettering));
+  'wax seal is a few pixels above the envelope V-junction: ' + JSON.stringify(deskLettering));
+assert.equal(await page.locator('.notebook-title').evaluate(el=>getComputedStyle(el,'::after').display),'none',
+  'About notebook has no red underline');
 assert.equal(deskLettering.noteCardOverlapArea, 0,
   'bottom handwritten annotation must not overlap the red contact card: ' + JSON.stringify(deskLettering));
 

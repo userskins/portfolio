@@ -437,7 +437,7 @@ html[data-studio-theme] .reader .case-preview-column .project-visual {
 
 
 /* Email archive: show the original HTML inside the project reader, not on a third-party site. */
-.atelier-shell .project-visual.is-local-email {
+.atelier-shell .reader .case-preview-column .project-visual.is-local-email {
   height: clamp(460px, 66vh, 760px);
   min-height: 460px;
   overflow: hidden;
@@ -505,7 +505,7 @@ html[data-studio-theme] .reader .case-preview-column .project-visual {
   background: radial-gradient(ellipse at 12% 14%, #7ba7fa7c, transparent 38%), linear-gradient(135deg,#182c60,#3447a0 63%,#111b45);
 }
 @media (max-width: 900px) {
-  .atelier-shell .project-visual.is-local-email {
+  .atelier-shell .reader .case-preview-column .project-visual.is-local-email {
     min-height: 420px;
     height: min(67vh, 660px);
   }

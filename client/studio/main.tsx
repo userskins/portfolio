@@ -40,7 +40,7 @@ const folders: { id: Category; name: string; label: string; }[] = [
 const count = (tag: Category) => projects.filter(p => p.tag === tag).length;
 const websites = projects.filter(p => p.tag === 'websites');
 const WEBSITE_INTERVAL_MS = 4500;
-const hoverDescriptions: Record<string, string> = { design: 'ДИЗАЙН / МАКЕТЫ И АЙДЕНТИКА', gallery: 'ГАЛЕРЕЯ / АВТОРСКИЕ РАБОТЫ', laptop: 'САЙТЫ / 7 ПРОЕКТОВ · АВТОПОКАЗ', email: 'РАССЫЛКИ / CRM-КОММУНИКАЦИИ', motion: 'АНИМАЦИЯ / ДВИЖЕНИЕ', about: 'ОБО МНЕ / ОПЫТ И НАВЫКИ', contact: 'КОНТАКТЫ / ОБСУДИМ ПРОЕКТ', pencil: 'КАРАНДАШ / ЭСКИЗ' };
+const hoverDescriptions: Record<string, string> = { design: 'ДИЗАЙН / МАКЕТЫ И АЙДЕНТИКА', gallery: 'ГАЛЕРЕЯ / АВТОРСКИЕ РАБОТЫ', laptop: `САЙТЫ / ${websites.length} ПРОЕКТОВ · АВТОПОКАЗ`, email: 'РАССЫЛКИ / CRM-КОММУНИКАЦИИ', motion: 'АНИМАЦИЯ / ДВИЖЕНИЕ', about: 'ОБО МНЕ / ОПЫТ И НАВЫКИ', contact: 'КОНТАКТЫ / ОБСУДИМ ПРОЕКТ', pencil: 'КАРАНДАШ / ЭСКИЗ' };
 const art = (id: number) => `${BASE}art/${id}.webp`;
 // Only project-cover pairings identifiable in the original artwork.
 const coverById: Record<string, number> = { '07b': 2, '07': 1, '06': 3, '05': 32 };
@@ -95,12 +95,29 @@ function ProjectPreview({ project, className = '', mode = 'fit' }: { project: Pr
   const [failedSrc, setFailedSrc] = useState<string | null>(null);
   const [showEmbed, setShowEmbed] = useState(false);
   const src = previewSrcFor(project);
+  const localEmail = project.previewHtml ? `${BASE}${project.previewHtml}` : null;
   const embed = figmaEmbedFor(project);
   const isVisible = Boolean(src && failedSrc !== src);
   return <div className={`project-visual ${className} ${project.tag} preview-${mode}`}
     data-testid="project-preview" data-preview-mode={mode} data-has-image={isVisible}>
-    {isVisible ? <img key={src} src={src!} alt={`Превью работы: ${project.title}`}
-      onError={() => setFailedSrc(src!)} draggable={false} /> :
+    {localEmail ? <iframe
+      className="email-preview-frame"
+      data-testid="email-local-preview"
+      title={`Письмо: ${project.title}`}
+      src={localEmail}
+      loading="lazy"
+      sandbox=""
+      referrerPolicy="no-referrer"
+    /> :
+      isVisible ? <img key={src} src={src!} alt={`Превью работы: ${project.title}`}
+        onError={() => setFailedSrc(src!)} draggable={false} /> :
+      (project.id === 'sea-real-estate-mexico' || project.id === 'business-academia') ?
+        <div className={`site-identity-preview ${project.id === 'sea-real-estate-mexico' ? 'sea-preview' : 'academia-preview'}`}>
+          <small>{project.id === 'sea-real-estate-mexico' ? 'MEXICO · RIVIERA MAYA' : 'ОБРАЗОВАНИЕ · РОССИЯ'}</small>
+          <strong>{project.title}</strong>
+          <span>{project.category}</span>
+          <span className="site-identity-url">{project.url?.replace(/^https?:\/\//, '')}</span>
+        </div> :
       showEmbed && embed ? <iframe title={`Прототип: ${project.title}`} src={embed}
         loading="lazy" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen /> :
       <div className="unavailable-preview project-empty-preview">
@@ -394,7 +411,7 @@ function Studio() {
                    </div>}
                   <div className="proof-bottom"><span>{active.title}</span><span>DG / {active.id}</span></div>
                 </motion.div></AnimatePresence>
-                  <div className="case-controls"><button onClick={() => navigate(-1)} aria-label={T.prev}><ArrowLeft size={22} /></button><span aria-live="polite">{String(selected + 1).padStart(2, '0')} / {String(list.length).padStart(2, '0')}</span><button onClick={() => navigate(1)} aria-label={T.next}><ArrowRight size={22} /></button><a href={active.url} target="_blank" rel="noopener noreferrer" className="original-link">{T.original}<ArrowUpRight size={18} /></a></div>
+                  <div className="case-controls"><button onClick={() => navigate(-1)} aria-label={T.prev}><ArrowLeft size={22} /></button><span aria-live="polite">{String(selected + 1).padStart(2, '0')} / {String(list.length).padStart(2, '0')}</span><button onClick={() => navigate(1)} aria-label={T.next}><ArrowRight size={22} /></button>{active.previewHtml ? <span className="email-local-status">HTML / НА САЙТЕ</span> : active.url ? <a href={active.url} target="_blank" rel="noopener noreferrer" className="original-link">{T.original}<ArrowUpRight size={18} /></a> : null}</div>
                 </div>
                 <div className="case-index"><div className="index-label">СОДЕРЖАНИЕ / {list.length} ПРОЕКТОВ</div><div className="case-files">{list.map((p, i) => <button key={p.id} data-case={p.id} aria-pressed={i === selected} onClick={() => setSelected(i)}><span>{String(i + 1).padStart(2, '0')}</span><span><strong>{p.title}</strong><small>{p.category} / {p.year}</small></span><ArrowUpRight size={16} /></button>)}</div><p className="index-handnote">ideas into<br />real things.</p></div>
               </div>}

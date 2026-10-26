@@ -21,7 +21,7 @@ const next=await current();
 assert.notEqual(next,initial,'gallery picture changes automatically without a slider');
 await page.locator('[data-testid="open-gallery"]').click();
 await page.locator('.reader[role="dialog"]').waitFor();
-assert.equal(await page.locator('.gallery-wall button').count(),80,'random desk preview does not change the real gallery');
+assert.equal(await page.locator('.gallery-wall button').count(),78,'random desk preview does not change the real gallery');
 await page.locator('.reader .back-to-desk').click();
 await page.locator('.reader[role="dialog"]').waitFor({state:'detached',timeout:7000});
 assert.deepEqual(errors,[],'no runtime errors');

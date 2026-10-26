@@ -14,7 +14,7 @@ await page.waitForTimeout(420);
 const counter=async()=> (await page.locator('.modern-page-count').innerText()).replace(/\s+/g,' ').trim();
 const awaitCounter=async nth=>await page.waitForFunction(n=>{
  const x=document.querySelector('.modern-page-count')?.textContent?.replace(/\s+/g,' ').trim()||'';
- return x.includes(String(n).padStart(2,'0')+' / 07');
+ return x.includes(String(n).padStart(2,'0')+' / 09');
 },nth,{timeout:11000});
 assert.equal(await page.locator('[data-testid="modern-laptop"]').count(),1);
 assert.equal(await page.locator('.modern-screen-toolbar, .modern-screen-brand').count(),0,'DG.STUDIO overlay is fully absent');

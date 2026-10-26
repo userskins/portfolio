@@ -64,7 +64,7 @@ await page.locator('.reader[role="dialog"]').waitFor({state:'detached',timeout:7
 
 await page.locator('[data-testid="laptop-next"]').click();
 await page.waitForTimeout(350);
-assert.match(await page.locator('.modern-page-count').innerText(),/02\s*\/\s*07/,'websites still scroll inside modern laptop');
+assert.match(await page.locator('.modern-page-count').innerText(),/02\s*\/\s*09/,'websites still scroll inside modern laptop');
 assert.equal(await page.locator('.desk-rotate-handle, .desk-move-handle').count(),0,'static desk has no drag handles');
 assert.equal(await page.locator('[data-object="loose-one"],[data-object="loose-two"]').count(),0,'unneeded loose photos are absent');
 

@@ -61,6 +61,9 @@ jobs:
           python3 -m venv /tmp/studio-py
           /tmp/studio-py/bin/pip install pillow==11.3.0
 
+      - name: Capture new 2024 website previews (best effort)
+        run: node scripts/capture-2024-websites.mjs
+
       - name: Check TypeScript
         run: npx tsc -p tsconfig.studio.json --noEmit
 

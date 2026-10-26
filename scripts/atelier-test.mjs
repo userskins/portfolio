@@ -25,13 +25,13 @@ assert.match(await page.locator('.atelier-hover-status').innerText(),/ДИЗАЙ
 assert.equal(await page.locator('.atelier-cursor').getAttribute('data-visible'),'true','cursor is visible on desk');
 await page.screenshot({path:'atelier-review/02-cursor-hover.png',fullPage:true});
 
-assert.match(await page.locator('.atelier-laptop-pager').innerText(),/01\s*\/\s*07/,'manual browsing starts at ITMM');
+assert.match(await page.locator('.atelier-laptop-pager').innerText(),/01\s*\/\s*09/,'manual browsing starts at ITMM');
 // Pointer hover may activate graphics; actual pointer click must still advance on the first attempt.
 await page.locator('[data-testid="laptop-next"]').hover();
 await page.waitForTimeout(250);
 await page.locator('[data-testid="laptop-next"]').click();
-await page.waitForFunction(() => /02\s*\/\s*07/.test(document.querySelector('.atelier-laptop-pager')?.textContent ?? ''),null,{timeout:2500});
-assert.match(await page.locator('.atelier-laptop-pager').innerText(),/02\s*\/\s*07/,'laptop switched websites with first pointer click');
+await page.waitForFunction(() => /02\s*\/\s*09/.test(document.querySelector('.atelier-laptop-pager')?.textContent ?? ''),null,{timeout:2500});
+assert.match(await page.locator('.atelier-laptop-pager').innerText(),/02\s*\/\s*09/,'laptop switched websites with first pointer click');
 await page.locator('[data-testid="open-websites"]').click();
 await page.locator('[role="dialog"]').waitFor();
 await page.waitForTimeout(500);
@@ -57,8 +57,8 @@ await page.waitForTimeout(550);
 assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth > innerWidth),false,'mobile has no sideways overflow');
 await page.screenshot({path:'atelier-review/05-mobile-desk.png',fullPage:true});
 await page.locator('[data-testid="laptop-next"]').click();
-await page.waitForFunction(() => /03\s*\/\s*07/.test(document.querySelector('.atelier-laptop-pager')?.textContent ?? ''),null,{timeout:3500});
-assert.match(await page.locator('.atelier-laptop-pager').innerText(),/03\s*\/\s*07/,'laptop pager works on touch layout');
+await page.waitForFunction(() => /03\s*\/\s*09/.test(document.querySelector('.atelier-laptop-pager')?.textContent ?? ''),null,{timeout:3500});
+assert.match(await page.locator('.atelier-laptop-pager').innerText(),/03\s*\/\s*09/,'laptop pager works on touch layout');
 assert.equal(await page.locator('[data-testid="atelier-help"],.desk-rotate-handle,.desk-move-handle').count(),0,'mobile has no drag/rotate UI');
 assert.deepEqual(errors,[],'no JavaScript errors');
 await fs.writeFile('atelier-review/results.json',JSON.stringify({

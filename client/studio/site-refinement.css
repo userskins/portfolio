@@ -514,3 +514,39 @@ html[data-studio-theme] .reader .case-preview-column .project-visual {
     padding: 25px;
   }
 }
+
+
+/* About: Education belongs with Tools & Thinking in the left column. */
+.atelier-shell .about-reader .education-sheet {
+  margin-top: 44px;
+}
+.atelier-shell .about-reader .education-sheet h3 {
+  margin: 0 0 18px;
+}
+.atelier-shell .about-reader .education-sheet article {
+  border-top: 1px solid var(--rule, #b2c1cf);
+  padding: 18px 0 21px;
+  margin: 0;
+}
+.atelier-shell .about-reader .education-sheet article:last-child {
+  border-bottom: 1px solid var(--rule, #b2c1cf);
+}
+.atelier-shell .about-reader .education-sheet article > span {
+  display: block;
+  font: 9px/1.4 var(--mono, monospace);
+  color: var(--red);
+}
+.atelier-shell .about-reader .education-sheet article h4 {
+  font: 700 19px/1.4 var(--body, Arial, sans-serif);
+  margin: 10px 0 9px;
+  overflow-wrap: anywhere;
+}
+.atelier-shell .about-reader .education-sheet article p {
+  font: 14px/1.55 var(--body, Arial, sans-serif);
+  margin: 0;
+}
+@media (max-width: 900px) {
+  .atelier-shell .about-reader .education-sheet {
+    margin-top: 36px;
+  }
+}

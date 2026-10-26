@@ -92,7 +92,7 @@ for(const [i,slug] of newPosters.entries()) {
  assert.ok((response.headers()['content-type']||'').includes('image/webp'),'poster file type: '+slug);
  assert.ok((await response.body()).length>150_000,'full poster bytes: '+slug);
 }
-assert.equal(await page.locator('link[rel="icon"]').getAttribute('href'),'/studio/favicon.png','user-provided logo favicon');
+assert.equal(await page.locator('link[rel="icon"]').getAttribute('href'),'/studio/favicon.png?v=20261027','updated user-provided logo favicon');
 assert.equal((await page.request.get('http://127.0.0.1:4173/studio/favicon.png')).status(),200,'favicon copied into site');
 assert.equal((await page.request.get('http://127.0.0.1:4173/studio/apple-touch-icon.png')).status(),200,'phone icon copied into site');
 await page.locator('.gallery-wall button').first().click();

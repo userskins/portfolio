@@ -43,6 +43,9 @@ await page.locator('.reader[role="dialog"]').waitFor({state:'detached',timeout:7
 
 await page.getByTestId('open-about').click();
 await page.locator('.reader[role="dialog"]').waitFor();
+assert.equal(await page.locator('.bio-sheet > .education-sheet h3').innerText(), 'EDUCATION', 'Education is under Tools & Thinking in the left column');
+assert.equal(await page.locator('.bio-sheet .education-sheet article').count(), 2, 'Both education records remain in the left column');
+assert.equal(await page.locator('.experience-sheet .education-sheet').count(), 0, 'The right column contains experience only');
 assert.ok((await page.locator('.experience-sheet').innerText()).includes('Бизнес-школа «Горки»'),'Gorki is in experience');
 assert.ok((await page.locator('.experience-sheet').innerText()).includes('Апрель 2026 — настоящее время'),'Gorki dates correct');
 await page.locator('.reader .back-to-desk').click();

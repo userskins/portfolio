@@ -98,7 +98,7 @@ function ProjectPreview({ project, className = '', mode = 'fit' }: { project: Pr
   const localEmail = project.previewHtml ? `${BASE}${project.previewHtml}` : null;
   const embed = figmaEmbedFor(project);
   const isVisible = Boolean(src && failedSrc !== src);
-  return <div className={`project-visual ${className} ${project.tag} preview-${mode}`}
+  return <div className={`project-visual ${className} ${project.tag} preview-${mode} ${localEmail ? 'is-local-email' : ''}`}
     data-testid="project-preview" data-preview-mode={mode} data-has-image={isVisible}>
     {localEmail ? <iframe
       className="email-preview-frame"

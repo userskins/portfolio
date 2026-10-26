@@ -27,7 +27,7 @@ await page.screenshot({ path:'ultralight-review/01-ultralight-desktop.png', full
 
 await page.locator('[data-testid="laptop-next"]').click();
 await page.waitForTimeout(520);
-assert.match(await page.locator('.modern-page-count').innerText(), /02\s*\/\s*07/, 'modern pager shows second project');
+assert.match(await page.locator('.modern-page-count').innerText(), /02\s*\/\s*09/, 'modern pager shows second project');
 assert.match((await page.locator('.modern-screen-open').getAttribute('aria-label')) ?? '', /Лёрнио/, 'selected project changed');
 await page.screenshot({ path:'ultralight-review/02-next-site-on-laptop.png', fullPage:true });
 
@@ -54,7 +54,7 @@ const swipeResult = await page.locator('.modern-screen-open').evaluate(element =
 });
 assert.equal(swipeResult,true,'mobile swipe is handled and cancels accidental project-open click');
 await page.waitForTimeout(580);
-assert.match(await page.locator('.modern-page-count').innerText(),/03\s*\/\s*07/,'mobile swipe advances to site 03');
+assert.match(await page.locator('.modern-page-count').innerText(),/03\s*\/\s*09/,'mobile swipe advances to site 03');
 await page.screenshot({path:'ultralight-review/04-mobile-swiped-project.png',fullPage:true});
 assert.deepEqual(errors,[],'no runtime JavaScript errors');
 

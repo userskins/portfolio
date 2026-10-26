@@ -20,8 +20,10 @@ try {
     const id='email-archive-'+name;
     const item=page.locator('[data-case="'+id+'"]');
     await item.click();
+    // AnimatePresence keeps the previous email frame mounted during its exit transition.
+    // Wait for the selected email URL, not merely for any frame to exist.
+    await page.waitForFunction(prefix => document.querySelector('[data-testid="email-local-preview"]')?.getAttribute('src')?.startsWith(prefix), '/studio/emails/'+name+'-', {timeout:8000});
     const frame=page.getByTestId('email-local-preview');
-    await frame.waitFor();
     const src=await frame.getAttribute('src');
     assert.ok(src?.startsWith('/studio/emails/'+name+'-'),id+' local iframe URL');
     assert.equal(await frame.getAttribute('sandbox'),'','embedded email never receives script/navigation permissions');

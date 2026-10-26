@@ -20,10 +20,10 @@ assert.equal(await page.locator('[data-testid="modern-laptop"]').count(),1);
 assert.equal(await page.locator('.modern-screen-toolbar, .modern-screen-brand').count(),0,'DG.STUDIO overlay is fully absent');
 assert.equal(await page.locator('[data-testid="laptop-site-18"]').count(),0,'Russian Symphony removed from laptop index');
 assert.equal(await page.getByText('The Russian Symphony',{exact:true}).count(),0,'Russian Symphony not present anywhere in the portfolio');
-assert.equal(await page.locator('.modern-screen-tick').count(),7,'all seven websites in quick project index');
+assert.equal(await page.locator('.modern-screen-tick').count(),9,'all nine websites in quick project index');
 assert.equal(await page.locator('.modern-screen-tick.is-featured').count(),4,'the chosen four projects are highlighted');
 assert.match(await page.locator('.modern-screen-open').getAttribute('aria-label')??'',/Институт ИТММ ННГУ/,'ITMM loads first');
-assert.match(await counter(),/01 \/ 07/);
+assert.match(await counter(),/01 \/ 09/);
 assert.equal(await page.locator('.modern-laptop').getAttribute('data-auto-playing'),'true','automatic preview starts on load');
 for(const id of ['itmm','learnio']){
  assert.equal(await page.locator('.modern-screen-content img').first().evaluate(img=>img instanceof HTMLImageElement && img.complete && img.naturalWidth>100),true,'website screenshot must be authentic and loaded: '+id);
@@ -35,7 +35,7 @@ assert.match(await page.locator('.modern-screen-open').getAttribute('aria-label'
 await page.locator('.modern-laptop').hover();
 assert.equal(await page.locator('.modern-laptop').getAttribute('data-auto-playing'),'false','hover stops auto advance');
 await page.waitForTimeout(5200);
-assert.match(await counter(),/02 \/ 07/,'hover keeps current project still for longer than 4.5 seconds');
+assert.match(await counter(),/02 \/ 09/,'hover keeps current project still for longer than 4.5 seconds');
 await page.mouse.move(3,3);
 await page.waitForTimeout(250);
 assert.equal(await page.locator('.modern-laptop').getAttribute('data-auto-playing'),'true','autoplay resumes after leaving laptop');
@@ -47,7 +47,7 @@ assert.equal(await page.locator('[data-testid="laptop-auto-toggle"]').getAttribu
 await page.evaluate(()=>{(document.activeElement instanceof HTMLElement)&&document.activeElement.blur();});
 await page.mouse.move(3,3);
 await page.waitForTimeout(5050);
-assert.match(await counter(),/03 \/ 07/,'manual pause suppresses automatic switch');
+assert.match(await counter(),/03 \/ 09/,'manual pause suppresses automatic switch');
 await page.locator('[data-testid="laptop-auto-toggle"]').click();
 await page.evaluate(()=>{(document.activeElement instanceof HTMLElement)&&document.activeElement.blur();});
 await page.mouse.move(3,3);
@@ -55,7 +55,7 @@ await awaitCounter(4);
 assert.match(await page.locator('.modern-screen-open').getAttribute('aria-label')??'',/Новогодний музыкальный фестиваль/,'Sirius NY festival follows 9 May');
 
 await page.locator('[data-testid="laptop-site-itmm"]').click();
-assert.match(await counter(),/01 \/ 07/,'quick index returns to ITMM');
+assert.match(await counter(),/01 \/ 09/,'quick index returns to ITMM');
 assert.equal(await page.locator('.modern-laptop').getAttribute('data-auto-playing'),'false','quick index gives time to inspect');
 await page.locator('[data-testid="open-websites"]').click();
 await page.locator('.reader[role="dialog"]').waitFor();
@@ -79,9 +79,9 @@ await page.locator('.reader[role="dialog"]').waitFor({state:'detached',timeout:7
 await page.emulateMedia({reducedMotion:'reduce'});
 await page.reload({waitUntil:'networkidle'});
 await page.waitForTimeout(4700);
-assert.match(await counter(),/01 \/ 07/,'prefers-reduced-motion disables auto-rotation');
+assert.match(await counter(),/01 \/ 09/,'prefers-reduced-motion disables auto-rotation');
 await page.locator('[data-testid="laptop-next"]').click();
-assert.match(await counter(),/02 \/ 07/,'manual pager stays accessible with reduced motion');
+assert.match(await counter(),/02 \/ 09/,'manual pager stays accessible with reduced motion');
 
 await page.setViewportSize({width:390,height:844});
 await page.waitForTimeout(350);

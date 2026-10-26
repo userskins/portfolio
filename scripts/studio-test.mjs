@@ -80,7 +80,7 @@ assert.equal(await page.locator('.original-link').getAttribute('href'),'https://
 await page.screenshot({path:'studio-review/03-websites.png',fullPage:true});
 await page.keyboard.press('Escape');await page.locator('.reader[role="dialog"]').waitFor({state:'detached',timeout:7000});
 await page.locator('[data-testid="open-gallery"]').click();await page.waitForTimeout(650);
-assert.equal(await page.locator('.gallery-wall button').count(),80,'12 new originals plus 68 unique existing works (one original duplicate was already removed)');
+assert.equal(await page.locator('.gallery-wall button').count(),78,'requested gallery images 47 and 63 removed');
 const newPosters=["ptitsey-stat","staya-ptits","redecorate","tishe-vdrug-uslyshat","bolshe-chem-tvorchestvo","glaza-la-vtornik","ne-poteryay-svoey-dushi","isle-of-flightless-birds","kayus","ne-dumay-o-takom","kap-kap-kap-kap","vesna"];
 for(const [i,slug] of newPosters.entries()) {
  const img=page.locator('.gallery-wall button').nth(i).locator('img');

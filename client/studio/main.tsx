@@ -42,12 +42,18 @@ const websites = projects.filter(p => p.tag === 'websites');
 const WEBSITE_INTERVAL_MS = 4500;
 const hoverDescriptions: Record<string, string> = { design: 'ДИЗАЙН / МАКЕТЫ И АЙДЕНТИКА', gallery: 'ГАЛЕРЕЯ / АВТОРСКИЕ РАБОТЫ', laptop: `САЙТЫ / ${websites.length} ПРОЕКТОВ · АВТОПОКАЗ`, email: 'РАССЫЛКИ / CRM-КОММУНИКАЦИИ', motion: 'АНИМАЦИЯ / ДВИЖЕНИЕ', about: 'ОБО МНЕ / ОПЫТ И НАВЫКИ', contact: 'КОНТАКТЫ / ОБСУДИМ ПРОЕКТ', pencil: 'КАРАНДАШ / ЭСКИЗ' };
 const art = (id: number) => `${BASE}art/${id}.webp`;
+// These two projects must use their own verified, local visual covers:
+ // the former JPG captures were either a Cloudflare challenge or blank/broken text.
+const websiteCovers: Record<string, string> = {
+  'sea-real-estate-mexico': `${BASE}previews/sea-real-estate-mexico.svg`,
+  'business-academia': `${BASE}previews/business-academia.svg`,
+};
 // Only project-cover pairings identifiable in the original artwork.
 const coverById: Record<string, number> = { '07b': 2, '07': 1, '06': 3, '05': 32 };
 type PreviewMode = 'fit' | 'detail';
-const previewSrcFor = (project: Project) => coverById[project.id]
-  ? art(coverById[project.id])
-  : ['websites', 'email'].includes(project.tag) ? `${BASE}previews/${project.id}.jpg` : null;
+const previewSrcFor = (project: Project) => websiteCovers[project.id] ??
+  (coverById[project.id] ? art(coverById[project.id])
+    : ['websites', 'email'].includes(project.tag) ? `${BASE}previews/${project.id}.jpg` : null);
 const figmaEmbedFor = (project: Project) => project.url?.startsWith('https://www.figma.com/proto/')
   ? `https://www.figma.com/embed?embed_host=share&url=${encodeURIComponent(project.url)}` : null;
 const uniqueGallery = galleryImages.filter((g, i, a) => a.findIndex(v => v.src === g.src) === i);

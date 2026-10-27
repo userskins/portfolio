@@ -12,7 +12,10 @@ try {
   await page.goto('http://127.0.0.1:4173/studio/',{waitUntil:'domcontentloaded'});
   await page.getByTestId('mail-envelope').click();
   await page.locator('.reader[role="dialog"]').waitFor();
-  assert.equal(await page.locator('.case-files > button').count(),22,'five earlier and seventeen hosted emails');
+  assert.equal(await page.locator('.case-files > button').count(),17,'only the seventeen hosted email projects remain');
+  for (const removed of ['Онбординг креатора от Студии Простора','Дайджест новостей Школы дизайна НИУ ВШЭ','Знакомство с платформой mediiia','Полезный кейс от Ingate','Астрологическое Бюро Пунита Нахаты']) {
+    assert.equal(await page.locator('.case-files').getByText(removed,{exact:true}).count(),0,'removed email project not listed: '+removed);
+  }
   assert.equal(await page.locator('.case-files [data-case^="email-archive-"]').count(),17,'all provided HTML previews are indexed');
 
   for(let i=1;i<=17;i++) {

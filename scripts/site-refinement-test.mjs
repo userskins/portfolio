@@ -35,6 +35,15 @@ await page.getByTestId('projects-filter-websites').click();
 assert.equal(await page.locator('.case-files > button').count(),9,'websites selected without exiting');
 const selected=await page.locator('.case-files > button').first().getAttribute('data-case');
 assert.equal(selected,'itmm','original first website preserved');
+for (const site of ['sea-real-estate-mexico','business-academia']) {
+  const filename = `previews/${site}.webp`;
+  const response = await page.request.get('http://127.0.0.1:4173/studio/' + filename);
+  assert.equal(response.status(),200,`actual screenshot exists for ${site}`);
+  assert.ok((response.headers()['content-type'] || '').includes('image/webp'),`correct WebP type for ${site}`);
+  assert.ok((await response.body()).length > 20_000,`real screenshot asset for ${site}`);
+  await page.locator(`.reader .case-files button[data-case="${site}"]`).click();
+  await page.locator(`.reader .case-proof .project-visual img[src$="/${filename}"]`).waitFor({state:'visible',timeout:7000});
+}
 await page.getByTestId('projects-filter-all').click();
 assert.equal(await page.locator('.case-files > button').count(),35,'return to all remaining projects works');
 await page.screenshot({path:'site-refinement-review/02-filters.png',fullPage:true});

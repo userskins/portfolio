@@ -267,7 +267,6 @@ function Studio() {
   const [selected, setSelected] = useState(0);
   const [galleryIndex, setGalleryIndex] = useState(0);
   const [galleryFull, setGalleryFull] = useState(false);
-  const [previewMode, setPreviewMode] = useState<PreviewMode>('fit');
   const [webIndex, setWebIndex] = useState(0);
   const [autoplayEnabled, setAutoplayEnabled] = useState(true);
   const [laptopHover, setLaptopHover] = useState(false);
@@ -280,7 +279,7 @@ function Studio() {
   const reduced = useReducedMotion();
   const holder = useRef<HTMLDivElement>(null);
   const [sceneScale, setSceneScale] = useState(1);
-  const open = (next: View) => { setSelected(0); setGalleryFull(false); setPreviewMode('fit'); setView(next); };
+  const open = (next: View) => { setSelected(0); setGalleryFull(false); setView(next); };
   const list = view === 'all' ? projects : projects.filter(p => p.tag === view);
   const active = list[Math.min(selected, Math.max(0, list.length - 1))];
   const title = view === 'all' ? 'ВСЕ ПРОЕКТЫ' : view === 'gallery' ? 'ГАЛЕРЕЯ РАБОТ' : view === 'about' ? 'ОБО МНЕ' : view === 'contact' ? 'НА СВЯЗИ' : folders.find(f => f.id === view)?.label.toUpperCase() ?? '';
@@ -410,11 +409,7 @@ function Studio() {
               </div>}
               {active && <div className="case-layout">
                 <div className="case-preview-column"><AnimatePresence mode="wait"><motion.div key={active.id} initial={reduced ? false : { opacity: 0, x: 28, rotate: 1 }} animate={{ opacity: 1, x: 0, rotate: 0 }} exit={{ opacity: 0, x: -25 }} transition={{ duration: .28 }} className="case-proof">
-                  <div className="proof-meta"><span>РАБОТА {String(selected + 1).padStart(2, '0')}</span><span>{active.year} / {active.tag.toUpperCase()}</span></div><ProjectPreview project={active} mode={previewMode} />
-                  {previewSrcFor(active) && <div className="preview-view-modes" role="group" aria-label="Способ просмотра">
-                     <button type="button" data-testid="preview-fit" aria-pressed={previewMode === 'fit'} onClick={() => setPreviewMode('fit')}>ЦЕЛИКОМ</button>
-                     <button type="button" data-testid="preview-detail" aria-pressed={previewMode === 'detail'} onClick={() => setPreviewMode('detail')}>ПОБЛИЖЕ / ПРОКРУТКА</button>
-                   </div>}
+                  <div className="proof-meta"><span>РАБОТА {String(selected + 1).padStart(2, '0')}</span><span>{active.year} / {active.tag.toUpperCase()}</span></div><ProjectPreview project={active} />
                   <div className="proof-bottom"><span>{active.title}</span><span>DG / {active.id}</span></div>
                 </motion.div></AnimatePresence>
                   <div className="case-controls"><button onClick={() => navigate(-1)} aria-label={T.prev}><ArrowLeft size={22} /></button><span aria-live="polite">{String(selected + 1).padStart(2, '0')} / {String(list.length).padStart(2, '0')}</span><button onClick={() => navigate(1)} aria-label={T.next}><ArrowRight size={22} /></button>{active.previewHtml ? <span className="email-local-status">HTML / НА САЙТЕ</span> : active.url ? <a href={active.url} target="_blank" rel="noopener noreferrer" className="original-link">{T.original}<ArrowUpRight size={18} /></a> : null}</div>

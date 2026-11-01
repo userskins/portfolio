@@ -16,7 +16,7 @@ try{
   await p.locator('[data-team="'+i+'"]').waitFor({timeout:30000});await p.locator('[data-team="'+i+'"]').click();await p.locator('#claim').click();await p.getByText('Вы здесь ✓',{exact:true}).waitFor({timeout:20000});
  }
  await host.getByText('НАЧАТЬ ИГРУ · 4/4',{exact:true}).waitFor({timeout:15000});await host.locator('[data-act="launch"]').click();await host.locator('[data-act="start"]').click();
- await phones[0].locator('#word').waitFor({timeout:15000});assert.ok(await phones[0].locator('#word').innerText());assert.equal(await host.locator('#word').count(),0);assert.equal(await host.locator('[data-act="yes"]').count(),0);
+ await phones[0].locator('#word').waitFor({timeout:15000});assert.ok(await phones[0].locator('#timer').evaluate(e=>e.getBoundingClientRect().top>=0),'turn starts at the top of the phone screen');assert.ok(await phones[0].locator('#word').innerText());assert.equal(await host.locator('#word').count(),0);assert.equal(await host.locator('[data-act="yes"]').count(),0);
  for(let i=1;i<4;i++){await phones[i].getByText('Тс-с… они угадывают!',{exact:true}).waitFor({timeout:15000});assert.equal(await phones[i].locator('#word').count(),0);}
  assert.equal(await host.locator('[data-start]').count(),4);assert.equal(await host.locator('[data-finish]').count(),4);assert.equal(await host.locator('.field').count(),30);
  const secret=await phones[0].locator('#word').innerText();const cardId=await phones[0].locator('[data-card-id]').getAttribute('data-card-id');

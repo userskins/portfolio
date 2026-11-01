@@ -530,3 +530,8 @@ html[data-studio-theme] .reader .case-preview-column .project-visual {
     margin-top: 36px;
   }
 }
+
+/* Small easter egg, away from the portfolio navigation. */
+.desk-bottomline .kroko-secret-entry { display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; margin-left:auto; font-size:18px; opacity:.26; filter:grayscale(1); text-decoration:none; pointer-events:auto; transition:opacity .2s,filter .2s; }
+.desk-bottomline .kroko-secret-entry:hover,.desk-bottomline .kroko-secret-entry:focus-visible { opacity:1; filter:none; }
+.desk-bottomline .kroko-secret-entry:focus-visible { outline:2px solid currentColor; outline-offset:2px; border-radius:6px; }

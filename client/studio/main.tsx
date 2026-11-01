@@ -387,7 +387,7 @@ function Studio() {
           </motion.div>
         </div>
       </div>
-      <div className="desk-bottomline"><span><span className="small-red-dot" />{small ? T.tapHint : T.hint}</span></div>
+      <div className="desk-bottomline"><span><span className="small-red-dot" />{small ? T.tapHint : T.hint}</span><a className="kroko-secret-entry" href={`${BASE}kroko/`} title="Игра для своих" aria-label="Открыть игру КРОКО">🐊</a></div>
     </main>
     <Dialog.Root open={view !== null} onOpenChange={value => { if (!value) setView(null); }}>
       <AnimatePresence>

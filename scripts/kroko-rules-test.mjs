@@ -1,0 +1,14 @@
+import assert from 'node:assert/strict';
+import {fresh,view,settle,CATEGORIES} from '../client/studio/public/kroko/rules.js';
+import {perform} from '../client/studio/public/kroko/network.js';
+const players=['host-123456789','blue-123456789','pink-123456789','green-123456789'];
+const s=fresh(players[0],CATEGORIES);assert.equal(s.deck.length,350);
+for(let i=0;i<4;i++)perform(s,players[i],{action:'join',team:i,name:'Команда '+i});
+assert.throws(()=>perform(s,'stranger-123456789',{action:'join',team:0}));
+assert.throws(()=>perform(s,players[1],{action:'launch'}));perform(s,players[0],{action:'launch'});
+assert.equal(s.phase,'ready');assert.throws(()=>perform(s,players[1],{action:'start'}));perform(s,players[0],{action:'start'});
+assert.ok(view(s,players[0]).card);assert.equal(view(s,players[1]).card,null);assert.equal(view(s,players[1]).deck,undefined);assert.equal(view(s,players[1]).host,undefined);assert.equal(view(s,players[1]).teams[0].owner,undefined);
+perform(s,players[0],{action:'yes',index:0});assert.equal(s.score,1);assert.throws(()=>perform(s,players[0],{action:'yes',index:0}));perform(s,players[0],{action:'skip',index:1});assert.equal(s.skips,1);
+s.end=Date.now()-1;settle(s);assert.equal(s.teams[0].pos,1);settle(s);assert.equal(s.teams[0].pos,1);assert.equal(s.phase,'result');perform(s,players[0],{action:'next'});assert.equal(s.turn,1);
+perform(s,players[1],{action:'start'});s.teams[1].pos=39;s.score=2;s.end=Date.now()-1;settle(s);assert.equal(s.phase,'winner');perform(s,players[0],{action:'reset'});assert.ok(s.teams.every(t=>t.pos===0));assert.equal(s.phase,'ready');
+console.log('PASS: 350 cards; four teams; authorization; private cards; duplicate clicks; timeout; turn rotation; winner; replay');

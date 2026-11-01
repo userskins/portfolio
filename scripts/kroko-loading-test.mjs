@@ -9,9 +9,9 @@ try{
  page.on('request',r=>requests.push(r.url()));
  await page.goto(base,{waitUntil:'load'});
  assert.ok(await page.locator('#create').isVisible(),'menu renders with connection assets blocked');
- assert.equal(await page.locator('.cat').count(),7);
+ assert.equal(await page.locator('.cat').count(),3);
  assert.ok(!(await page.locator('body').innerText()).includes('Error'));
- assert.equal(requests.filter(url=>/network\.js|rules\.js|peerjs\.min\.js/.test(url)).length,0,'landing requests no connection modules');
+ assert.equal(requests.filter(url=>/network\.js|rules\.js|cards-data\.js|peerjs\.min\.js/.test(url)).length,0,'landing requests no connection modules');
  await page.screenshot({path:'kroko-review/fast-mobile-menu.png',fullPage:true});
  await page.locator('#create').click();await page.locator('#err').waitFor();assert.match(await page.locator('#err').innerText(),/модуль комнаты/);
  assert.ok(await page.locator('#create').isEnabled(),'failed module download leaves retryable controls');

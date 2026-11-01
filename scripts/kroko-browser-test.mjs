@@ -18,9 +18,21 @@ try{
  await host.getByText('НАЧАТЬ ИГРУ · 4/4',{exact:true}).waitFor({timeout:15000});await host.locator('[data-act="launch"]').click();await host.locator('[data-act="start"]').click();
  await phones[0].locator('#word').waitFor({timeout:15000});assert.ok(await phones[0].locator('#word').innerText());assert.equal(await host.locator('#word').count(),0);assert.equal(await host.locator('[data-act="yes"]').count(),0);
  for(let i=1;i<4;i++){await phones[i].getByText('Тс-с… они угадывают!',{exact:true}).waitFor({timeout:15000});assert.equal(await phones[i].locator('#word').count(),0);}
- await phones[0].locator('[data-act="yes"]').click();await host.waitForFunction(()=>document.querySelector('.host-score')?.textContent.trim().startsWith('1'),{timeout:15000});
+ assert.equal(await host.locator('[data-start]').count(),4);assert.equal(await host.locator('[data-finish]').count(),4);assert.equal(await host.locator('.field').count(),30);
+ const secret=await phones[0].locator('#word').innerText();const cardId=await phones[0].locator('[data-card-id]').getAttribute('data-card-id');
  await fs.mkdir('kroko-review',{recursive:true});await host.screenshot({path:'kroko-review/tv-playing.png',fullPage:true});await phones[0].screenshot({path:'kroko-review/phone-secret-card.png',fullPage:true});
- await host.getByText('МИНУТА ЗАКОНЧИЛАСЬ',{exact:true}).waitFor({timeout:70000});await host.locator('[data-act="next"]').click();await phones[1].locator('[data-act="start"]').waitFor({timeout:15000});
- console.log('PASS: separate TV/desktop display + four phones; manual room code; all clients with WebRTC disabled; dual port-443 relay with different channels blocked per phone; private cards; score; 60-second timer; next team');
+ await phones[0].locator('[data-act="yes"]').click();await host.getByText('КАРТОЧКА УГАДАНА',{exact:true}).waitFor({timeout:15000});assert.equal(await phones[0].locator('#word').count(),0);assert.ok(!(await host.locator('body').innerText()).includes(secret));assert.match(await host.locator('.result-score').innerText(),/^\+5/);
+ // Three skipped turns return to the red team's new drawing field.
+ for(let i=1;i<4;i++){
+  await host.locator('[data-act="next"]').click();await phones[i].locator('[data-act="start"]').waitFor({timeout:15000});await phones[i].locator('[data-act="start"]').click();await phones[i].locator('#word').waitFor({timeout:15000});
+  assert.notEqual(await phones[i].locator('[data-card-id]').getAttribute('data-card-id'),cardId);
+  await phones[i].locator('[data-act="skip"]').click();await host.getByText('КАРТОЧКА ПРОПУЩЕНА',{exact:true}).waitFor({timeout:15000});assert.equal(await phones[i].locator('#word').count(),0);
+ }
+ await host.locator('[data-act="next"]').click();await phones[0].locator('[data-act="start"]').waitFor({timeout:15000});await phones[0].locator('[data-act="start"]').click();await phones[0].locator('canvas').waitFor({timeout:15000});
+ assert.notEqual(await phones[0].locator('[data-card-id]').getAttribute('data-card-id'),cardId);assert.equal(await host.locator('canvas').count(),0);assert.equal(await host.locator('#word').count(),0);
+ await phones[0].locator('#hideword').click();assert.equal(await phones[0].locator('#word').innerText(),'••••••');await phones[0].locator('#hideword').click();
+ await phones[0].screenshot({path:'kroko-review/phone-drawing.png',fullPage:true});await host.screenshot({path:'kroko-review/tv-four-routes.png',fullPage:true});
+ await host.getByText('МИНУТА ЗАКОНЧИЛАСЬ',{exact:true}).waitFor({timeout:70000});assert.match(await host.locator('.result-score').innerText(),/^\+0/);await host.locator('[data-act="next"]').click();await phones[1].locator('[data-act="start"]').waitFor({timeout:15000});
+ console.log('PASS: TV + four isolated phones; two independent port-443 relays; 4 starts/finishes and 30 fields; one secret card per turn; correct value movement; immediate results; skipped card retirement; drawing canvas and hide control; real 60-second timeout; next team');
 }catch(e){await fs.mkdir('kroko-review',{recursive:true});for(let i=0;i<contexts.length;i++){const p=contexts[i].pages()[0];if(p)await p.screenshot({path:'kroko-review/failure-'+i+'.png',fullPage:true}).catch(()=>{});}throw e;
 }finally{await Promise.all(contexts.map(c=>c.close()));await browser.close();}

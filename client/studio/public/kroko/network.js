@@ -1,13 +1,13 @@
-import {CATEGORIES,fresh,settle,view,next} from './rules.js';
+import {fresh,settle,view,next,start,finish} from './rules.js?v=board3';
 import {BROKERS,RoomRelay} from './relay.js?v=443v2';
 let current=null,generation=0,wakeLock=null;
 const pending=new Map(),seen=new Map();
 const randomId=()=>Array.from(crypto.getRandomValues(new Uint8Array(12)),n=>n.toString(16).padStart(2,'0')).join('');
-const root=room=>'kroko/portfolio/443v2/'+room+'/';
+const root=room=>'kroko/portfolio/board3/'+room+'/';
 function notify(message){if(typeof window!=='undefined')window.dispatchEvent(new CustomEvent('kroko-connection',{detail:message}));}
 function readyPaths(s=current){return s?[...s.paths.values()].filter(p=>p.ready&&p.subscribed):[];}
-function save(){if(current?.host)try{localStorage.setItem('kroko-443-host-'+current.room,JSON.stringify(current.game))}catch(e){}}
-function hostResult(token,body){const s=current.game;if(Date.now()-s.created>86400000)throw Error('Комната устарела. Создайте новую.');const before=s.phase;settle(s);let changed=before!==s.phase;if(changed)s.revision++;if(body){perform(s,token,body);changed=true}if(changed)save();return {code:current.room,state:view(s,token)};}
+function save(){if(current?.host)try{localStorage.setItem('kroko-board3-host-'+current.room,JSON.stringify(current.game))}catch(e){}}
+function hostResult(token,body){const s=current.game;if(Date.now()-s.created>86400000)throw Error('Комната устарела. Создайте новую.');const before=s.phase;settle(s);let changed=before!==s.phase;if(changed){s.revision++;save()}if(body){perform(s,token,body);changed=true}if(changed)save();return {code:current.room,state:view(s,token)};}
 function receive(topic,m,relay){
  if(!current||!m||typeof m.id!=='string')return;
  if(current.host){
@@ -36,7 +36,7 @@ async function connectSession(){
 }
 async function openSession(room,token,initial){
  if(current?.room===room&&current.token===token){await connectSession();return}
- closeRoom();let stored=null;try{stored=JSON.parse(localStorage.getItem('kroko-443-host-'+room))}catch(e){}
+ closeRoom();let stored=null;try{stored=JSON.parse(localStorage.getItem('kroko-board3-host-'+room))}catch(e){}
  const host=!!initial||stored?.host===token;current={room,token,host,game:initial||(host?stored:null),paths:new Map(),connecting:new Map(),heartbeat:null};
  await connectSession();if(host){save();current.heartbeat=setInterval(()=>{if(current?.host)hostResult(current.token)},500);await keepAwake();}
 }
@@ -55,9 +55,8 @@ async function verifyRoute(){
 }
 export async function roomRequest(path,token,body){
  if(path==='/api/create'){
-  const cats=body?.cats?.filter(c=>CATEGORIES.includes(c))||CATEGORIES;if(!cats.length)throw Error('Выберите хотя бы одну тему');
   const alphabet='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';const room='S'+Array.from(crypto.getRandomValues(new Uint8Array(5)),v=>alphabet[v%32]).join('');
-  const game=fresh(token,cats);game.displayHost=true;try{await openSession(room,token,game);await verifyRoute();return hostResult(token)}catch(e){closeRoom();throw e;}
+  const game=fresh(token);game.displayHost=true;try{await openSession(room,token,game);await verifyRoute();return hostResult(token)}catch(e){closeRoom();throw e;}
  }
  const room=new URL(path,location.href).searchParams.get('room')?.toUpperCase();
  if(!/^S[A-Z2-9]{5}$/.test(room||''))throw Error('Создайте новую комнату в обновлённой игре и введите её код из 6 символов');
@@ -81,13 +80,13 @@ export function perform(s,token,b){
  }else if(b.action==='launch'&&isHost&&s.phase==='lobby'){
   const joined=s.teams.filter(t=>t.owner);if(joined.length<2)throw Error('Нужно минимум две команды на разных телефонах');
   s.teams=joined;s.phase='ready';
- }else if(b.action==='start'&&(active||(isHost&&s.displayHost))&&s.phase==='ready'){s.phase='playing';s.end=Date.now()+60000;}
+ }else if(b.action==='start'&&(active||(isHost&&s.displayHost))&&s.phase==='ready')start(s);
  else if(['yes','skip'].includes(b.action)&&active&&s.phase==='playing'){
   if(b.index!==s.index)throw Error('Карточка уже сменилась');
-  if(b.action==='yes')s.score++;else s.skips++;
-  s.index++;s.used++;if(s.index>=s.deck.length){s.deck.sort(()=>Math.random()-.5);s.index=0;}
+  if(Date.now()>=s.end){settle(s);throw Error('Время уже вышло')}
+  finish(s,b.action);
  }else if(b.action==='next'&&(active||isHost)&&s.phase==='result')next(s);
- else if(b.action==='reset'&&isHost){s.teams.forEach(t=>t.pos=0);s.turn=0;s.round=1;s.score=0;s.skips=0;s.phase='ready';s.index=0;s.deck.sort(()=>Math.random()-.5);s.history=[];}
+ else if(b.action==='reset'&&isHost){s.teams.forEach(t=>t.pos=0);s.turn=0;s.round=1;s.score=0;s.skips=0;s.phase='ready';s.task=null;s.activeCard=null;s.outcome=null;s.end=0;s.history=[];}
  else throw Error('Сейчас это действие недоступно');
  s.revision++;
 }

@@ -34,4 +34,15 @@ jobs:
               if any(v in n.lower() for v in ['public_html','userskin','www']):
                   print('SITE_DIRECTORY',n)
           ftp.quit()
+
+          import urllib.request,urllib.error
+          for host_name in ['userskins.site','usersksite.temp.swtest.ru']:
+              try: print('PUBLIC_DNS',host_name,socket.gethostbyname(host_name))
+              except Exception as e: print('PUBLIC_DNS_ERROR',host_name,repr(e))
+              for scheme in ['https','http']:
+                  url=scheme+'://'+host_name+'/kroko/api.php?op=health'
+                  try:
+                      with urllib.request.urlopen(url,timeout=12) as response:
+                          print('PUBLIC_HEALTH',url,response.status,response.read(150).decode())
+                  except Exception as e: print('PUBLIC_HEALTH_ERROR',url,repr(e))
           PY

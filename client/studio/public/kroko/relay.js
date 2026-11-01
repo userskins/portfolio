@@ -1,16 +1,16 @@
 // MQTT 3.1.1 over secure WebSocket: small room-message relay, no UDP or LAN discovery.
-export const BROKERS={E:'wss://broker.emqx.io:8084/mqtt',H:'wss://broker.hivemq.com:8884/mqtt'};
+export const BROKERS={S:{url:'wss://public.cloud.shiftr.io',username:'public',password:'public'},T:{url:'wss://demo.tbmq.io/mqtt',username:'demo'}};
 const encoder=new TextEncoder(),decoder=new TextDecoder();
 const str=s=>{const b=encoder.encode(s);return [b.length>>8,b.length&255,...b]};
 function packet(type,body){let n=body.length,out=[type];do{let b=n%128;n=Math.floor(n/128);if(n)b|=128;out.push(b)}while(n);return new Uint8Array([...out,...body])}
 export class RoomRelay{
- constructor(url,{onMessage=()=>{},onClose=()=>{}}={}){this.url=url;this.onMessage=onMessage;this.onClose=onClose;this.ws=null;this.seq=0;this.acks=new Map();this.buffer=new Uint8Array();this.ping=null;this.ready=false;this.lastPacket=0;}
+ constructor(config,{onMessage=()=>{},onClose=()=>{}}={}){this.config=typeof config==='string'?{url:config}:config;this.url=this.config.url;this.onMessage=onMessage;this.onClose=onClose;this.ws=null;this.seq=0;this.acks=new Map();this.buffer=new Uint8Array();this.ping=null;this.ready=false;this.lastPacket=0;}
  async connect(){
   return new Promise((resolve,reject)=>{
    let finished=false;const timer=setTimeout(()=>finish(Error('Сервис комнат не отвечает. Проверьте интернет.')),10000);
    const finish=error=>{if(finished)return;finished=true;clearTimeout(timer);if(error){this.close();reject(error)}else resolve(this)};
    try{this.ws=new WebSocket(this.url,'mqtt')}catch(e){finish(e);return}this.ws.binaryType='arraybuffer';
-   this.ws.onopen=()=>{const id='kroko-'+Array.from(crypto.getRandomValues(new Uint8Array(12)),n=>n.toString(16).padStart(2,'0')).join('');this.send(0x10,[...str('MQTT'),4,2,0,30,...str(id)]);};
+   this.ws.onopen=()=>{const id='kroko-'+Array.from(crypto.getRandomValues(new Uint8Array(12)),n=>n.toString(16).padStart(2,'0')).join('');const {username,password}=this.config;let flags=2,payload=[...str(id)];if(username!==undefined){flags|=128;payload.push(...str(username))}if(password!==undefined){flags|=64;payload.push(...str(password))}this.send(0x10,[...str('MQTT'),4,flags,0,30,...payload]);};
    this.ws.onmessage=e=>{
     try{this.lastPacket=Date.now();const bytes=new Uint8Array(e.data);const joined=new Uint8Array(this.buffer.length+bytes.length);joined.set(this.buffer);joined.set(bytes,this.buffer.length);this.buffer=joined;
      while(this.buffer.length>1){let size=0,mul=1,i=1,b;do{if(i>=this.buffer.length)return;b=this.buffer[i++];size+=(b&127)*mul;mul*=128;if(i>5)throw Error('Invalid MQTT frame')}while(b&128);

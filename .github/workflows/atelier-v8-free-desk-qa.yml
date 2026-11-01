@@ -76,7 +76,7 @@ jobs:
 
       - name: Test fixed layout, project navigation and material interactions
         run: |
-          php -S 127.0.0.1:4173 -t dist > /tmp/atelier-v8-http.log 2>&1 &
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory dist > /tmp/atelier-v8-http.log 2>&1 &
           sleep 2
           node scripts/studio-test.mjs
           node scripts/atelier-test.mjs

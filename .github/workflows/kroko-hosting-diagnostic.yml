@@ -1,0 +1,37 @@
+name: Diagnose KROKO SpaceWeb HTTPS hosting
+on:
+  push:
+    branches: [feature/free-rotate-desk]
+    paths: [.github/workflows/kroko-hosting-diagnostic.yml]
+permissions:
+  contents: read
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check saved hosting connection without changing files
+        env:
+          FTP_HOST: ${{ secrets.SWEB_FTP_HOST }}
+          FTP_USER: ${{ secrets.SWEB_FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.SWEB_FTP_PASSWORD }}
+        run: |
+          python3 - <<'PY'
+          import os,sys,ssl,ftplib,socket,subprocess
+          host=os.environ.get('FTP_HOST','')
+          if not all(os.environ.get(k) for k in ['FTP_HOST','FTP_USER','FTP_PASSWORD']):
+              print('HOSTING_CREDENTIALS_MISSING')
+              sys.exit(1)
+          result=subprocess.run(['openssl','s_client','-starttls','ftp','-connect',host+':21','-servername',host,'-showcerts'],input=b'',capture_output=True,timeout=15)
+          cert=subprocess.run(['openssl','x509','-noout','-subject','-ext','subjectAltName'],input=result.stdout,capture_output=True)
+          print(cert.stdout.decode())
+          ftp=ftplib.FTP_TLS(context=ssl.create_default_context(),timeout=20)
+          ftp.connect(host,21)
+          ftp.login(os.environ['FTP_USER'],os.environ['FTP_PASSWORD'])
+          ftp.prot_p()
+          print('HOSTING_TLS_LOGIN_OK')
+          print('ROOT',ftp.pwd())
+          for n in ftp.nlst():
+              if any(v in n.lower() for v in ['public_html','userskin','www']):
+                  print('SITE_DIRECTORY',n)
+          ftp.quit()
+          PY

@@ -37,8 +37,8 @@ jobs:
       - name: Download existing verified genuine artworks and public-site previews
         uses: actions/download-artifact@v4
         with:
-          name: atelier-v7-featured-dist
-          run-id: 39782463189
+          name: atelier-v8-free-desk-dist
+          run-id: 40483951970
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path: original-portfolio-assets
 

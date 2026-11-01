@@ -12,3 +12,10 @@ perform(s,players[0],{action:'yes',index:0});assert.equal(s.score,1);assert.thro
 s.end=Date.now()-1;settle(s);assert.equal(s.teams[0].pos,1);settle(s);assert.equal(s.teams[0].pos,1);assert.equal(s.phase,'result');perform(s,players[0],{action:'next'});assert.equal(s.turn,1);
 perform(s,players[1],{action:'start'});s.teams[1].pos=39;s.score=2;s.end=Date.now()-1;settle(s);assert.equal(s.phase,'winner');perform(s,players[0],{action:'reset'});assert.ok(s.teams.every(t=>t.pos===0));assert.equal(s.phase,'ready');
 console.log('PASS: 350 cards; four teams; authorization; private cards; duplicate clicks; timeout; turn rotation; winner; replay');
+const tv=fresh(players[0],CATEGORIES);tv.displayHost=true;
+assert.throws(()=>perform(tv,players[0],{action:'join',team:0}));
+perform(tv,players[1],{action:'join',team:0});perform(tv,players[2],{action:'join',team:1});
+perform(tv,players[0],{action:'launch'});perform(tv,players[0],{action:'start'});
+assert.equal(view(tv,players[0]).myTeam,-1);assert.equal(view(tv,players[0]).card,null);assert.ok(view(tv,players[1]).card);
+assert.throws(()=>perform(tv,players[0],{action:'yes',index:0}));
+console.log('PASS: dedicated host has no team or card; host starts round; only active phone scores');

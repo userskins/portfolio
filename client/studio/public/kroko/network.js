@@ -60,14 +60,27 @@ function startPeer(room,token,initial){
  });
  });return opening;
 }
+let peerLibraryPromise=null;
+async function loadPeerLibrary(){
+ if(window.Peer)return;
+ if(!peerLibraryPromise)peerLibraryPromise=new Promise((resolve,reject)=>{
+  const script=document.createElement('script');script.src=new URL('./vendor/peerjs.min.js',import.meta.url).href;script.async=true;
+  const timer=setTimeout(()=>{script.remove();reject(Error('Модуль связи загружается слишком долго. Проверьте интернет и повторите.'));},15000);
+  script.onload=()=>{clearTimeout(timer);window.Peer?resolve():reject(Error('Модуль связи не запустился. Обновите страницу.'));};
+  script.onerror=()=>{clearTimeout(timer);script.remove();reject(Error('Не загрузился модуль связи. Проверьте интернет и повторите.'));};
+  document.head.append(script);
+ }).catch(e=>{peerLibraryPromise=null;throw e;});
+ return peerLibraryPromise;
+}
 export async function roomRequest(path,token,body){
  if(path==='/api/create'){
   const cats=body?.cats?.filter(c=>CATEGORIES.includes(c))||CATEGORIES;if(!cats.length)throw Error('Выберите хотя бы одну тему');
   const alphabet='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';const room=Array.from(crypto.getRandomValues(new Uint8Array(6)),v=>alphabet[v%32]).join('');
-  await startPeer(room,token,fresh(token,cats));return result(token);
+  await loadPeerLibrary();await startPeer(room,token,fresh(token,cats));return result(token);
  }
  const room=new URL(path,location.href).searchParams.get('room')?.toUpperCase();
  if(!/^[A-Z2-9]{6}$/.test(room||''))throw Error('Нужен код комнаты из 6 символов');
+ await loadPeerLibrary();
  if(room!==code||!opening||(!host&&!conn?.open)||peer?.destroyed)await startPeer(room,token);
  else await opening;
  if(host)return hostRequest(token,body);

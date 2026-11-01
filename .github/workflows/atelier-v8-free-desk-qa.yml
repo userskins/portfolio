@@ -88,6 +88,7 @@ jobs:
           node scripts/gallery-cover-test.mjs
           node scripts/site-refinement-test.mjs
           node scripts/email-local-preview-test.mjs
+          node scripts/kroko-loading-test.mjs
           node scripts/kroko-browser-test.mjs
 
       - name: Upload screenshot visual reviews

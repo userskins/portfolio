@@ -56,6 +56,9 @@ html[data-studio-theme="tech"] .reader .original-link {
   min-height: 44px;
 }
 .reader .original-link:focus-visible { outline-offset: 3px; }
+html[data-studio-theme="tech"] .reader .original-link:hover {
+  background: #14263b;
+}
 
 /* Interface status is real text, not a watermark. Tiny labels printed
  * directly on miniature props are intentionally left untouched. */

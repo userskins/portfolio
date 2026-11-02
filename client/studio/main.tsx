@@ -348,7 +348,7 @@ function Studio() {
     <StudioCursor disabled={small || Boolean(reduced) || view !== null} />
     <svg className="noise-filter" aria-hidden="true"><filter id="paper-grain"><feTurbulence type="fractalNoise" baseFrequency=".76" numOctaves="3" stitchTiles="stitch" /></filter></svg>
     <div className="paper-grain" aria-hidden="true" />
-    <a href="#studio-navigation" className="skip-link">{T.work}</a>
+    <a href="#studio-navigation" className="skip-link">К навигации</a>
     <aside className="identity-rail">
       <div className="eyebrow">ДИЗАЙНЕР / СОЗДАЮ И ИССЛЕДУЮ</div>
       <button className="name-sticker" onClick={() => open(null)} aria-label={T.desk}><img src={nameSticker} alt="Dmitriy Gusev" draggable={false} /></button>

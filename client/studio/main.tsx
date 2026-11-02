@@ -18,6 +18,7 @@ import './desk-artifacts.css';
 import './artifacts-polish.css';
 import './mobile-layout-polish.css';
 import './site-refinement.css';
+import './unslop-polish.css';
 import { StudioCursor } from './StudioCursor';
 
 type Category = Project['tag'];
@@ -29,7 +30,7 @@ const T = {
   intro: 'Дизайн. Сайты. CRM.', hint: 'Нажми на предмет, чтобы открыть раздел.',
   tapHint: 'Нажми на предмет, чтобы открыть раздел.', preview: 'Предпросмотр сайта',
   noPreview: 'Превью недоступно. Оригинал — по ссылке.', idea: 'Есть идея?', letsTalk: 'Давай обсудим.',
-  realWork: 'Проекты и работы из моего архива.',
+  realWork: 'Дизайн, сайты, email/CRM и анимация.',
 };
 const folders: { id: Category; name: string; label: string; }[] = [
   { id: 'design', name: 'DESIGN', label: 'Дизайн' },
@@ -83,14 +84,15 @@ function Binder({ category, number, onOpen }: { category: Category; number: stri
 /** One changing print on the desk, not another carousel.
  *  A random real gallery image appears on each visit and fades to a different one every few seconds. */
 function GalleryDeskCover({ active }: { active: boolean }) {
+  const reduceMotion = useReducedMotion();
   const [index, setIndex] = useState(() => Math.floor(Math.random() * uniqueGallery.length));
   const preview = uniqueGallery[index] ?? uniqueGallery[0];
 
   useEffect(() => {
-    if (!active || uniqueGallery.length < 2) return;
+    if (!active || reduceMotion || uniqueGallery.length < 2) return;
     const timer = window.setInterval(() => setIndex(current => randomOtherIndex(current, uniqueGallery.length)), GALLERY_COVER_INTERVAL_MS);
     return () => window.clearInterval(timer);
-  }, [active]);
+  }, [active, reduceMotion]);
 
   const src = preview.id > 69 ? preview.src : art(preview.id === 41 ? 42 : preview.id);
   return <span className="print-image" data-testid="gallery-desk-cover" data-gallery-image-id={preview.id}>
@@ -342,15 +344,16 @@ function Studio() {
     return () => window.removeEventListener('keydown', handler);
   }, [view]);
   return <div className="studio-shell atelier-shell" data-theme="tech">
+    <h1 className="studio-sr-only">Дмитрий Гусев — портфолио: дизайн, сайты и email/CRM</h1>
     <StudioCursor disabled={small || Boolean(reduced) || view !== null} />
     <svg className="noise-filter" aria-hidden="true"><filter id="paper-grain"><feTurbulence type="fractalNoise" baseFrequency=".76" numOctaves="3" stitchTiles="stitch" /></filter></svg>
     <div className="paper-grain" aria-hidden="true" />
-    <a href="#studio-navigation" className="skip-link">{T.work}</a>
+    <a href="#studio-navigation" className="skip-link">К навигации</a>
     <aside className="identity-rail">
       <div className="eyebrow">ДИЗАЙНЕР / СОЗДАЮ И ИССЛЕДУЮ</div>
       <button className="name-sticker" onClick={() => open(null)} aria-label={T.desk}><img src={nameSticker} alt="Dmitriy Gusev" draggable={false} /></button>
       <p className="intro-line">{T.intro}<br /><span>В дизайне с 2020-го. Ищу новое.</span></p><span className="red-underline" />
-      <nav id="studio-navigation" className="rail-nav" aria-label="Portfolio navigation">
+      <nav id="studio-navigation" className="rail-nav" aria-label="Навигация по портфолио">
         {([{ title: T.desk, value: null }, { title: T.work, value: 'all' }, { title: T.gallery, value: 'gallery' }, { title: T.about, value: 'about' }, { title: T.contact, value: 'contact' }] as { title: string; value: View }[]).map((item, i) => <button key={i} onClick={() => open(item.value)} aria-current={view === item.value ? 'page' : undefined}><span>{String(i + 1).padStart(2, '0')}</span>{item.title}<ArrowUpRight size={14} /></button>)}
       </nav>
       <div className="rail-bottom"><p className="rail-note"><span className="rail-note-first">Идеи не сидят</span><span className="rail-note-second">на месте.</span></p><div className="social-links"><a href="https://t.me/userskins" target="_blank" rel="noopener noreferrer">TG <ArrowUpRight size={11} /></a><a href="https://vk.com/userskins" target="_blank" rel="noopener noreferrer">VK <ArrowUpRight size={11} /></a><a href="mailto:userskins@gmail.com">MAIL <ArrowUpRight size={11} /></a></div></div>
@@ -395,7 +398,7 @@ function Studio() {
           <Dialog.Overlay forceMount asChild><motion.div className="reader-backdrop" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: reduced ? 0 : .4 }} /></Dialog.Overlay>
           <Dialog.Content forceMount asChild aria-describedby="reader-description" onKeyDown={e => { if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return; if (e.key === 'ArrowRight') { e.preventDefault(); navigate(1); } if (e.key === 'ArrowLeft') { e.preventDefault(); navigate(-1); } }}>
             <motion.section className={`reader reader-${view}`} initial={reduced ? false : { opacity: 0, y: 110, rotate: -2 }} animate={{ opacity: 1, y: 0, rotate: 0 }} exit={{ opacity: 0, y: 85, rotate: 1 }} transition={{ duration: reduced ? 0 : .48, ease: [.22, 1, .36, 1] }}>
-              <div className="reader-top"><Dialog.Close className="back-to-desk"><ArrowLeft size={17} />{T.back}</Dialog.Close><span>НАСТОЯЩИЕ РАБОТЫ / НИКАКИХ ШАБЛОНОВ</span><Dialog.Close className="close-reader" aria-label={T.back}><X size={25} /></Dialog.Close></div>
+              <div className="reader-top"><Dialog.Close className="back-to-desk"><ArrowLeft size={17} />{T.back}</Dialog.Close><span>АРХИВ РАБОТ / ДИЗАЙН И КОММУНИКАЦИИ</span><Dialog.Close className="close-reader" aria-label={T.back}><X size={25} /></Dialog.Close></div>
               <div className="reader-heading"><Dialog.Title>{title}<span className="hand-star">*</span></Dialog.Title><Dialog.Description id="reader-description">{T.realWork}</Dialog.Description></div>
               {active && <div className="project-filter-bar" aria-label="Фильтры проектов">
                 <span className="filter-bar-caption">НАПРАВЛЕНИЯ / ВЫБЕРИ КАТЕГОРИЮ</span>

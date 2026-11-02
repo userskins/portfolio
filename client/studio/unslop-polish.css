@@ -1,0 +1,110 @@
+/* Unslop audit polish — 2026-11-02.
+ * Preserve the authored silver-blue Tech desk, handmade objects and bright-red
+ * artwork. Adjust only legibility, keyboard feedback and control density.
+ * Principles: Damir Sokolovsky's Unslop (CC BY 4.0),
+ * https://github.com/heydamir/unslop
+ */
+
+/* Pure red remains a MATERIAL color. Darker red is used only for small UI text
+ * on the light paper so selection and navigation remain readable. */
+html[data-studio-theme="tech"] {
+  --red-ink: #c30d21;
+}
+.atelier-shell .rail-nav button:hover,
+.atelier-shell .rail-nav button[aria-current],
+.atelier-shell .social-links a:hover,
+.reader .case-files > button:hover,
+.reader .case-files > button[aria-pressed="true"],
+.reader .case-files > button[aria-pressed="true"] > span:first-child,
+.reader .contact-options > a:hover {
+  color: var(--red-ink, #c30d21);
+}
+
+/* Reader content comes first, but retains its monospaced and handwritten voice. */
+.reader .reader-top > span { font-size: 10px; letter-spacing: .03em; }
+.reader .reader-heading p { font-size: 12px; line-height: 1.6; max-width: 240px; }
+.reader .filter-bar-caption {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .02em;
+}
+.reader .project-filter-options button {
+  min-height: 44px;
+  padding: 10px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+.reader .project-filter-options button span { font-size: 10px; }
+.reader .project-filter-options button:focus-visible {
+  outline: 2px solid var(--red-ink, #c30d21);
+  outline-offset: 3px;
+  box-shadow: none;
+}
+.reader .index-label { font-size: 11px; letter-spacing: .04em; }
+.reader .case-files small { font-size: 11px; line-height: 1.5; }
+.reader .case-files > button > span:first-child { font-size: 11px; }
+.reader .case-files > button { padding-block: 15px; }
+.reader .proof-meta,
+.reader .proof-bottom { font-size: 10px; letter-spacing: .02em; }
+.reader .experience-sheet ul { font-size: 12px; line-height: 1.6; }
+.reader .contact-options > a span { font-size: 11px; line-height: 1.4; }
+html[data-studio-theme="tech"] .reader .original-link {
+  background: var(--red-ink);
+  color: #fff;
+  font-size: 12px;
+  min-height: 44px;
+}
+.reader .original-link:focus-visible { outline-offset: 3px; }
+html[data-studio-theme="tech"] .reader .original-link:hover {
+  background: #14263b;
+}
+
+/* Interface status is real text, not a watermark. Tiny labels printed
+ * directly on miniature props are intentionally left untouched. */
+.atelier-shell .desk-topline .atelier-hover-status {
+  font-size: 10px;
+  letter-spacing: .01em;
+}
+.atelier-shell .desk-bottomline { font-size: 10px; letter-spacing: 0; }
+.atelier-shell .rail-nav button { font-size: 12px; }
+
+/* A visible heading for assistive technology, without adding a second
+ * visible logo or interrupting the desk composition. */
+.studio-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+@media (max-width: 900px) {
+  .atelier-shell .rail-nav button {
+    min-height: 44px;
+    font-size: 11px;
+  }
+  .atelier-shell .desk-topline .atelier-hover-status {
+    font-size: 10px;
+  }
+  .reader .project-filter-options button {
+    min-height: 44px;
+    padding: 9px 11px;
+    font-size: 11px;
+  }
+  .reader .case-files small { font-size: 11px; }
+}
+@media (max-width: 420px) {
+  .reader .project-filter-options { gap: 8px; }
+  .reader .project-filter-options button {
+    font-size: 11px;
+    padding: 9px 10px;
+  }
+  .reader .filter-bar-caption { font-size: 10px; }
+  .reader .case-controls .original-link { font-size: 11px; }
+}

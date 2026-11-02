@@ -83,14 +83,15 @@ function Binder({ category, number, onOpen }: { category: Category; number: stri
 /** One changing print on the desk, not another carousel.
  *  A random real gallery image appears on each visit and fades to a different one every few seconds. */
 function GalleryDeskCover({ active }: { active: boolean }) {
+  const reduceMotion = useReducedMotion();
   const [index, setIndex] = useState(() => Math.floor(Math.random() * uniqueGallery.length));
   const preview = uniqueGallery[index] ?? uniqueGallery[0];
 
   useEffect(() => {
-    if (!active || uniqueGallery.length < 2) return;
+    if (!active || reduceMotion || uniqueGallery.length < 2) return;
     const timer = window.setInterval(() => setIndex(current => randomOtherIndex(current, uniqueGallery.length)), GALLERY_COVER_INTERVAL_MS);
     return () => window.clearInterval(timer);
-  }, [active]);
+  }, [active, reduceMotion]);
 
   const src = preview.id > 69 ? preview.src : art(preview.id === 41 ? 42 : preview.id);
   return <span className="print-image" data-testid="gallery-desk-cover" data-gallery-image-id={preview.id}>
@@ -342,6 +343,7 @@ function Studio() {
     return () => window.removeEventListener('keydown', handler);
   }, [view]);
   return <div className="studio-shell atelier-shell" data-theme="tech">
+    <h1 className="studio-sr-only">Дмитрий Гусев — портфолио: дизайн, сайты и email/CRM</h1>
     <StudioCursor disabled={small || Boolean(reduced) || view !== null} />
     <svg className="noise-filter" aria-hidden="true"><filter id="paper-grain"><feTurbulence type="fractalNoise" baseFrequency=".76" numOctaves="3" stitchTiles="stitch" /></filter></svg>
     <div className="paper-grain" aria-hidden="true" />
@@ -350,7 +352,7 @@ function Studio() {
       <div className="eyebrow">ДИЗАЙНЕР / СОЗДАЮ И ИССЛЕДУЮ</div>
       <button className="name-sticker" onClick={() => open(null)} aria-label={T.desk}><img src={nameSticker} alt="Dmitriy Gusev" draggable={false} /></button>
       <p className="intro-line">{T.intro}<br /><span>В дизайне с 2020-го. Ищу новое.</span></p><span className="red-underline" />
-      <nav id="studio-navigation" className="rail-nav" aria-label="Portfolio navigation">
+      <nav id="studio-navigation" className="rail-nav" aria-label="Навигация по портфолио">
         {([{ title: T.desk, value: null }, { title: T.work, value: 'all' }, { title: T.gallery, value: 'gallery' }, { title: T.about, value: 'about' }, { title: T.contact, value: 'contact' }] as { title: string; value: View }[]).map((item, i) => <button key={i} onClick={() => open(item.value)} aria-current={view === item.value ? 'page' : undefined}><span>{String(i + 1).padStart(2, '0')}</span>{item.title}<ArrowUpRight size={14} /></button>)}
       </nav>
       <div className="rail-bottom"><p className="rail-note"><span className="rail-note-first">Идеи не сидят</span><span className="rail-note-second">на месте.</span></p><div className="social-links"><a href="https://t.me/userskins" target="_blank" rel="noopener noreferrer">TG <ArrowUpRight size={11} /></a><a href="https://vk.com/userskins" target="_blank" rel="noopener noreferrer">VK <ArrowUpRight size={11} /></a><a href="mailto:userskins@gmail.com">MAIL <ArrowUpRight size={11} /></a></div></div>

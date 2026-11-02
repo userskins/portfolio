@@ -18,6 +18,7 @@ import './desk-artifacts.css';
 import './artifacts-polish.css';
 import './mobile-layout-polish.css';
 import './site-refinement.css';
+import './unslop-polish.css';
 import { StudioCursor } from './StudioCursor';
 
 type Category = Project['tag'];
@@ -29,7 +30,7 @@ const T = {
   intro: 'Дизайн. Сайты. CRM.', hint: 'Нажми на предмет, чтобы открыть раздел.',
   tapHint: 'Нажми на предмет, чтобы открыть раздел.', preview: 'Предпросмотр сайта',
   noPreview: 'Превью недоступно. Оригинал — по ссылке.', idea: 'Есть идея?', letsTalk: 'Давай обсудим.',
-  realWork: 'Проекты и работы из моего архива.',
+  realWork: 'Дизайн, сайты, email/CRM и анимация.',
 };
 const folders: { id: Category; name: string; label: string; }[] = [
   { id: 'design', name: 'DESIGN', label: 'Дизайн' },
@@ -397,7 +398,7 @@ function Studio() {
           <Dialog.Overlay forceMount asChild><motion.div className="reader-backdrop" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: reduced ? 0 : .4 }} /></Dialog.Overlay>
           <Dialog.Content forceMount asChild aria-describedby="reader-description" onKeyDown={e => { if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return; if (e.key === 'ArrowRight') { e.preventDefault(); navigate(1); } if (e.key === 'ArrowLeft') { e.preventDefault(); navigate(-1); } }}>
             <motion.section className={`reader reader-${view}`} initial={reduced ? false : { opacity: 0, y: 110, rotate: -2 }} animate={{ opacity: 1, y: 0, rotate: 0 }} exit={{ opacity: 0, y: 85, rotate: 1 }} transition={{ duration: reduced ? 0 : .48, ease: [.22, 1, .36, 1] }}>
-              <div className="reader-top"><Dialog.Close className="back-to-desk"><ArrowLeft size={17} />{T.back}</Dialog.Close><span>НАСТОЯЩИЕ РАБОТЫ / НИКАКИХ ШАБЛОНОВ</span><Dialog.Close className="close-reader" aria-label={T.back}><X size={25} /></Dialog.Close></div>
+              <div className="reader-top"><Dialog.Close className="back-to-desk"><ArrowLeft size={17} />{T.back}</Dialog.Close><span>АРХИВ РАБОТ / ДИЗАЙН И КОММУНИКАЦИИ</span><Dialog.Close className="close-reader" aria-label={T.back}><X size={25} /></Dialog.Close></div>
               <div className="reader-heading"><Dialog.Title>{title}<span className="hand-star">*</span></Dialog.Title><Dialog.Description id="reader-description">{T.realWork}</Dialog.Description></div>
               {active && <div className="project-filter-bar" aria-label="Фильтры проектов">
                 <span className="filter-bar-caption">НАПРАВЛЕНИЯ / ВЫБЕРИ КАТЕГОРИЮ</span>
